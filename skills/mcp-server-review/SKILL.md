@@ -1,7 +1,7 @@
 ---
 name: mcp-server-review
 description: Security review of MCP (Model Context Protocol) server implementations and configurations. Use when auditing MCP server source code, evaluating third-party MCP servers before installation, or reviewing Claude Code MCP integrations for overpermissioning, injection risks, and data exposure.
-allowed-tools: Read, Grep, Glob, Bash, WebFetch, Agent
+license: CC-BY-4.0
 ---
 
 # MCP Server Security Review

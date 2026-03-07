@@ -1,7 +1,7 @@
 ---
 name: secrets-scan
 description: Detect hardcoded credentials, API keys, tokens, and secrets in source code and configuration files. Use when reviewing code for leaked secrets before commit/merge, auditing a repository for credential exposure, or setting up secret detection.
-allowed-tools: Read, Grep, Glob, Bash
+license: CC-BY-4.0
 ---
 
 # Secrets Scan

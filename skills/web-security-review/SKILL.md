@@ -1,7 +1,7 @@
 ---
 name: web-security-review
 description: Review web applications against the OWASP Top 10 for Web Applications (2021). Use when auditing web apps, reviewing server-side code, or assessing web frameworks for the classic OWASP Top 10 risks including injection, broken auth, and XSS.
-allowed-tools: Read, Grep, Glob, Bash, Agent
+license: CC-BY-4.0
 ---
 
 # Web Security Review (OWASP Top 10)
