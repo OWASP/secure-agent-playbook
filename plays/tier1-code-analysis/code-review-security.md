@@ -1,6 +1,6 @@
 # Play: Security Code Review
 
-Review code changes or codebases for security vulnerabilities, mapping findings to OWASP standards with evidence-based analysis.
+Review code changes or codebases for security vulnerabilities, mapping findings to OWASP standards and OpenCRE cross-references for multi-framework traceability.
 
 ## Trigger Conditions
 
@@ -31,7 +31,7 @@ Before diving in, establish:
 
 Review in priority order — highest-impact classes first:
 
-#### A. Injection (CWE-74, OWASP A03)
+#### A. Injection (CWE-74, OWASP A03, [OpenCRE 161-451](https://www.opencre.org/cre/161-451))
 
 | Subtype | What to Look For |
 |---------|-----------------|
@@ -44,7 +44,7 @@ Review in priority order — highest-impact classes first:
 | Header Injection | User input in HTTP headers (CRLF injection) |
 | Log Injection | User input written to logs without sanitization |
 
-#### B. Authentication & Session (CWE-287, OWASP A07)
+#### B. Authentication & Session (CWE-287, OWASP A07, [OpenCRE 633-428](https://www.opencre.org/cre/633-428))
 
 - Hardcoded credentials or API keys
 - Missing authentication on endpoints
@@ -54,7 +54,7 @@ Review in priority order — highest-impact classes first:
 - JWT issues: none algorithm, missing expiry, weak signing key, secrets in payload
 - Missing MFA enforcement for sensitive operations
 
-#### C. Authorization (CWE-862, OWASP A01)
+#### C. Authorization (CWE-862, OWASP A01, [OpenCRE 724-770](https://www.opencre.org/cre/724-770))
 
 - Missing authorization checks on endpoints or functions
 - IDOR: object references without ownership validation
@@ -63,7 +63,7 @@ Review in priority order — highest-impact classes first:
 - Missing RBAC/ABAC enforcement
 - Direct database queries that don't filter by user/tenant
 
-#### D. Cryptography (CWE-327, OWASP A02)
+#### D. Cryptography (CWE-327, OWASP A02, [OpenCRE 278-646](https://www.opencre.org/cre/278-646))
 
 - Weak algorithms: MD5, SHA1 for passwords, DES, RC4
 - ECB mode usage
@@ -73,7 +73,7 @@ Review in priority order — highest-impact classes first:
 - Custom crypto implementations (don't roll your own)
 - Insufficient key lengths (RSA < 2048, AES < 128)
 
-#### E. Data Exposure (CWE-200, OWASP A01)
+#### E. Data Exposure (CWE-200, OWASP A01, [OpenCRE 126-668](https://www.opencre.org/cre/126-668))
 
 - Sensitive data in error messages or stack traces
 - Verbose logging of requests/responses containing PII
@@ -82,7 +82,7 @@ Review in priority order — highest-impact classes first:
 - API responses including more fields than necessary
 - Debug mode enabled in production configs
 
-#### F. Security Misconfiguration (OWASP A05)
+#### F. Security Misconfiguration (OWASP A05, [OpenCRE 233-748](https://www.opencre.org/cre/233-748))
 
 - Default credentials or configurations
 - Unnecessary features enabled (debug endpoints, admin panels)
@@ -91,7 +91,7 @@ Review in priority order — highest-impact classes first:
 - Directory listing enabled
 - Missing rate limiting on sensitive endpoints
 
-#### G. Deserialization & Data Integrity (CWE-502, OWASP A08)
+#### G. Deserialization & Data Integrity (CWE-502, OWASP A08, [OpenCRE 854-643](https://www.opencre.org/cre/854-643))
 
 - Deserializing untrusted data (unsafe deserialization in any language — Python, Java, PHP, Ruby, .NET)
 - Missing integrity checks on data from untrusted sources
@@ -156,10 +156,12 @@ For each issue:
 | INFO | N |
 ```
 
-## OWASP References
+## References
 
 - OWASP Top 10 (2021): A01-A10
 - OWASP ASVS v5.0 (for verification-level mapping)
 - OWASP Code Review Guide
 - OWASP Cheat Sheet Series (per-topic)
 - OWASP Proactive Controls
+- [OpenCRE](https://www.opencre.org) — Cross-standard requirement mappings (CWE, ASVS, WSTG, NIST 800-53, ISO 27001)
+- [CWE](https://cwe.mitre.org) v4.19 — Common Weakness Enumeration

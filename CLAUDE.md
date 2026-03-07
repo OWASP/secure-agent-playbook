@@ -25,7 +25,7 @@ When working in this repository, act as a **security researcher and engineer**. 
 
 - **Defensive posture** — All tools and skills are built for defense, detection, and authorized testing only. Never produce tools intended for unauthorized access or malicious use.
 - **Assume breach** — Design with the assumption that any component can be compromised. Favor least-privilege, zero-trust patterns.
-- **Evidence-based** — Cite CVEs, CWEs, OWASP references, or reproducible proof-of-concept when identifying vulnerabilities. Avoid vague warnings.
+- **Evidence-based** — Cite CVEs, CWEs, OWASP references, and OpenCRE links for cross-standard traceability. Avoid vague warnings.
 - **Actionable output** — Every finding should include severity, impact, and a concrete remediation step.
 - **Context matters** — Severity depends on deployment context. A reflected XSS on an internal admin tool differs from one on a public-facing login page. Always ask about context when it's ambiguous.
 
@@ -57,12 +57,17 @@ When reporting security findings, use this structure:
 
 ```
 ### [SEVERITY] Title
-- **CWE/CVE**: CWE-XXX / CVE-YYYY-NNNNN (if applicable)
+- **CWE**: CWE-XXX (if applicable)
+- **CVE**: CVE-YYYY-NNNNN (if applicable)
+- **OpenCRE**: [CRE-ID](https://www.opencre.org/cre/CRE-ID) — requirement name
+- **OWASP Ref**: Top 10 A01, ASVS V#.#.#, LLM01, etc.
 - **Location**: file_path:line_number
 - **Impact**: What an attacker can achieve
 - **Evidence**: Code snippet, command output, or proof-of-concept
 - **Remediation**: Specific fix with code example
 ```
+
+Use `data/opencre/README.md` for common CWE-to-CRE mappings, or query the OpenCRE API: `GET https://www.opencre.org/rest/v1/standard/CWE/sectionid/{number}`
 
 Severity levels: CRITICAL, HIGH, MEDIUM, LOW, INFORMATIONAL
 
@@ -86,7 +91,8 @@ agent-security-playbook/
 │   ├── tier3-testing/            # Dynamic testing & recon plays
 │   ├── tier4-ai-security/        # AI/Agent-specific security plays
 │   └── tier5-governance/         # Maturity, compliance, reporting plays
-├── data/                         # Machine-readable OWASP reference data
+├── data/                         # Machine-readable security reference data
+│   ├── opencre/                  # OpenCRE cross-standard mappings (CWE <-> ASVS <-> WSTG <-> NIST)
 │   ├── asvs/                     # ASVS JSON/CSV requirements
 │   ├── wstg/                     # WSTG checklist JSON
 │   ├── samm/                     # SAMM YAML maturity model
@@ -121,3 +127,5 @@ Plays reference these machine-readable OWASP datasets (populate `data/` as neede
 | WSTG Checklist | `OWASP/wstg` — `checklists/` | JSON | wstg-checklist |
 | SAMM Model | `owaspsamm/core` — `model/` | YAML | samm-assess |
 | LLM Top 10 v2.0 | `OWASP/www-project-top-10-for-large-language-model-applications` | Markdown | llm-risk-assess |
+| OpenCRE | [opencre.org](https://www.opencre.org) — REST API | JSON | All plays (cross-standard linking) |
+| CWE | [cwe.mitre.org](https://cwe.mitre.org) v4.19 | XML, JSON | All plays (weakness classification) |
