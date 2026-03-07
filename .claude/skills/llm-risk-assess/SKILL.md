@@ -1,7 +1,7 @@
 ---
 name: llm-risk-assess
 description: Assess LLM-powered applications against the OWASP Top 10 for LLM Applications. Use when reviewing code that integrates LLM APIs (OpenAI, Anthropic, etc.), RAG pipelines, chatbots, AI assistants, or any LLM-based feature before deployment.
-allowed-tools: Read, Grep, Glob, Bash, WebFetch, Agent
+license: CC-BY-4.0
 ---
 
 # LLM Risk Assessment

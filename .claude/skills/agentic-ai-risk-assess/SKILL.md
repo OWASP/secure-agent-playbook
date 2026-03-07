@@ -1,7 +1,7 @@
 ---
 name: agentic-ai-risk-assess
 description: Assess agentic AI applications against the OWASP Top 10 for Agentic Applications 2026. Use when reviewing autonomous AI agents, multi-agent systems, or agentic workflows for security risks including goal hijacking, tool misuse, privilege abuse, and rogue agent behavior.
-allowed-tools: Read, Grep, Glob, Bash, WebFetch, Agent
+license: CC-BY-4.0
 ---
 
 # Agentic AI Risk Assessment

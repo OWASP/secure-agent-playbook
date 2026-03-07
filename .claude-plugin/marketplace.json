@@ -1,0 +1,39 @@
+{
+  "name": "agent-security-playbook",
+  "owner": {
+    "name": "Chris Maenner",
+    "email": "cmaenner@gmail.com"
+  },
+  "metadata": {
+    "description": "OWASP-grounded security skills for AI agents — code review, dependency audit, secrets scanning, API security, prompt injection testing, LLM risk assessment, MCP server review, and agent security auditing.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "code-security-skills",
+      "description": "Code and dependency security analysis — security code review, SCA audit, secrets scanning, API security review, and web application security review",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./.claude/skills/code-review-security",
+        "./.claude/skills/sca-audit",
+        "./.claude/skills/secrets-scan",
+        "./.claude/skills/api-security-review",
+        "./.claude/skills/web-security-review"
+      ]
+    },
+    {
+      "name": "ai-security-skills",
+      "description": "AI and agent security assessment — agent security audit, LLM risk assessment, agentic AI risk assessment, MCP server review, and prompt injection testing",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./.claude/skills/agent-security-audit",
+        "./.claude/skills/llm-risk-assess",
+        "./.claude/skills/agentic-ai-risk-assess",
+        "./.claude/skills/mcp-server-review",
+        "./.claude/skills/prompt-injection-test"
+      ]
+    }
+  ]
+}
