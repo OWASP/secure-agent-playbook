@@ -45,6 +45,7 @@ The differentiator — security procedures purpose-built for the AI agent era.
 | [agent-security-audit](plays/tier4-ai-security/agent-security-audit.md) | Audit agent permissions, prompt injection surfaces, data exfiltration paths, guardrails |
 | [llm-risk-assess](plays/tier4-ai-security/llm-risk-assess.md) | Assess LLM applications against OWASP Top 10 for LLM Applications |
 | [mcp-server-review](plays/tier4-ai-security/mcp-server-review.md) | Review MCP server implementations for overpermissioning, injection, data exposure |
+| [prompt-injection-testing](plays/tier4-ai-security/prompt-injection-testing.md) | Test LLM apps against 18 attack techniques, 20 evasions, 13 intents |
 
 ### Tier 1: Code & Dependency Analysis
 
@@ -83,6 +84,14 @@ All plays reference OWASP standards and datasets:
 - [OWASP WSTG](https://owasp.org/www-project-web-security-testing-guide/) — Testing methodology
 - [OWASP SAMM](https://owaspsamm.org) — Security program maturity model
 - [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org) — Developer security guidance
+
+## Related Projects
+
+| Project | Relationship |
+|---------|-------------|
+| [OWASP Agent Skills Project](https://github.com/eoftedal/owasp-agent-skills-project) | Proactive ASVS 5.0 guidance for AI coding agents — helps agents **write** secure code. We use their ASVS reference data in `data/asvs/`. Complementary: they guide code generation, we find vulnerabilities in existing code. |
+| [Arcanum PI Taxonomy](https://github.com/Arcanum-Sec/arc_pi_taxonomy) | Prompt injection attack classification by Jason Haddix. Our `prompt-injection-testing` play is built on this taxonomy. CC BY 4.0. |
+| [OpenCRE](https://www.opencre.org) | Cross-standard requirement mappings (CWE, ASVS, WSTG, NIST 800-53). We use OpenCRE links in findings for multi-framework traceability. |
 
 ## Contributing
 

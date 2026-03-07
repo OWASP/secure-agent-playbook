@@ -33,6 +33,8 @@ Review in priority order — highest-impact classes first:
 
 #### A. Injection (CWE-74, OWASP A03, [OpenCRE 161-451](https://www.opencre.org/cre/161-451))
 
+> ASVS refs: `data/asvs/V12.1.md` (Input Validation), `data/asvs/V13.1.md` (Output Encoding), `data/asvs/V5.3.md` (File Storage)
+
 | Subtype | What to Look For |
 |---------|-----------------|
 | SQL Injection | String concatenation in queries, missing parameterization, ORM raw queries |
@@ -46,6 +48,8 @@ Review in priority order — highest-impact classes first:
 
 #### B. Authentication & Session (CWE-287, OWASP A07, [OpenCRE 633-428](https://www.opencre.org/cre/633-428))
 
+> ASVS refs: `data/asvs/V2.1.md`–`V2.4.md` (Authentication), `data/asvs/V3.1.md`–`V3.7.md` (Session Management)
+
 - Hardcoded credentials or API keys
 - Missing authentication on endpoints
 - Weak password requirements
@@ -56,6 +60,8 @@ Review in priority order — highest-impact classes first:
 
 #### C. Authorization (CWE-862, OWASP A01, [OpenCRE 724-770](https://www.opencre.org/cre/724-770))
 
+> ASVS refs: `data/asvs/V4.1.md`–`V4.4.md` (Access Control)
+
 - Missing authorization checks on endpoints or functions
 - IDOR: object references without ownership validation
 - Horizontal privilege escalation (accessing other users' data)
@@ -64,6 +70,8 @@ Review in priority order — highest-impact classes first:
 - Direct database queries that don't filter by user/tenant
 
 #### D. Cryptography (CWE-327, OWASP A02, [OpenCRE 278-646](https://www.opencre.org/cre/278-646))
+
+> ASVS refs: `data/asvs/V6.1.md`–`V6.8.md` (Cryptography)
 
 - Weak algorithms: MD5, SHA1 for passwords, DES, RC4
 - ECB mode usage
@@ -75,6 +83,8 @@ Review in priority order — highest-impact classes first:
 
 #### E. Data Exposure (CWE-200, OWASP A01, [OpenCRE 126-668](https://www.opencre.org/cre/126-668))
 
+> ASVS refs: `data/asvs/V8.1.md`–`V8.4.md` (Data Protection), `data/asvs/V7.1.md`–`V7.6.md` (Error Handling & Logging)
+
 - Sensitive data in error messages or stack traces
 - Verbose logging of requests/responses containing PII
 - Credentials or tokens in source code, configs, or URLs
@@ -84,6 +94,8 @@ Review in priority order — highest-impact classes first:
 
 #### F. Security Misconfiguration (OWASP A05, [OpenCRE 233-748](https://www.opencre.org/cre/233-748))
 
+> ASVS refs: `data/asvs/V10.1.md`–`V10.7.md` (Configuration)
+
 - Default credentials or configurations
 - Unnecessary features enabled (debug endpoints, admin panels)
 - Missing security headers
@@ -92,6 +104,8 @@ Review in priority order — highest-impact classes first:
 - Missing rate limiting on sensitive endpoints
 
 #### G. Deserialization & Data Integrity (CWE-502, OWASP A08, [OpenCRE 854-643](https://www.opencre.org/cre/854-643))
+
+> ASVS refs: `data/asvs/V11.1.md`–`V11.7.md` (Business Logic)
 
 - Deserializing untrusted data (unsafe deserialization in any language — Python, Java, PHP, Ruby, .NET)
 - Missing integrity checks on data from untrusted sources
@@ -165,3 +179,4 @@ For each issue:
 - OWASP Proactive Controls
 - [OpenCRE](https://www.opencre.org) — Cross-standard requirement mappings (CWE, ASVS, WSTG, NIST 800-53, ISO 27001)
 - [CWE](https://cwe.mitre.org) v4.19 — Common Weakness Enumeration
+- ASVS 5.0 reference data in `data/asvs/` — sourced from [OWASP Agent Skills Project](https://github.com/eoftedal/owasp-agent-skills-project)

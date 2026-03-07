@@ -123,7 +123,7 @@ Plays reference these machine-readable OWASP datasets (populate `data/` as neede
 
 | Dataset | Source Repo | Format | Used By |
 |---------|-----------|--------|---------|
-| ASVS v5.0 | `OWASP/ASVS` — `5.0/docs_en/` | JSON, CSV, XML | asvs-verify, code-review-security |
+| ASVS v5.0 | `eoftedal/owasp-agent-skills-project` — `references/ASVS/` | Markdown + YAML frontmatter | code-review-security (80 section files in `data/asvs/`) |
 | WSTG Checklist | `OWASP/wstg` — `checklists/` | JSON | wstg-checklist |
 | SAMM Model | `owaspsamm/core` — `model/` | YAML | samm-assess |
 | LLM Top 10 v2.0 | `OWASP/www-project-top-10-for-large-language-model-applications` | Markdown | llm-risk-assess |
