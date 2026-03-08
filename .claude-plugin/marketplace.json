@@ -11,7 +11,7 @@
   "plugins": [
     {
       "name": "code-security-skills",
-      "description": "Code and dependency security analysis — security code review, SCA audit, secrets scanning, API security review, and web application security review",
+      "description": "Code and infrastructure security analysis — security code review, SCA audit, secrets scanning, API security review, web application security review, and IaC security review",
       "source": "./",
       "strict": false,
       "skills": [
@@ -19,7 +19,8 @@
         "./skills/sca-audit",
         "./skills/secrets-scan",
         "./skills/api-security-review",
-        "./skills/web-security-review"
+        "./skills/web-security-review",
+        "./skills/iac-security-review"
       ]
     },
     {

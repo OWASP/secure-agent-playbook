@@ -83,6 +83,7 @@ agent-security-playbook/
 │   ├── agentic-ai-risk-assess/
 │   ├── api-security-review/
 │   ├── code-review-security/
+│   ├── iac-security-review/
 │   ├── llm-risk-assess/
 │   ├── mcp-server-review/
 │   ├── prompt-injection-test/
@@ -100,7 +101,8 @@ agent-security-playbook/
 │   ├── asvs/                     # ASVS JSON/CSV requirements
 │   ├── wstg/                     # WSTG checklist JSON
 │   ├── samm/                     # SAMM YAML maturity model
-│   └── llm-top10/                # Parsed LLM Top 10 data
+│   ├── llm-top10/                # Parsed LLM Top 10 data
+│   └── secure-code-prompts/      # IaC and secure coding prompt data
 ├── templates/
 │   ├── finding.md                # Standard finding template
 │   └── report.md                 # Assessment report template
