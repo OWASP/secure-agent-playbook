@@ -734,14 +734,7 @@ def extract_sections(content: str) -> list[tuple[str, str]]:
         results.append((sid, body))
     return results
 
-
-def _yaml_list(items: list[str], indent: int = 2) -> str:
-    """Format a list as YAML."""
-    prefix = " " * indent
-    return "\n".join(f"{prefix}- {item}" for item in items)
-
-
-def _build_frontmatter(section_id: str, body: str) -> str:
+def _build_frontmatter(section_id: str) -> str:
     """Build YAML frontmatter for a section file."""
     meta = SECTION_META.get(section_id, {})
     title = meta.get("title", f"Section {section_id}")
