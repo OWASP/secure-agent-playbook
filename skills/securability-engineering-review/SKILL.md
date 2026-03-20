@@ -10,7 +10,7 @@ Analyze code for securable engineering qualities by following the full procedure
 
 ## Scoring Framework
 
-Each SSEM attribute is scored **0–10**. Pillar scores are calculated using weighted sub-attribute scores. The overall SSEM score is the simple average of the three pillar scores.
+Each SSEM attribute is scored **0–10**. Pillar scores are calculated using weighted sub-attribute scores. The overall SSEM score is the weighted average of the three pillar scores.
 
 ### Pillar Weights
 
@@ -20,7 +20,7 @@ Each SSEM attribute is scored **0–10**. Pillar scores are calculated using wei
 | **Trustworthiness** | 34% | Confidentiality (35%), Accountability (30%), Authenticity (35%) |
 | **Reliability** | 33% | Availability (25%), Integrity (35%), Resilience (40%) |
 
-**Overall SSEM Score** = (Maintainability + Trustworthiness + Reliability) / 3
+**Overall SSEM Score** = (Maintainability × 0.33) + (Trustworthiness × 0.34) + (Reliability × 0.33)
 
 ### Grading Scale
 
