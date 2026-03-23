@@ -14,7 +14,7 @@ Each **play** is a step-by-step security procedure with checklists, decision cri
 
 **Step 1** — Register the plugin marketplace:
 ```
-/plugin marketplace add cmaenner/agent-security-playbook
+/plugin marketplace add OWASP/secure-agent-playbook
 ```
 
 **Step 2** — Install a skill set:
