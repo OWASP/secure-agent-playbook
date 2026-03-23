@@ -38,6 +38,14 @@ The following OWASP standards are referenced throughout this project:
 | [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/) | CC BY-SA 4.0 | Verification-level mapping |
 | [OWASP WSTG](https://owasp.org/www-project-web-security-testing-guide/) | CC BY-SA 4.0 | Testing methodology references |
 
+## SecCodePrompts
+
+- **Source**: [theJonMccoy/SecCodePrompts](https://github.com/theJonMccoy/SecCodePrompts)
+- **Author**: Jon McCoy and contributors
+- **License**: MIT
+- **Used in**: `data/secure-code-prompts/` (Terraform, Kubernetes, CloudFormation, API design prompts)
+- **Usage**: Infrastructure-as-code security review checklists adapted with YAML frontmatter and OWASP standard mappings
+
 ## CWE (Common Weakness Enumeration)
 
 - **Source**: [cwe.mitre.org](https://cwe.mitre.org)
