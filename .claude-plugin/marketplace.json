@@ -5,9 +5,16 @@
     "email": "chris@palmtreeventuresllc.com"
   },
   "metadata": {
-    "description": "OWASP-grounded security skills for AI agents — code review, dependency audit, secrets scanning, API security, prompt injection testing, LLM risk assessment, MCP server review, and agent security auditing.",
-    "version": "0.1.1"
+    "description": "OWASP-grounded security skills and agents for AI agents — code review, dependency audit, secrets scanning, API security, prompt injection testing, LLM risk assessment, MCP server review, and agent security auditing.",
+    "version": "0.2.0"
   },
+  "agents": [
+    "./agents/code-security-reviewer",
+    "./agents/dependency-auditor",
+    "./agents/api-security-reviewer",
+    "./agents/ai-security-assessor",
+    "./agents/security-team-lead"
+  ],
   "plugins": [
     {
       "name": "code-security-skills",

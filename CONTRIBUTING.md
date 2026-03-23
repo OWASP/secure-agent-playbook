@@ -6,6 +6,7 @@ Thanks for your interest in contributing to the OWASP Secure Agent Playbook. Thi
 
 - **New plays** — Add security procedures for uncovered vulnerability classes or standards
 - **New skills** — Create the invocation layer for existing or new plays
+- **New agents** — Add autonomous specialists that orchestrate skills for focused assessments
 - **Reference data** — Add or update OWASP datasets in `data/`
 - **Improvements** — Enhance existing plays with better checklists, examples, or tool coverage
 - **Bug reports** — File issues for inaccurate findings, broken references, or missing coverage
@@ -43,6 +44,20 @@ Skills are the invocation layer that wraps plays for Claude Code plugin installa
 **Plugin groups:**
 - `code-security-skills` — Code, infrastructure, and dependency analysis
 - `ai-security-skills` — AI/agent-specific security assessment
+
+## Adding a New Agent
+
+Agents are autonomous specialists that invoke one or more skills to perform focused security assessments.
+
+1. Create a new `.md` file in `agents/` named after your agent (e.g., `agents/my-agent.md`)
+2. Use YAML frontmatter with required fields: `name`, `description`, `tools`, `model`, `skills`
+3. Optionally add `isolation: worktree` so the agent works on an isolated copy of the repo (recommended for agents that may run in parallel as part of a team)
+4. The system prompt should describe the agent's approach, which skills to invoke and when, and the expected output format
+5. Add the agent path to the `agents` array in `.claude-plugin/marketplace.json`
+
+**Note:** Plugin agents cannot use `hooks`, `mcpServers`, or `permissionMode` fields for security reasons.
+
+See existing agents in `agents/` for examples.
 
 ## Finding Format
 

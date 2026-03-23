@@ -8,6 +8,7 @@ An open-source security playbook for AI agents. Structured, OWASP-grounded proce
 - [What This Is](#what-this-is)
 - [Quick Start](#quick-start)
 - [Skills Catalog](#skills-catalog)
+- [Agents](#agents)
 - [Example Output](#example-output)
 - [Plays](#plays)
 - [Architecture](#architecture)
@@ -95,6 +96,33 @@ Reference plays directly as procedures for any AI agent or manual use:
 | `prompt-injection-test` | Prompt injection testing (Arcanum PI Taxonomy) | "Test for prompt injection" | LLM01 |
 | `multi-agentic-threat-model` | CSA MAESTRO 7-layer threat modeling | "Model threats for this multi-agent system" | CSA MAESTRO |
 
+## Agents
+
+Agents are autonomous security specialists that invoke skills and produce structured reports. Each agent has a focused system prompt, scoped tool access, and preloaded skills. Use them individually or as a coordinated team.
+
+| Agent | Focus | Skills Invoked |
+|-------|-------|---------------|
+| `code-security-reviewer` | Code vulnerabilities, secrets, web security | code-review-security, secrets-scan, web-security-review |
+| `dependency-auditor` | Supply chain and dependency CVE risks | sca-audit |
+| `api-security-reviewer` | API security against OWASP API Top 10 | api-security-review |
+| `ai-security-assessor` | Agent configs, MCP servers, LLM app risks | agent-security-audit, mcp-server-review, llm-risk-assess, prompt-injection-test |
+| `security-team-lead` | Coordinates specialists, consolidates report | securability-engineering-review |
+
+**Standalone usage** — invoke any agent directly:
+```
+"Use code-security-reviewer to review src/"
+"Use dependency-auditor to scan this project"
+```
+
+**Team assessment** — with agent teams enabled, the team lead dispatches specialists in parallel and consolidates findings into a single report:
+```
+"Run a full security assessment of this project"
+```
+
+The team lead scopes the target, dispatches relevant specialists (skipping those whose focus area isn't present), deduplicates findings, identifies cross-domain risk chains, and produces a unified report using `templates/report.md`.
+
+> Agent teams requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. See [Claude Code docs](https://code.claude.com/docs/en/agent-teams) for setup. Individual agents work without this flag.
+
 ## Example Output
 
 Running `"Review src/auth/ for security issues"` on a Node.js/Express codebase produces findings like this:
@@ -160,12 +188,13 @@ Immediate, practical value for any codebase.
 
 ## Architecture
 
-Two-layer design:
+Three-layer design:
 
+- **`agents/`** — Autonomous security specialists with focused system prompts. Each agent invokes one or more skills, operates in an isolated context, and produces structured reports. Can work solo or as a coordinated team.
 - **`skills/`** — Self-contained `SKILL.md` files following the [Agent Skills spec](https://agentskills.io/specification). Installable as a Claude Code plugin via `.claude-plugin/marketplace.json`. Each skill summarizes a procedure and references its corresponding play.
 - **`plays/`** — Full reference procedures with detailed checklists, tables, decision criteria, and examples. Skills reference these for comprehensive coverage.
 
-Contributors edit plays. Skills are the thin invocation layer. This means the playbook works with any AI agent (just point it at a play), while Claude Code users get plugin-based installation.
+Agents orchestrate, skills execute, plays provide the full procedure. Contributors edit plays. This means the playbook works with any AI agent (just point it at a play), while Claude Code users get plugin-based installation with agents and skills.
 
 ## OWASP Foundation
 
