@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "OWASP-grounded security skills for AI agents — code review, dependency audit, secrets scanning, API security, prompt injection testing, LLM risk assessment, MCP server review, and agent security auditing.",
-    "version": "1.0.0"
+    "version": "0.1.0"
   },
   "plugins": [
     {
