@@ -110,7 +110,7 @@ When generating code, apply this sequence:
    - Small, single-purpose functions with clear names (Analyzability)
    - Loosely coupled with injectable dependencies (Modifiability, Testability)
    - Defensive at trust boundaries, flexible inside (Integrity, Resilience)
-  - Aligned to applicable ASVS feature requirements for the capability being implemented
+   - Aligned to applicable ASVS feature requirements for the capability being implemented
    - Observable via structured logging and audit trails (Transparency, Accountability)
 
 8. **Self-Check** — Before returning, verify the generated code against this checklist:
