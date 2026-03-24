@@ -23,57 +23,6 @@ from pathlib import Path
 # summary, and optionally ssem_pillar / ssem_attributes).
 
 SECTION_META: dict[str, dict] = {
-    "1.1": {
-        "title": "The Application Security Challenge",
-        "when_to_use": [
-            "understanding why application security initiatives struggle",
-            "framing the business case for securable code practices",
-            "assessing friction between AppSec and Development teams",
-        ],
-        "threats": [
-            "slow progress in application security outcomes",
-            "friction between AppSec and Development teams",
-            "AI-generated code amplifying past security mistakes",
-        ],
-        "summary": (
-            "The core challenge: organizations invest significantly in AppSec yet "
-            "often see limited outcomes. Shift-left has underdelivered, AI code "
-            "generation amplifies risk, and developers lack deep security expertise."
-        ),
-    },
-    "1.2": {
-        "title": "A Developer-Centric Security Paradigm",
-        "when_to_use": [
-            "advocating for developer empowerment in security",
-            "reframing the security-development relationship",
-            "building a case for integrating security through engineering discipline",
-        ],
-        "threats": [
-            "expecting developers to adopt adversarial mindsets",
-            "treating the AppSec-Dev gap as inherently problematic",
-            "neglecting business processes and skillsets in software production",
-        ],
-        "summary": (
-            "Advocates for empowering developers through sound software engineering "
-            "principles rather than expecting them to think like attackers."
-        ),
-    },
-    "1.3": {
-        "title": "Document Purpose and Scope",
-        "when_to_use": [
-            "understanding the scope and audience of FIASSE",
-            "distinguishing FIASSE from SSEM",
-            "mapping FIASSE to organizational roles (AppSec, Product Security)",
-        ],
-        "threats": [
-            "misunderstanding the framework scope",
-            "siloed security functions lacking a unifying framework",
-        ],
-        "summary": (
-            "Defines FIASSE as the overarching strategic framework and SSEM as the "
-            "design language model within it."
-        ),
-    },
     "2.1": {
         "title": "The Securable Paradigm: No Static Secure State",
         "when_to_use": [
@@ -596,40 +545,7 @@ SECTION_META: dict[str, dict] = {
             "Product Owners ensure FIASSE activities have space in the lifecycle. "
             "Advocate during planning and allocate time for training and maintenance."
         ),
-    },
-    "8.1": {
-        "title": "Adapting to Emerging Software Engineering Trends",
-        "when_to_use": [
-            "applying FIASSE to AI-generated code",
-            "securing low-code/no-code platforms",
-            "addressing cloud-native and serverless security",
-        ],
-        "threats": [
-            "AI-generated code propagating insecure patterns",
-            "low-code platforms lacking security guardrails",
-            "cloud-native architectures introducing new attack surfaces",
-        ],
-        "summary": (
-            "FIASSE adapts to AI-driven development, low-code platforms, "
-            "cloud-native architectures, and continuous security engineering."
-        ),
-    },
-    "8.2": {
-        "title": "Organizational Adoption Strategies",
-        "when_to_use": [
-            "planning organizational adoption of FIASSE",
-            "assessing readiness for FIASSE integration",
-            "identifying security champions and key influencers",
-        ],
-        "threats": [
-            "failed adoption from lack of stakeholder buy-in",
-            "FIASSE treated as separate security initiative",
-        ],
-        "summary": (
-            "Strategic adoption: assess practices, integrate SSEM terminology, "
-            "identify influencers, educate teams, foster collaboration, monitor."
-        ),
-    },
+    }
 }
 
 # ---------------------------------------------------------------------------
@@ -647,7 +563,6 @@ TARGET_SECTIONS: list[str] = [
     "5.1", "5.2",
     "6.1", "6.2", "6.3", "6.4", "6.5",
     "7.0", "7.1", "7.2", "7.3",
-    "8.1", "8.2",
 ]
 
 # Map section_id -> regex pattern matching its starting heading in the RFC.

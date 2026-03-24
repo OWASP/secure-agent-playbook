@@ -7,7 +7,7 @@
 
 ## Source & License
 
-These files are derived from the [Xcaciv/securable_software_engineering](https://github.com/Xcaciv/securable_software_engineering) repository. Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+These files are derived from the [Xcaciv/securable_software_engineering](https://github.com/Xcaciv/securable_software_engineering) repository. Licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 
 ## File Format
 

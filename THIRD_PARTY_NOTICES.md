@@ -37,6 +37,7 @@ The following OWASP standards are referenced throughout this project:
 | [OWASP Top 10 for Agentic Applications (2026)](https://genai.owasp.org) | CC BY-SA 4.0 | Agentic AI risk assessment play |
 | [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/) | CC BY-SA 4.0 | Verification-level mapping |
 | [OWASP WSTG](https://owasp.org/www-project-web-security-testing-guide/) | CC BY-SA 4.0 | Testing methodology references |
+| [OWASP FIASSE](https://owasp.org/www-project-fiasse) | CC BY-SA 4.0 | Code attribute and securable principle references |
 
 ## SecCodePrompts
 

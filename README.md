@@ -207,6 +207,7 @@ All plays reference OWASP standards and datasets:
 - [OWASP WSTG](https://owasp.org/www-project-web-security-testing-guide/) — Testing methodology
 - [OWASP SAMM](https://owaspsamm.org) — Security program maturity model
 - [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org) — Developer security guidance
+- [OWASP FIASSE](https://owasp.org/www-project-fiasse/) — securable attributes and secure coding principles
 
 ## Related Projects
 

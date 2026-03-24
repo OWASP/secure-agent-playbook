@@ -76,7 +76,7 @@ Part 1: SSEM Score Summary (overall score, grade, pillar breakdown with weights,
 ## OWASP References
 
 - [OWASP FIASSE Project](https://owasp.org/www-project-fiasse/) — Tools and resources for FIASSE/SSEM
-- [FIASSE RFC](https://github.com/Xcaciv/securable_software_engineering/blob/main/docs/FIASSE-RFC.md) — Framework for Integrating Application Security into Software Engineering
+- [FIASSE](https://github.com/Xcaciv/securable_software_engineering/blob/main/docs/secureable_framework.md) — Framework for Integrating Application Security into Software Engineering
 - ISO/IEC 25010:2011 — Software quality models (Maintainability, Reliability definitions)
 - RFC 4949 — Internet Security Glossary (Trustworthiness, Integrity, Availability definitions)
 - OWASP Code Review Guide

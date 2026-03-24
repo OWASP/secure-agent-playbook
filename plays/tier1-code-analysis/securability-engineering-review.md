@@ -4,7 +4,7 @@ Analyze code and architecture for inherent securable qualities using the OWASP F
 
 This play operationalizes the nine core SSEM attributes across three categories: **Maintainability** (Analyzability, Modifiability, Testability), **Trustworthiness** (Confidentiality, Accountability, Authenticity), and **Reliability** (Availability, Integrity, Resilience). Findings are framed as engineering improvement opportunities rather than exploit-centric vulnerabilities.
 
-> **Reference**: [OWASP FIASSE RFC — A Framework for Integrating Application Security into Software Engineering](https://github.com/Xcaciv/securable_software_engineering/blob/main/docs/FIASSE-RFC.md) by Alton Crossley
+> **Reference**: [OWASP FIASSE — A Framework for Integrating Application Security into Software Engineering](https://github.com/Xcaciv/securable_software_engineering/blob/main/docs/secureable_framework.md) by Alton Crossley
 
 ## Trigger Conditions
 
@@ -596,7 +596,7 @@ Resilience:
 ## References
 
 - [OWASP FIASSE Project](https://owasp.org/www-project-fiasse/) — Tools and resources for FIASSE/SSEM
-- [OWASP FIASSE RFC](https://github.com/Xcaciv/securable_software_engineering/blob/main/docs/FIASSE-RFC.md) — Alton Crossley
+- [OWASP FIASSE](https://github.com/Xcaciv/securable_software_engineering/blob/main/docs/secureable_framework.md) — Alton Crossley
 - ISO/IEC 25010:2011 — Systems and software quality models
 - RFC 4949 — Internet Security Glossary
 - ISO/IEC 27000:2018 — Information security management systems
