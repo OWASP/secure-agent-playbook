@@ -9,11 +9,11 @@
     "version": "0.2.0"
   },
   "agents": [
-    "./agents/code-security-reviewer",
-    "./agents/dependency-auditor",
-    "./agents/api-security-reviewer",
-    "./agents/ai-security-assessor",
-    "./agents/security-team-lead"
+    "./agents/code-security-reviewer.md",
+    "./agents/dependency-auditor.md",
+    "./agents/api-security-reviewer.md",
+    "./agents/ai-security-assessor.md",
+    "./agents/security-team-lead.md"
   ],
   "plugins": [
     {
