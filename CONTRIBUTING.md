@@ -39,7 +39,7 @@ Skills are the invocation layer that wraps plays for Claude Code plugin installa
 1. Create a new directory under `skills/` with your skill name
 2. Add a `SKILL.md` file following the template in `template/SKILL.md`
 3. Reference the corresponding play in your skill
-4. Add the skill path to the appropriate plugin group in `.claude-plugin/marketplace.json`
+4. Add the skill path to the appropriate plugin group in `.claude-plugin/plugin.json`
 
 **Plugin groups:**
 - `code-security-skills` — Code, infrastructure, and dependency analysis
@@ -53,7 +53,7 @@ Agents are autonomous specialists that invoke one or more skills to perform focu
 2. Use YAML frontmatter with required fields: `name`, `description`, `tools`, `model`, `skills`
 3. Optionally add `isolation: worktree` so the agent works on an isolated copy of the repo (recommended for agents that may run in parallel as part of a team)
 4. The system prompt should describe the agent's approach, which skills to invoke and when, and the expected output format
-5. Add the agent path to the `agents` array in `.claude-plugin/marketplace.json`
+5. Add the agent path to the `agents` array in `.claude-plugin/plugin.json`
 
 **Note:** Plugin agents cannot use `hooks`, `mcpServers`, or `permissionMode` fields for security reasons.
 
@@ -85,7 +85,7 @@ Common mappings are pre-populated in `data/opencre/README.md`.
 
 - One play or skill per PR (unless tightly coupled)
 - Include a clear description of what the play/skill covers and why it's needed
-- If adding a skill, ensure it's added to `marketplace.json`
+- If adding a skill, ensure it's added to `plugin.json`
 - Test your play against a real or deliberately-vulnerable target where possible
 
 ## License

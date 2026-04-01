@@ -1,0 +1,38 @@
+name: Release Plugin Zip
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build-plugin-zip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build plugin zip
+        run: |
+          # Create zip with .claude-plugin/plugin.json at the root
+          # (no nested directory wrapper like GitHub's Download ZIP)
+          zip -r secure-agent-playbook.zip \
+            .claude-plugin/ \
+            CLAUDE.md \
+            agents/ \
+            skills/ \
+            plays/ \
+            data/ \
+            templates/ \
+            template/ \
+            -x '*.git*'
+
+      - name: Upload release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        run: |
+          gh release upload "$TAG_NAME" \
+            secure-agent-playbook.zip \
+            --clobber
