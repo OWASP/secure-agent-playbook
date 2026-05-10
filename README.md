@@ -58,6 +58,14 @@ Each **play** is a step-by-step security procedure with checklists, decision cri
 
 Claude will automatically activate the relevant skill based on context. See [Skills Catalog](#skills-catalog) for all available skills and [Example Output](#example-output) for what the results look like.
 
+**Organization plugin** — For Claude organization admins installing via [Organization Plugins](https://claude.ai/admin-settings/plugins):
+
+1. Go to the [latest release](https://github.com/OWASP/secure-agent-playbook/releases/latest)
+2. Download `secure-agent-playbook.zip` from the release assets
+3. Upload the zip at **Organization settings > Plugins > Add plugin**
+
+> **Note:** Do not use GitHub's "Download ZIP" button — it nests files in a subdirectory that the plugin validator rejects. Always use the release asset zip.
+
 **Local development** — To test from a local clone instead of GitHub:
 ```
 /plugin install /path/to/agent-security-playbook
@@ -191,7 +199,7 @@ Immediate, practical value for any codebase.
 Three-layer design:
 
 - **`agents/`** — Autonomous security specialists with focused system prompts. Each agent invokes one or more skills, operates in an isolated context, and produces structured reports. Can work solo or as a coordinated team.
-- **`skills/`** — Self-contained `SKILL.md` files following the [Agent Skills spec](https://agentskills.io/specification). Installable as a Claude Code plugin via `.claude-plugin/marketplace.json`. Each skill summarizes a procedure and references its corresponding play.
+- **`skills/`** — Self-contained `SKILL.md` files following the [Agent Skills spec](https://agentskills.io/specification). Installable as a Claude Code plugin via `.claude-plugin/plugin.json`. Each skill summarizes a procedure and references its corresponding play.
 - **`plays/`** — Full reference procedures with detailed checklists, tables, decision criteria, and examples. Skills reference these for comprehensive coverage.
 
 Agents orchestrate, skills execute, plays provide the full procedure. Contributors edit plays. This means the playbook works with any AI agent (just point it at a play), while Claude Code users get plugin-based installation with agents and skills.

@@ -77,7 +77,7 @@ Severity levels: CRITICAL, HIGH, MEDIUM, LOW, INFORMATIONAL
 agent-security-playbook/
 ├── CLAUDE.md                     # This file — agent persona & guidelines
 ├── .claude-plugin/               # Plugin marketplace config for Claude Code installation
-│   └── marketplace.json
+│   └── plugin.json
 ├── agents/                       # Agent definitions (autonomous specialists + team lead)
 │   ├── code-security-reviewer.md
 │   ├── dependency-auditor.md
@@ -121,7 +121,7 @@ agent-security-playbook/
 ## Three-Layer Architecture
 
 - **`agents/`** — Autonomous security specialists with focused system prompts. Each agent invokes one or more skills, operates in an isolated context, and produces structured reports. Can work solo or as a coordinated team via `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`.
-- **`skills/`** — Self-contained `SKILL.md` files following the [Agent Skills spec](https://agentskills.io/specification). Installable as a Claude Code plugin via `.claude-plugin/marketplace.json`. Each skill summarizes a procedure and references its corresponding play.
+- **`skills/`** — Self-contained `SKILL.md` files following the [Agent Skills spec](https://agentskills.io/specification). Installable as a Claude Code plugin via `.claude-plugin/plugin.json`. Each skill summarizes a procedure and references its corresponding play.
 - **`plays/`** — Full reference procedures with detailed checklists, tables, and examples. Skills reference these for comprehensive coverage. Contributors edit plays; skills are the invocation layer; agents are the orchestration layer.
 
 ## Play Tiers (Priority Order)
