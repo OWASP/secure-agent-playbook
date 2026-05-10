@@ -89,8 +89,8 @@ Reference plays directly as procedures for any AI agent or manual use:
 | `api-security-review` | API review against OWASP API Top 10 (2023) | "Review this API for security" | API Top 10 |
 | `web-security-review` | Web app review against OWASP Top 10 (2021) | "Review this web app for OWASP Top 10" | Top 10 |
 | `iac-security-review` | IaC security (Terraform, K8s, CloudFormation) | "Review this Terraform for security" | CIS Benchmarks |
-| `securability-engineering` | Generate inherently securable code (FIASSE) | "Generate secure code for..." | FIASSE |
-| `securability-engineering-review` | Assess code securability (0-10 SSEM scoring) | "Assess the securability of this code" | FIASSE/SSEM |
+| `securability-engineering` | Generate inherently securable code (FIASSE v1.0.4) | "Generate secure code for..." | FIASSE v1.0.4 |
+| `securability-engineering-review` | Assess code securability (0-10 SSEM scoring) | "Assess the securability of this code" | FIASSE v1.0.4/SSEM |
 | `security-guidance` | Auto-triggered ASVS guidance for security-sensitive code | *(auto-triggered)* | ASVS 5.0 |
 
 ### AI & Agent Security (`ai-security-skills`)
@@ -186,7 +186,7 @@ Immediate, practical value for any codebase.
 | [code-review-security](plays/tier1-code-analysis/code-review-security.md) | Systematic security code review mapped to OWASP Top 10 and ASVS |
 | [secrets-scan](plays/tier1-code-analysis/secrets-scan.md) | Detect hardcoded credentials, API keys, and tokens |
 | [api-security-review](plays/tier1-code-analysis/api-security-review.md) | Review APIs against OWASP API Security Top 10 |
-| [securability-engineering-review](plays/tier1-code-analysis/securability-engineering-review.md) | Assess code against FIASSE/SSEM securable attributes: Maintainability, Trustworthiness, Reliability, and Transparency |
+| [securability-engineering-review](plays/tier1-code-analysis/securability-engineering-review.md) | Assess code against FIASSE v1.0.4/SSEM securable attributes: Maintainability, Trustworthiness, Reliability, and Transparency |
 
 ### Planned
 
@@ -215,13 +215,14 @@ All plays reference OWASP standards and datasets:
 - [OWASP WSTG](https://owasp.org/www-project-web-security-testing-guide/) — Testing methodology
 - [OWASP SAMM](https://owaspsamm.org) — Security program maturity model
 - [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org) — Developer security guidance
-- [OWASP FIASSE](https://owasp.org/www-project-fiasse/) — securable attributes and secure coding principles
+- [OWASP FIASSE](https://owasp.org/www-project-fiasse)
 
 ## Related Projects
 
 | Project | Relationship |
 |---------|-------------|
 | [OWASP Agent Skills Project](https://github.com/eoftedal/owasp-agent-skills-project) | Proactive ASVS 5.0 guidance for AI coding agents — helps agents **write** secure code. We use their ASVS reference data in `data/asvs/`. Complementary: they guide code generation, we find vulnerabilities in existing code. |
+| [Securability Engineering](https://github.com/Securability-Engineering) | Securable code generation (OWASP FIASSE) and secure code requirements (ASVS) via spec file analysis and generation constraint (benchmarked and tuned) for various AI code generation tools. |
 | [Arcanum PI Taxonomy](https://github.com/Arcanum-Sec/arc_pi_taxonomy) | Prompt injection attack classification by Jason Haddix. Our `prompt-injection-testing` play is built on this taxonomy. CC BY 4.0. |
 | [OpenCRE](https://www.opencre.org) | Cross-standard requirement mappings (CWE, ASVS, WSTG, NIST 800-53). We use OpenCRE links in findings for multi-framework traceability. |
 
