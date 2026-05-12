@@ -76,28 +76,40 @@ Severity levels: CRITICAL, HIGH, MEDIUM, LOW, INFORMATIONAL
 ```
 agent-security-playbook/
 ├── CLAUDE.md                     # This file — agent persona & guidelines
-├── .claude-plugin/               # Plugin marketplace config for Claude Code installation
-│   └── plugin.json
-├── agents/                       # Agent definitions (autonomous specialists + team lead)
-│   ├── code-security-reviewer.md
-│   ├── dependency-auditor.md
-│   ├── api-security-reviewer.md
-│   ├── ai-security-assessor.md
-│   └── security-team-lead.md
-├── skills/                       # Agent Skills (SKILL.md per skill, installable as plugin)
-│   ├── securability-engineering/
-│   ├── securability-engineering-review/
-│   ├── agent-security-audit/
-│   ├── agentic-ai-risk-assess/
-│   ├── api-security-review/
-│   ├── code-review-security/
-│   ├── iac-security-review/
-│   ├── llm-risk-assess/
-│   ├── mcp-server-review/
-│   ├── prompt-injection-test/
-│   ├── sca-audit/
-│   ├── secrets-scan/
-│   └── web-security-review/
+├── .claude-plugin/               # Plugin configs
+│   ├── marketplace.json          # Marketplace listing both plugins (for /plugin marketplace add)
+│   └── plugin.json               # Legacy single-plugin stub (backward compat)
+├── plugins/                      # Claude Code plugin installation entry points
+│   ├── code-security-skills/     # Code & infra security skills plugin
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   ├── agents/               # 4 code-security agents
+│   │   │   ├── code-security-reviewer.md
+│   │   │   ├── dependency-auditor.md
+│   │   │   ├── api-security-reviewer.md
+│   │   │   └── security-team-lead.md
+│   │   └── skills/               # 9 code security skills
+│   │       ├── securability-engineering/
+│   │       ├── securability-engineering-review/
+│   │       ├── code-review-security/
+│   │       ├── sca-audit/
+│   │       ├── secrets-scan/
+│   │       ├── api-security-review/
+│   │       ├── web-security-review/
+│   │       ├── iac-security-review/
+│   │       └── security-guidance/
+│   └── ai-security-skills/       # AI/agent security skills plugin
+│       ├── .claude-plugin/
+│       │   └── plugin.json
+│       ├── agents/               # 1 AI-security agent
+│       │   └── ai-security-assessor.md
+│       └── skills/               # 6 AI/agent security skills
+│           ├── agent-security-audit/
+│           ├── agentic-ai-risk-assess/
+│           ├── llm-risk-assess/
+│           ├── mcp-server-review/
+│           ├── prompt-injection-test/
+│           └── multi-agentic-threat-model/
 ├── plays/                        # Full reference procedures (detailed playbook)
 │   ├── tier1-code-analysis/      # Code & dependency analysis plays
 │   ├── tier2-design-review/      # Architecture & design review plays
@@ -121,8 +133,8 @@ agent-security-playbook/
 
 ## Three-Layer Architecture
 
-- **`agents/`** — Autonomous security specialists with focused system prompts. Each agent invokes one or more skills, operates in an isolated context, and produces structured reports. Can work solo or as a coordinated team via `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`.
-- **`skills/`** — Self-contained `SKILL.md` files following the [Agent Skills spec](https://agentskills.io/specification). Installable as a Claude Code plugin via `.claude-plugin/plugin.json`. Each skill summarizes a procedure and references its corresponding play.
+- **`plugins/*/agents/`** — Autonomous security specialists with focused system prompts, co-located inside each plugin (`plugins/code-security-skills/agents/` and `plugins/ai-security-skills/agents/`). Each agent invokes one or more skills, operates in an isolated context, and produces structured reports. Can work solo or as a coordinated team via `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`.
+- **`plugins/*/skills/`** — Self-contained `SKILL.md` files following the [Agent Skills spec](https://agentskills.io/specification). Co-located inside each plugin directory (`plugins/code-security-skills/skills/` and `plugins/ai-security-skills/skills/`), installable via `/plugin marketplace add OWASP/secure-agent-playbook` then `/plugin install <name>@agent-security-playbook`. Each skill summarizes a procedure and references its corresponding play.
 - **`plays/`** — Full reference procedures with detailed checklists, tables, and examples. Skills reference these for comprehensive coverage. Contributors edit plays; skills are the invocation layer; agents are the orchestration layer.
 
 ## Play Tiers (Priority Order)

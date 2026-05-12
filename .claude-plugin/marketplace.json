@@ -1,0 +1,20 @@
+{
+  "name": "agent-security-playbook",
+  "description": "OWASP Secure Agent Playbook — security skills for code analysis and AI/agent security",
+  "owner": {
+    "name": "Chris Maenner",
+    "email": "chris@palmtreeventuresllc.com"
+  },
+  "plugins": [
+    {
+      "name": "code-security-skills",
+      "description": "Code and infrastructure security analysis skills — security engineering, code review, SCA audit, secrets scanning, API security review, web application security review, and IaC security review.",
+      "source": "./plugins/code-security-skills/"
+    },
+    {
+      "name": "ai-security-skills",
+      "description": "AI and agent security assessment skills — agent security audit, LLM risk assessment, agentic AI risk assessment, MCP server review, prompt injection testing, and multi-agent threat modeling.",
+      "source": "./plugins/ai-security-skills/"
+    }
+  ]
+}

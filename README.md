@@ -68,7 +68,9 @@ Claude will automatically activate the relevant skill based on context. See [Ski
 
 **Local development** — To test from a local clone instead of GitHub:
 ```
-/plugin install /path/to/agent-security-playbook
+/plugin marketplace add /path/to/agent-security-playbook
+/plugin install code-security-skills@agent-security-playbook
+/plugin install ai-security-skills@agent-security-playbook
 ```
 
 **Without Claude Code:**
@@ -198,8 +200,8 @@ Immediate, practical value for any codebase.
 
 Three-layer design:
 
-- **`agents/`** — Autonomous security specialists with focused system prompts. Each agent invokes one or more skills, operates in an isolated context, and produces structured reports. Can work solo or as a coordinated team.
-- **`skills/`** — Self-contained `SKILL.md` files following the [Agent Skills spec](https://agentskills.io/specification). Installable as a Claude Code plugin via `.claude-plugin/plugin.json`. Each skill summarizes a procedure and references its corresponding play.
+- **`plugins/<name>/agents/`** — Autonomous security specialists with focused system prompts, co-located inside each plugin. Each agent invokes one or more skills, operates in an isolated context, and produces structured reports. Can work solo or as a coordinated team.
+- **`plugins/<name>/skills/`** — Self-contained `SKILL.md` files following the [Agent Skills spec](https://agentskills.io/specification). Distributed through `plugins/code-security-skills/` and `plugins/ai-security-skills/`, registered in the marketplace via `.claude-plugin/marketplace.json`. Each skill summarizes a procedure and references its corresponding play.
 - **`plays/`** — Full reference procedures with detailed checklists, tables, decision criteria, and examples. Skills reference these for comprehensive coverage.
 
 Agents orchestrate, skills execute, plays provide the full procedure. Contributors edit plays. This means the playbook works with any AI agent (just point it at a play), while Claude Code users get plugin-based installation with agents and skills.

@@ -15,13 +15,11 @@ jobs:
 
       - name: Build plugin zip
         run: |
-          # Create zip with .claude-plugin/plugin.json at the root
-          # (no nested directory wrapper like GitHub's Download ZIP)
+          # Create zip with plugin.json files at standard paths
           zip -r secure-agent-playbook.zip \
             .claude-plugin/ \
+            plugins/ \
             CLAUDE.md \
-            agents/ \
-            skills/ \
             plays/ \
             data/ \
             templates/ \

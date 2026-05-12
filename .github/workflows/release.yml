@@ -107,15 +107,21 @@ jobs:
             exit 1
           fi
 
-      - name: Update plugin.json version
+      - name: Update plugin manifest versions
         if: steps.skip.outputs.skip != 'true'
         env:
           NEW_VERSION: ${{ steps.version.outputs.new }}
         run: |
           set -euo pipefail
-          tmp=$(mktemp)
-          jq --arg v "$NEW_VERSION" '.metadata.version = $v' .claude-plugin/plugin.json > "$tmp"
-          mv "$tmp" .claude-plugin/plugin.json
+          for manifest in \
+            .claude-plugin/plugin.json \
+            plugins/code-security-skills/.claude-plugin/plugin.json \
+            plugins/ai-security-skills/.claude-plugin/plugin.json
+          do
+            tmp=$(mktemp)
+            jq --arg v "$NEW_VERSION" '.version = $v' "$manifest" > "$tmp"
+            mv "$tmp" "$manifest"
+          done
 
       - name: Commit and push version bump
         if: steps.skip.outputs.skip != 'true'
@@ -125,9 +131,9 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .claude-plugin/plugin.json
+          git add .claude-plugin/plugin.json plugins/code-security-skills/.claude-plugin/plugin.json plugins/ai-security-skills/.claude-plugin/plugin.json
           if git diff --staged --quiet; then
-            echo "plugin.json already at ${NEW_VERSION}; no commit needed."
+            echo "Manifests already at ${NEW_VERSION}; no commit needed."
           else
             git commit -m "chore(release): bump version to ${NEW_VERSION} [skip release]"
             git push origin HEAD:main
