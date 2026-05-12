@@ -149,7 +149,21 @@ jobs:
           git tag -a "${NEW_TAG}" -m "${NEW_TAG}"
           git push origin "${NEW_TAG}"
 
-      - name: Create GitHub release
+      - name: Build plugin zip
+        if: steps.skip.outputs.skip != 'true'
+        run: |
+          set -euo pipefail
+          zip -r secure-agent-playbook.zip \
+            .claude-plugin/ \
+            plugins/ \
+            CLAUDE.md \
+            plays/ \
+            data/ \
+            templates/ \
+            template/ \
+            -x '*.git*'
+
+      - name: Create GitHub release with plugin zip
         if: steps.skip.outputs.skip != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
@@ -160,4 +174,5 @@ jobs:
           gh release create "${NEW_TAG}" \
             --title "${NEW_TAG}" \
             --generate-notes \
-            --notes-start-tag "${PREV_TAG}"
+            --notes-start-tag "${PREV_TAG}" \
+            secure-agent-playbook.zip
