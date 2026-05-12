@@ -1,0 +1,156 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '.github/**'
+      - 'README.md'
+      - 'CONTRIBUTING.md'
+      - 'CODE_OF_CONDUCT.md'
+      - 'SECURITY.md'
+      - 'LICENSE.md'
+      - 'THIRD_PARTY_NOTICES.md'
+      - 'CLAUDE.md'
+      - '.gitignore'
+      - 'CODEOWNERS'
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - minor
+          - major
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for skip-release marker
+        id: skip
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          set -euo pipefail
+          if printf '%s' "$COMMIT_MESSAGE" | grep -qF '[skip release]'; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Commit contains [skip release]; halting."
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        if: steps.skip.outputs.skip != 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Determine bump type
+        if: steps.skip.outputs.skip != 'true'
+        id: bump
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_BUMP: ${{ inputs.bump }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            case "$INPUT_BUMP" in
+              minor|major) BUMP="$INPUT_BUMP" ;;
+              *) echo "Invalid bump input: $INPUT_BUMP" >&2; exit 1 ;;
+            esac
+          else
+            BUMP="patch"
+          fi
+          echo "type=$BUMP" >> "$GITHUB_OUTPUT"
+
+      - name: Compute next version
+        if: steps.skip.outputs.skip != 'true'
+        id: version
+        env:
+          BUMP_TYPE: ${{ steps.bump.outputs.type }}
+        run: |
+          set -euo pipefail
+          PREV=$(git tag -l 'v*' --sort=-v:refname | head -n1)
+          PREV=${PREV:-v0.0.0}
+          STRIPPED=${PREV#v}
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$STRIPPED"
+          case "$BUMP_TYPE" in
+            major) MAJOR=$((MAJOR+1)); MINOR=0; PATCH=0 ;;
+            minor) MINOR=$((MINOR+1)); PATCH=0 ;;
+            patch) PATCH=$((PATCH+1)) ;;
+            *) echo "Unknown bump type: $BUMP_TYPE" >&2; exit 1 ;;
+          esac
+          NEW="${MAJOR}.${MINOR}.${PATCH}"
+          echo "previous=${PREV}" >> "$GITHUB_OUTPUT"
+          echo "new=${NEW}" >> "$GITHUB_OUTPUT"
+          echo "tag=v${NEW}" >> "$GITHUB_OUTPUT"
+          echo "Bumping ${PREV} -> v${NEW} (${BUMP_TYPE})"
+
+      - name: Abort if tag already exists
+        if: steps.skip.outputs.skip != 'true'
+        env:
+          NEW_TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          set -euo pipefail
+          if git rev-parse -q --verify "refs/tags/${NEW_TAG}" >/dev/null; then
+            echo "Tag ${NEW_TAG} already exists; aborting." >&2
+            exit 1
+          fi
+
+      - name: Update plugin.json version
+        if: steps.skip.outputs.skip != 'true'
+        env:
+          NEW_VERSION: ${{ steps.version.outputs.new }}
+        run: |
+          set -euo pipefail
+          tmp=$(mktemp)
+          jq --arg v "$NEW_VERSION" '.metadata.version = $v' .claude-plugin/plugin.json > "$tmp"
+          mv "$tmp" .claude-plugin/plugin.json
+
+      - name: Commit and push version bump
+        if: steps.skip.outputs.skip != 'true'
+        env:
+          NEW_VERSION: ${{ steps.version.outputs.new }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .claude-plugin/plugin.json
+          if git diff --staged --quiet; then
+            echo "plugin.json already at ${NEW_VERSION}; no commit needed."
+          else
+            git commit -m "chore(release): bump version to ${NEW_VERSION} [skip release]"
+            git push origin HEAD:main
+          fi
+
+      - name: Create and push tag
+        if: steps.skip.outputs.skip != 'true'
+        env:
+          NEW_TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          set -euo pipefail
+          git tag -a "${NEW_TAG}" -m "${NEW_TAG}"
+          git push origin "${NEW_TAG}"
+
+      - name: Create GitHub release
+        if: steps.skip.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NEW_TAG: ${{ steps.version.outputs.tag }}
+          PREV_TAG: ${{ steps.version.outputs.previous }}
+        run: |
+          set -euo pipefail
+          gh release create "${NEW_TAG}" \
+            --title "${NEW_TAG}" \
+            --generate-notes \
+            --notes-start-tag "${PREV_TAG}"
