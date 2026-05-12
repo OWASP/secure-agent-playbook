@@ -1,0 +1,7 @@
+# Workflow files run with elevated privileges via the
+# "Protect Main" ruleset bypass granted to github-actions[bot].
+# Any change here can land a commit on main without going
+# through the standard PR review — require explicit owner
+# review for these paths.
+.github/workflows/** @cmaenner
+.github/CODEOWNERS    @cmaenner
