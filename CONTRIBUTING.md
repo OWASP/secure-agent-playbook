@@ -36,10 +36,12 @@ A good play should:
 
 Skills are the invocation layer that wraps plays for Claude Code plugin installation.
 
-1. Create a new directory under `skills/` with your skill name
-2. Add a `SKILL.md` file following the template in `template/SKILL.md`
-3. Reference the corresponding play in your skill
-4. Add the skill path to the appropriate plugin group in `.claude-plugin/plugin.json`
+1. Decide which plugin group your skill belongs to (see groups below)
+2. Create a new directory under `plugins/<group>/skills/` with your skill name
+3. Add a `SKILL.md` file following the template in `template/SKILL.md`
+4. Reference the corresponding play in your skill
+
+Skills are auto-discovered from `plugins/<group>/skills/` — no manifest registration step needed.
 
 **Plugin groups:**
 - `code-security-skills` — Code, infrastructure, and dependency analysis
@@ -49,15 +51,17 @@ Skills are the invocation layer that wraps plays for Claude Code plugin installa
 
 Agents are autonomous specialists that invoke one or more skills to perform focused security assessments.
 
-1. Create a new `.md` file in `agents/` named after your agent (e.g., `agents/my-agent.md`)
-2. Use YAML frontmatter with required fields: `name`, `description`, `tools`, `model`, `skills`
-3. Optionally add `isolation: worktree` so the agent works on an isolated copy of the repo (recommended for agents that may run in parallel as part of a team)
-4. The system prompt should describe the agent's approach, which skills to invoke and when, and the expected output format
-5. Add the agent path to the `agents` array in `.claude-plugin/plugin.json`
+1. Decide which plugin the agent belongs to based on the skills it invokes
+2. Create a new `.md` file in `plugins/<group>/agents/` named after your agent (e.g., `plugins/code-security-skills/agents/my-agent.md`)
+3. Use YAML frontmatter with required fields: `name`, `description`, `tools`, `model`, `skills`
+4. Optionally add `isolation: worktree` so the agent works on an isolated copy of the repo (recommended for agents that may run in parallel as part of a team)
+5. The system prompt should describe the agent's approach, which skills to invoke and when, and the expected output format
+
+Agents are auto-discovered from `plugins/<group>/agents/` — no manifest registration step needed.
 
 **Note:** Plugin agents cannot use `hooks`, `mcpServers`, or `permissionMode` fields for security reasons.
 
-See existing agents in `agents/` for examples.
+See existing agents in `plugins/code-security-skills/agents/` and `plugins/ai-security-skills/agents/` for examples.
 
 ## Finding Format
 
@@ -85,7 +89,7 @@ Common mappings are pre-populated in `data/opencre/README.md`.
 
 - One play or skill per PR (unless tightly coupled)
 - Include a clear description of what the play/skill covers and why it's needed
-- If adding a skill, ensure it's added to `plugin.json`
+- If adding a skill, ensure it lives under the correct `plugins/<group>/skills/` directory
 - Test your play against a real or deliberately-vulnerable target where possible
 
 ## License

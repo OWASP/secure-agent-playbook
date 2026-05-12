@@ -2,7 +2,7 @@
 
 Step-by-step runbook for executing an SSEM-scored review.
 
-> **Source of truth**: [skills/securability-engineering-review/SKILL.md](../../skills/securability-engineering-review/SKILL.md) defines the rubric, equal-weight scoring (1/3 per pillar; 1/4 within Maintainability; 1/3 within Trustworthiness and Reliability), severity classification, output format, and 50-item checklist. This play does not redefine them — it sequences the work.
+> **Source of truth**: [plugins/code-security-skills/skills/securability-engineering-review/SKILL.md](../../plugins/code-security-skills/skills/securability-engineering-review/SKILL.md) defines the rubric, equal-weight scoring (1/3 per pillar; 1/4 within Maintainability; 1/3 within Trustworthiness and Reliability), severity classification, output format, and 50-item checklist. This play does not redefine them — it sequences the work.
 
 ## Trigger Conditions
 
@@ -126,7 +126,7 @@ Use [templates/report.md](../../templates/report.md) as the assembly scaffold.
 
 ## References
 
-- [skills/securability-engineering-review/SKILL.md](../../skills/securability-engineering-review/SKILL.md) — rubric, weights, severity, output format, 50-item checklist, pattern tags, anti-patterns
+- [plugins/code-security-skills/skills/securability-engineering-review/SKILL.md](../../plugins/code-security-skills/skills/securability-engineering-review/SKILL.md) — rubric, weights, severity, output format, 50-item checklist, pattern tags, anti-patterns
 - [templates/finding.md](../../templates/finding.md) — individual finding shape
 - [templates/report.md](../../templates/report.md) — full-report scaffold
 - [FIASSE Framework v1.0.4](https://github.com/OWASP/FIASSE/blob/v1.0.4/docs/securable_framework.md)
