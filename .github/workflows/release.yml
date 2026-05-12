@@ -21,6 +21,7 @@ on:
         required: true
         type: choice
         options:
+          - patch
           - minor
           - major
 
@@ -53,7 +54,7 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.RELEASE_PAT }}
 
       - name: Determine bump type
         if: steps.skip.outputs.skip != 'true'
@@ -65,7 +66,7 @@ jobs:
           set -euo pipefail
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
             case "$INPUT_BUMP" in
-              minor|major) BUMP="$INPUT_BUMP" ;;
+              patch|minor|major) BUMP="$INPUT_BUMP" ;;
               *) echo "Invalid bump input: $INPUT_BUMP" >&2; exit 1 ;;
             esac
           else
