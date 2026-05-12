@@ -23,7 +23,7 @@ Without a playbook, asking an AI agent to "review my code for security" gives yo
 - **Consistent methodology** — Every assessment follows a documented procedure, not ad-hoc prompting. Results are reproducible across runs and reviewers.
 - **Structured, actionable output** — Findings include severity, CWE, evidence, and remediation steps with code examples. No vague warnings.
 - **Cross-standard traceability** — Findings link to CWE, ASVS, WSTG, and NIST 800-53 via [OpenCRE](https://www.opencre.org) for compliance mapping.
-- **15 security skills** — From dependency CVE scanning to prompt injection testing to multi-agent threat modeling. Install as a Claude Code plugin or use standalone.
+- **16 security skills** — From dependency CVE scanning to prompt injection testing to multi-agent threat modeling. Install as a Claude Code plugin or use standalone.
 - **Works beyond Claude Code** — Skills are Claude Code plugins; plays are standalone procedures any AI agent can follow.
 
 ## What This Is
@@ -93,6 +93,7 @@ Reference plays directly as procedures for any AI agent or manual use:
 | `iac-security-review` | IaC security (Terraform, K8s, CloudFormation) | "Review this Terraform for security" | CIS Benchmarks |
 | `securability-engineering` | Generate inherently securable code (FIASSE v1.0.4) | "Generate secure code for..." | FIASSE v1.0.4 |
 | `securability-engineering-review` | Assess code securability (0-10 SSEM scoring) | "Assess the securability of this code" | FIASSE v1.0.4/SSEM |
+| `prd-securability-enhancement` | Harden PRDs/specs with ASVS coverage and FIASSE SSEM requirements before code is written | "Harden this PRD" / "Map features to ASVS" | ASVS, FIASSE v1.0.4 |
 | `security-guidance` | Auto-triggered ASVS guidance for security-sensitive code | *(auto-triggered)* | ASVS 5.0 |
 
 ### AI & Agent Security (`ai-security-skills`)
@@ -173,8 +174,11 @@ The differentiator — security procedures purpose-built for the AI agent era.
 | Play | What It Does |
 |------|-------------|
 | [agent-security-audit](plays/tier4-ai-security/agent-security-audit.md) | Audit agent permissions, prompt injection surfaces, data exfiltration paths, guardrails |
+| [agentic-ai-risk-assess](plays/tier4-ai-security/agentic-ai-risk-assess.md) | Assess agentic AI applications against OWASP Top 10 for Agentic Applications 2026 |
+| [ai-security-verification](plays/tier4-ai-security/ai-security-verification.md) | Verify AI-driven applications against the OWASP AI Security Verification Standard (AISVS) |
 | [llm-risk-assess](plays/tier4-ai-security/llm-risk-assess.md) | Assess LLM applications against OWASP Top 10 for LLM Applications |
 | [mcp-server-review](plays/tier4-ai-security/mcp-server-review.md) | Review MCP server implementations for overpermissioning, injection, data exposure |
+| [multi-agentic-threat-model](plays/tier4-ai-security/multi-agentic-threat-model.md) | Threat-model multi-agent systems using the CSA MAESTRO 7-layer framework and OWASP Multi-Agentic System Guide v1.0 |
 | [prompt-injection-testing](plays/tier4-ai-security/prompt-injection-testing.md) | Test LLM apps against 18 attack techniques, 20 evasions, 13 intents |
 
 
@@ -188,6 +192,8 @@ Immediate, practical value for any codebase.
 | [code-review-security](plays/tier1-code-analysis/code-review-security.md) | Systematic security code review mapped to OWASP Top 10 and ASVS |
 | [secrets-scan](plays/tier1-code-analysis/secrets-scan.md) | Detect hardcoded credentials, API keys, and tokens |
 | [api-security-review](plays/tier1-code-analysis/api-security-review.md) | Review APIs against OWASP API Security Top 10 |
+| [owasp-top10-web-review](plays/tier1-code-analysis/owasp-top10-web-review.md) | Web application review against OWASP Top 10 (2021) |
+| [iac-security-review](plays/tier1-code-analysis/iac-security-review.md) | Review Terraform, Kubernetes, CloudFormation against CIS benchmarks and cloud security best practices |
 | [securability-engineering-review](plays/tier1-code-analysis/securability-engineering-review.md) | Assess code against FIASSE v1.0.4/SSEM securable attributes: Maintainability, Trustworthiness, Reliability, and Transparency |
 
 ### Planned
@@ -213,11 +219,13 @@ All plays reference OWASP standards and datasets:
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/) — Web application risks
 - [OWASP API Security Top 10](https://owasp.org/API-Security/) — API-specific risks
 - [OWASP Top 10 for LLM Applications](https://genai.owasp.org) — AI/LLM risks
+- [OWASP Agentic Security Initiative](https://genai.owasp.org/initiatives/agentic-security-initiative/) — Autonomous-agent risks (Top 10 for Agentic Applications)
 - [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/) — Security verification requirements
+- [OWASP AISVS](https://github.com/OWASP/AISVS) — AI Security Verification Standard
 - [OWASP WSTG](https://owasp.org/www-project-web-security-testing-guide/) — Testing methodology
 - [OWASP SAMM](https://owaspsamm.org) — Security program maturity model
 - [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org) — Developer security guidance
-- [OWASP FIASSE](https://owasp.org/www-project-fiasse)
+- [OWASP FIASSE](https://owasp.org/www-project-fiasse) — Framework for Inherently Adaptive and Securable Engineering (v1.0.4)
 
 ## Related Projects
 
@@ -242,4 +250,4 @@ New plays should:
 
 ## License
 
-This project is open source. See LICENSE for details.
+Licensed under [Creative Commons Attribution 4.0 International](LICENSE.md) (CC-BY-4.0). See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for attribution of upstream OWASP project content.
