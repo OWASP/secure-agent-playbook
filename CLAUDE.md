@@ -107,6 +107,7 @@ agent-security-playbook/
 ├── data/                         # Machine-readable security reference data
 │   ├── opencre/                  # OpenCRE cross-standard mappings (CWE <-> ASVS <-> WSTG <-> NIST)
 │   ├── asvs/                     # ASVS JSON/CSV requirements
+│   ├── fiasse/                   # FIASSE v1.0.4 framework sections (SSEM attributes, principles, measurement)
 │   ├── wstg/                     # WSTG checklist JSON
 │   ├── samm/                     # SAMM YAML maturity model
 │   ├── llm-top10/                # Parsed LLM Top 10 data
@@ -141,6 +142,7 @@ Plays reference these machine-readable OWASP datasets (populate `data/` as neede
 | Dataset | Source Repo | Format | Used By |
 |---------|-----------|--------|---------|
 | ASVS v5.0 | `eoftedal/owasp-agent-skills-project` — `references/ASVS/` | Markdown + YAML frontmatter | code-review-security (80 section files in `data/asvs/`) |
+| FIASSE v1.0.4 | `OWASP/FIASSE` — `docs/securable_framework.md` (tag `v1.0.4`) | Markdown + YAML frontmatter | securability-engineering, securability-engineering-review, prd-securability-enhancement (61 section files in `data/fiasse/`) |
 | WSTG Checklist | `OWASP/wstg` — `checklists/` | JSON | wstg-checklist |
 | SAMM Model | `owaspsamm/core` — `model/` | YAML | samm-assess |
 | LLM Top 10 v2.0 | `OWASP/www-project-top-10-for-large-language-model-applications` | Markdown | llm-risk-assess |
