@@ -235,16 +235,7 @@ When invoked on a PR diff:
 
 ### 6. Produce Findings
 
-For each finding, populate `templates/finding.md` exactly as the standard finding format requires — no play-local extension fields. MASVS controls, MASWE entries, and MASTG test IDs all go *inside* the existing `OWASP Ref` line. `CWE` is mandatory; `OpenCRE` is N/A by default for mobile findings unless the cited CWE has a pre-mapped entry in `data/opencre/`.
-
-**Required fields per finding:**
-
-- `CWE` — resolved via the MASWE chain (MASVS control → MASWE entry → CWE)
-- `OpenCRE` — populated only if `data/opencre/CWE-XXX.md` exists for the cited CWE; otherwise `N/A for mobile scan — OpenCRE's MASVS coverage is limited`
-- `OWASP Ref` — formatted as `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN> (dynamic verification recommended)`, plus any overlapping `ASVS V#.#.#` or `Top 10 A##` reference
-- `Location`, `Impact`, `Evidence`, `Remediation`, `Confidence` — per the standard template
-
-The standard template's `ID` field is assigned at report generation time; `CVE` is N/A for source-code weaknesses unless an exploited library is a direct trigger. Verify MASWE IDs at <https://mas.owasp.org/MASWE/> against the MASVS control you cited.
+For each finding, populate `templates/finding.md` exactly — no play-local extension fields. MASVS controls, MASWE entries, and MASTG test IDs all go *inside* the existing `OWASP Ref` line, formatted as `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN> (dynamic verification recommended)` plus any overlapping `ASVS V#.#.#` or `Top 10 A##`. `CWE` is mandatory and resolved via the MASWE chain (see §4); verify MASWE IDs at <https://mas.owasp.org/MASWE/>. `OpenCRE` defaults to `N/A for mobile scan — OpenCRE's MASVS coverage is limited` unless the cited CWE has a pre-mapped entry in `data/opencre/`. `ID` is assigned at report generation; `CVE` is N/A for source-code weaknesses unless an exploited library is a direct trigger.
 
 Sort findings by severity (CRITICAL > HIGH > MEDIUM > LOW > INFORMATIONAL). Deduplicate cross-group findings (e.g. a hard-coded key affecting both CRYPTO and STORAGE — keep one finding; cite the most specific MASVS control in `OWASP Ref` and note the secondary group in `Impact`).
 
