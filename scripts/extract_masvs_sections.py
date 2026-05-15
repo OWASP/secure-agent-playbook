@@ -39,14 +39,12 @@ Usage:
 """
 
 import re
-import sys
-from pathlib import Path
 
 UPSTREAM_KEYS = ("title", "masvs_group", "masvs_control", "summary")
 CONTROL_ID_RE = re.compile(r"^# (MASVS-[A-Z]+-\d+)\s*$", re.MULTILINE)
 
 
-def parse_upstream_control(raw: str) -> dict:
+def parse_upstream_control(raw: str) -> dict[str, str]:
     """Parse one upstream MASVS control .md into {control_id, group, summary, description}."""
     m = CONTROL_ID_RE.search(raw)
     if not m:
@@ -60,6 +58,8 @@ def parse_upstream_control(raw: str) -> dict:
             raise ValueError(f"missing section {start_marker!r}")
         start += len(start_marker)
         end = raw.find(end_marker, start) if end_marker else len(raw)
+        if end_marker and end < 0:
+            raise ValueError(f"missing section {end_marker!r}")
         return raw[start:end].strip()
 
     summary = _between("## Control", "## Description")
@@ -70,3 +70,47 @@ def parse_upstream_control(raw: str) -> dict:
         "summary": summary,
         "description": description,
     }
+
+
+def _default_frontmatter(parsed: dict[str, str]) -> dict:
+    """Return default frontmatter from a parsed control."""
+    return {
+        "title": f"{parsed['control_id']}: {parsed['summary']}",
+        "masvs_group": parsed["group"],
+        "masvs_control": parsed["control_id"],
+        "summary": parsed["summary"],
+        "platforms": ["android", "ios"],
+        "when_to_use": [],
+        "threats": [],
+        "mastg_tests": [],
+        "static_signals": {"android": [], "ios": []},
+        "resilience_static_only": parsed["group"] == "MASVS-RESILIENCE",
+        "static_only": False,
+    }
+
+
+def compose_frontmatter(parsed: dict[str, str], existing: dict | None) -> dict:
+    """
+    Build the output frontmatter. Upstream-derived keys come from `parsed`;
+    every other key is preserved verbatim from `existing` (if present), else defaulted.
+    """
+    fm = _default_frontmatter(parsed)
+    if existing:
+        for key, value in existing.items():
+            if key in UPSTREAM_KEYS:
+                continue  # always overwrite from upstream
+            fm[key] = value
+    return fm
+
+
+def render_output(frontmatter: dict, parsed: dict[str, str]) -> str:
+    """Render a full output file: YAML frontmatter + blank line + upstream body."""
+    import yaml
+
+    yaml_text = yaml.safe_dump(frontmatter, sort_keys=False, allow_unicode=True)
+    body = (
+        f"# {parsed['control_id']}\n\n"
+        f"## Control\n\n{parsed['summary']}\n\n"
+        f"## Description\n\n{parsed['description']}\n"
+    )
+    return f"---\n{yaml_text}---\n\n{body}"
