@@ -85,19 +85,22 @@ agent-security-playbook/
 │   ├── code-security-skills/     # Code & infra security skills plugin (self-contained)
 │   │   ├── .claude-plugin/
 │   │   │   └── plugin.json
-│   │   ├── agents/               # 4 code-security agents
+│   │   ├── agents/               # 5 code-security agents
 │   │   │   ├── code-security-reviewer.md
 │   │   │   ├── dependency-auditor.md
 │   │   │   ├── api-security-reviewer.md
+│   │   │   ├── mobile-security-reviewer.md
 │   │   │   └── security-team-lead.md
-│   │   ├── skills/               # 9 code security skills
+│   │   ├── skills/               # 11 code security skills
 │   │   │   ├── securability-engineering/
 │   │   │   ├── securability-engineering-review/
+│   │   │   ├── prd-securability-enhancement/
 │   │   │   ├── code-review-security/
 │   │   │   ├── sca-audit/
 │   │   │   ├── secrets-scan/
 │   │   │   ├── api-security-review/
 │   │   │   ├── web-security-review/
+│   │   │   ├── mobile-code-review/
 │   │   │   ├── iac-security-review/
 │   │   │   └── security-guidance/
 │   │   ├── plays/                # Step-by-step runbooks for the skills above
@@ -119,6 +122,8 @@ agent-security-playbook/
 │       └── templates/            # finding.md, report.md (used by skills' output)
 ├── data/                         # Research / future-skill reference data (not bundled into plugins)
 │   ├── aisvs/                    # AISVS sections
+│   ├── masvs/                    # MASVS v2.1.0 section files (33 files: 8 group overviews + 24 controls + README)
+│   ├── mastg/                    # MASTG Static Analysis test markdown (167 files, V2 preferred via V1 translation)
 │   ├── llm-top10/                # Parsed LLM Top 10 data
 │   └── opencre/                  # OpenCRE cross-standard mappings (CWE <-> ASVS <-> WSTG <-> NIST)
 └── template/
@@ -148,6 +153,8 @@ Datasets that ship inside a plugin (bundled with the marketplace install) live u
 | Dataset | Source Repo | Format | Used By | Lives at |
 |---------|-----------|--------|---------|----------|
 | ASVS v5.0 | `eoftedal/owasp-agent-skills-project` — `references/ASVS/` | Markdown + YAML frontmatter | securability-engineering, prd-securability-enhancement | `plugins/code-security-skills/data/asvs/` |
+| MASVS v2.1.0 | `OWASP/masvs` (tag `v2.1.0`, `controls/MASVS-*.md`) | MD → MD with frontmatter and enrichment preservation | mobile-code-review (24 control files + 8 group overviews) | `data/masvs/` |
+| MASTG | `OWASP/mastg` — `tests-beta/` (V2) with `tests/` (V1) fallback | Markdown + YAML frontmatter | mobile-code-review (per-test recipes) | `data/mastg/` |
 | FIASSE v1.0.4 | `OWASP/FIASSE` — `docs/securable_framework.md` (tag `v1.0.4`) | Markdown + YAML frontmatter | securability-engineering, securability-engineering-review, prd-securability-enhancement (61 section files) | `plugins/code-security-skills/data/fiasse/` |
 | Secure-code prompts | (this repo) | Markdown | iac-security-review (terraform, kubernetes, cloudformation) | `plugins/code-security-skills/data/secure-code-prompts/` |
 | LLM Top 10 v2.0 | `OWASP/www-project-top-10-for-large-language-model-applications` | Markdown | (research; not yet bundled) | `data/llm-top10/` |
