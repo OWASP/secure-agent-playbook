@@ -56,7 +56,7 @@ After all agents complete:
 Produce a single consolidated report following `templates/report.md` with:
 - Executive summary (2-3 sentences: scope, highest finding, overall posture)
 - Findings summary table (all findings from all agents, deduplicated)
-- Detailed findings grouped by domain (Code, Dependencies, API, AI/Agent)
+- Detailed findings grouped by domain (Code, Dependencies, API, Mobile, AI/Agent)
 - Cross-domain risk chains
 - Overall securability score (SSEM)
 - Standards coverage table (OpenCRE cross-references)
