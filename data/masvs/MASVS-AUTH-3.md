@@ -7,25 +7,25 @@ platforms:
 - android
 - ios
 when_to_use:
-- reviewing session and token lifecycle management
-- auditing logout flows for completeness
-- validating refresh-token rotation implementation
+- reviewing high-risk operations (payments, account deletion, data export, key rotation)
+- auditing whether sensitive operations require re-authentication beyond an initial login
+- validating step-up flows for biometric or password re-confirmation before critical actions
 threats:
-- session fixation via reused tokens after authentication
-- long-lived refresh tokens persisting after logout
-- tokens not invalidated on the server side after logout
+- session abuse: an attacker with a stolen or unlocked device performs payments / account changes without an additional auth step
+- privileged-action gating that relies only on initial login, allowing all-or-nothing access for the session duration
+- replay of cached auth state past the point where step-up should have been required
 mastg_tests:
 - MASTG-TEST-0021
 - MASTG-TEST-0022
 static_signals:
   android:
-  - tokens persisted in SharedPreferences plaintext
-  - absence of refresh-token rotation logic
-  - logout that clears local state but does not call a server-side invalidate endpoint
+  - BiometricPrompt invoked only at login, with no re-auth gate on sensitive code paths
+  - sensitive operation methods (transferFunds, deleteAccount, exportData) called without preceding re-authentication
+  - cached session tokens reused for high-risk endpoints without server-side step-up enforcement
   ios:
-  - tokens stored in NSUserDefaults plaintext
-  - absence of refresh-token rotation logic
-  - logout-without-server-revoke pattern
+  - LAContext.evaluatePolicy not invoked before sensitive flows
+  - sensitive operations dispatched off a stored boolean isAuthenticated rather than a fresh authentication challenge
+  - reauthenticatedRecently / recent-biometric checks absent on high-risk flows
 resilience_static_only: false
 static_only: false
 ---

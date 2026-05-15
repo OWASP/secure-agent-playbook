@@ -16,7 +16,8 @@ threats:
 - deserialization of untrusted data leading to RCE
 - format-string injection via user-controlled format arguments
 mastg_tests:
-- MASTG-TEST-0044
+- MASTG-TEST-0042
+- MASTG-TEST-0043
 static_signals:
   android:
   - Runtime.exec(...) with concatenated user input

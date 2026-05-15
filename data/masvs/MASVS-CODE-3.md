@@ -14,8 +14,7 @@ threats:
 - abandoned pods or packages with no maintainer responses
 - transitive vulnerabilities from indirect dependencies
 mastg_tests:
-- MASTG-TEST-0042
-- MASTG-TEST-0043
+- MASTG-TEST-0041
 static_signals:
   android:
   - outdated dependency versions in build.gradle or build.gradle.kts

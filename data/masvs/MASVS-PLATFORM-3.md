@@ -20,7 +20,6 @@ static_signals:
   android:
   - missing FLAG_SECURE on activities displaying secrets
   - ClipboardManager used for tokens or credentials
-  - sensitive views rendered without android:windowSecure
   ios:
   - missing background-blur overlay on applicationWillResignActive
   - UIPasteboard.general used for tokens
