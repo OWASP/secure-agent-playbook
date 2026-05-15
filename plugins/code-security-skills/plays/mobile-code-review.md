@@ -114,7 +114,7 @@ Do not invent CWE mappings or pick CWEs by visual similarity to the bug — alwa
 
 OpenCRE does not currently treat MASVS as a first-class linked standard the way it treats ASVS, and its mobile-domain coverage is thin. For mobile findings:
 
-- If the CWE cited has an existing pre-mapped entry in `data/opencre/CWE-XXX.md` (12 CWEs pre-mapped today), populate `OpenCRE:` from that file as usual.
+- If the CWE cited has an existing pre-mapped entry in `data/opencre/CWE-XXX.md` (13 CWEs pre-mapped today), populate `OpenCRE:` from that file as usual.
 - Otherwise, write `OpenCRE: N/A for mobile scan — OpenCRE's MASVS coverage is limited` in the finding. Do **not** instruct reviewers to add new OpenCRE mapping files solely to satisfy a mobile finding — that's contributor overhead with little reader benefit until OpenCRE expands its mobile coverage upstream.
 
 #### A. MASVS-STORAGE
@@ -141,7 +141,7 @@ MASTG forward refs: MASTG-TEST-0011, MASTG-TEST-0013
 | Insecure mode | `AES/ECB` | `kCCOptionECBMode` |
 | Hard-coded keys | `byte[] key = {...}` | `let key: [UInt8] = [...]` |
 | Deterministic IV/nonce | `IvParameterSpec(new byte[16])` | `[UInt8](repeating: 0, count: 16)` |
-| Weak RNG | `Random` for crypto | `arc4random` for keys |
+| Weak RNG | `Random` for crypto | `arc4random` for cryptographic key material (use `SecRandomCopyBytes`) |
 
 #### C. MASVS-AUTH
 
@@ -244,14 +244,18 @@ For each finding, populate `templates/finding.md` exactly as the standard findin
 - `OWASP Ref` — formatted as `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN> (dynamic verification recommended)`, plus any overlapping `ASVS V#.#.#` or `Top 10 A##` reference
 - `Location`, `Impact`, `Evidence`, `Remediation`, `Confidence` — per the standard template
 
+Note: the standard template's `ID` field is assigned at report generation time and is omitted from the examples below; the `CVE` field is N/A for source-code weaknesses unless an exploited library is a direct trigger.
+
 **Example finding A (CWE has OpenCRE pre-mapping — populate `OpenCRE:` from `data/opencre/CWE-798.md`):**
 
 ```markdown
 ### [HIGH] Hard-Coded Encryption Key in SecretStore
 
+- **ID**: NDC-YYYY-NNN (assigned at report generation)
+- **CVE**: N/A (source-code finding)
 - **CWE**: [CWE-798](https://cwe.mitre.org/data/definitions/798.html)
 - **OpenCRE**: [774-888](https://www.opencre.org/cre/774-888) — Do not store secrets in the code
-- **OWASP Ref**: MASVS-CRYPTO-2, MASWE-0016, MASTG-TEST-0013 (dynamic verification recommended), ASVS V6.4
+- **OWASP Ref**: MASVS-CRYPTO-2, MASWE-0016, MASTG-TEST-0013 (dynamic verification recommended), ASVS V11.2
 - **Location**: `SecretStore.kt:13`
 - **Impact**: Any attacker with access to the APK (trivial to obtain from the Play Store, decompilable in seconds) extracts the AES key as a string literal and decrypts every encrypted blob produced by the app.
 - **Evidence**:
@@ -277,6 +281,8 @@ For each finding, populate `templates/finding.md` exactly as the standard findin
 ```markdown
 ### [HIGH] Plaintext API Token in SharedPreferences
 
+- **ID**: NDC-YYYY-NNN (assigned at report generation)
+- **CVE**: N/A (source-code finding)
 - **CWE**: [CWE-312](https://cwe.mitre.org/data/definitions/312.html)
 - **OpenCRE**: N/A for mobile scan — OpenCRE's MASVS coverage is limited
 - **OWASP Ref**: MASVS-STORAGE-1, MASWE-0001, MASTG-TEST-0001 (dynamic verification recommended)
