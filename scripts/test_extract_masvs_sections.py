@@ -153,5 +153,138 @@ class TestRenderOutput(unittest.TestCase):
         self.assertTrue(out.endswith("\n"))
 
 
+class TestComposeFrontmatterResilientOverwrite(unittest.TestCase):
+    def test_resilience_static_only_overwrites_stale_existing(self):
+        """resilience_static_only is group-derived; stale values in existing must be overwritten."""
+        from extract_masvs_sections import compose_frontmatter
+
+        # MASVS-RESILIENCE control with WRONG existing value False — must be corrected to True
+        parsed = {
+            "control_id": "MASVS-RESILIENCE-1",
+            "group": "MASVS-RESILIENCE",
+            "summary": "App detects tampering.",
+            "description": "...",
+        }
+        existing = {
+            "title": "stale",
+            "masvs_group": "MASVS-RESILIENCE",
+            "masvs_control": "MASVS-RESILIENCE-1",
+            "summary": "stale",
+            "platforms": ["android", "ios"],
+            "when_to_use": ["preserved"],
+            "threats": [],
+            "mastg_tests": [],
+            "static_signals": {"android": [], "ios": []},
+            "resilience_static_only": False,  # WRONG — should be overwritten to True
+            "static_only": False,
+        }
+        fm = compose_frontmatter(parsed, existing=existing)
+        self.assertTrue(fm["resilience_static_only"])
+        self.assertEqual(fm["when_to_use"], ["preserved"])  # enrichment still preserved
+
+        # Non-RESILIENCE control with WRONG existing value True — must be corrected to False
+        parsed_storage = {
+            "control_id": "MASVS-STORAGE-1",
+            "group": "MASVS-STORAGE",
+            "summary": "Secrets in keystore.",
+            "description": "...",
+        }
+        existing_storage = dict(existing)
+        existing_storage["masvs_group"] = "MASVS-STORAGE"
+        existing_storage["masvs_control"] = "MASVS-STORAGE-1"
+        existing_storage["resilience_static_only"] = True  # WRONG — should become False
+        fm2 = compose_frontmatter(parsed_storage, existing=existing_storage)
+        self.assertFalse(fm2["resilience_static_only"])
+
+
+class TestRoundTrip(unittest.TestCase):
+    def test_read_existing_frontmatter(self):
+        import tempfile
+        from extract_masvs_sections import read_existing_frontmatter
+
+        sample = (
+            "---\n"
+            "title: \"OLD title\"\n"
+            "masvs_group: MASVS-STORAGE\n"
+            "masvs_control: MASVS-STORAGE-1\n"
+            "summary: \"OLD summary\"\n"
+            "platforms: [android, ios]\n"
+            "when_to_use:\n"
+            "  - reviewing data storage\n"
+            "threats: []\n"
+            "mastg_tests:\n"
+            "  - MASTG-TEST-0001\n"
+            "static_signals:\n"
+            "  android:\n"
+            "    - SharedPreferences\n"
+            "  ios: []\n"
+            "resilience_static_only: false\n"
+            "static_only: false\n"
+            "---\n\n"
+            "# MASVS-STORAGE-1\n"
+        )
+        with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as f:
+            f.write(sample)
+            path = Path(f.name)
+        try:
+            existing = read_existing_frontmatter(path)
+            self.assertEqual(existing["when_to_use"], ["reviewing data storage"])
+            self.assertEqual(existing["mastg_tests"], ["MASTG-TEST-0001"])
+            self.assertEqual(existing["static_signals"]["android"], ["SharedPreferences"])
+        finally:
+            path.unlink()
+
+    def test_read_existing_returns_none_when_file_missing(self):
+        from extract_masvs_sections import read_existing_frontmatter
+
+        self.assertIsNone(read_existing_frontmatter(Path("/nonexistent/path.md")))
+
+    def test_full_round_trip_preserves_enrichment(self):
+        """Write file, then re-render with same upstream — enrichment must survive."""
+        import tempfile
+        from extract_masvs_sections import (
+            compose_frontmatter,
+            parse_upstream_control,
+            read_existing_frontmatter,
+            render_output,
+        )
+
+        raw_v1 = (
+            "# MASVS-STORAGE-1\n\n"
+            "## Control\n\nOriginal summary.\n\n"
+            "## Description\n\nOriginal description.\n"
+        )
+        raw_v2 = (
+            "# MASVS-STORAGE-1\n\n"
+            "## Control\n\nUpdated summary in v2.\n\n"
+            "## Description\n\nUpdated description in v2.\n"
+        )
+
+        with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as f:
+            path = Path(f.name)
+
+        try:
+            # First extraction
+            parsed = parse_upstream_control(raw_v1)
+            fm = compose_frontmatter(parsed, existing=None)
+            fm["when_to_use"] = ["reviewing data storage"]  # simulate hand-added enrichment
+            fm["threats"] = ["data leakage"]
+            path.write_text(render_output(fm, parsed))
+
+            # Re-extraction with v2 upstream
+            existing = read_existing_frontmatter(path)
+            parsed2 = parse_upstream_control(raw_v2)
+            fm2 = compose_frontmatter(parsed2, existing=existing)
+
+            # Upstream fields updated
+            self.assertEqual(fm2["summary"], "Updated summary in v2.")
+            self.assertEqual(fm2["title"], "MASVS-STORAGE-1: Updated summary in v2.")
+            # Enrichment preserved
+            self.assertEqual(fm2["when_to_use"], ["reviewing data storage"])
+            self.assertEqual(fm2["threats"], ["data leakage"])
+        finally:
+            path.unlink()
+
+
 if __name__ == "__main__":
     unittest.main()

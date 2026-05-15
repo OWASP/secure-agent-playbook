@@ -39,9 +39,11 @@ Usage:
 """
 
 import re
+from pathlib import Path
 
-UPSTREAM_KEYS = ("title", "masvs_group", "masvs_control", "summary")
+UPSTREAM_KEYS = ("title", "masvs_group", "masvs_control", "summary", "resilience_static_only")
 CONTROL_ID_RE = re.compile(r"^# (MASVS-[A-Z]+-\d+)\s*$", re.MULTILINE)
+FRONTMATTER_RE = re.compile(r"\A---\n(.+?)\n---\n", re.DOTALL)
 
 
 def parse_upstream_control(raw: str) -> dict[str, str]:
@@ -114,3 +116,16 @@ def render_output(frontmatter: dict, parsed: dict[str, str]) -> str:
         f"## Description\n\n{parsed['description']}\n"
     )
     return f"---\n{yaml_text}---\n\n{body}"
+
+
+def read_existing_frontmatter(path: Path) -> dict | None:
+    """Return the YAML frontmatter dict of an existing output file, or None."""
+    import yaml
+
+    if not path.is_file():
+        return None
+    text = path.read_text(encoding="utf-8")
+    m = FRONTMATTER_RE.match(text)
+    if not m:
+        return None
+    return yaml.safe_load(m.group(1))
