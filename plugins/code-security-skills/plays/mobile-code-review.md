@@ -244,84 +244,46 @@ For each finding, populate `templates/finding.md` exactly as the standard findin
 - `OWASP Ref` — formatted as `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN> (dynamic verification recommended)`, plus any overlapping `ASVS V#.#.#` or `Top 10 A##` reference
 - `Location`, `Impact`, `Evidence`, `Remediation`, `Confidence` — per the standard template
 
-Note: the standard template's `ID` field is assigned at report generation time and is omitted from the examples below; the `CVE` field is N/A for source-code weaknesses unless an exploited library is a direct trigger.
-
-**Example finding A (CWE has OpenCRE pre-mapping — populate `OpenCRE:` from `data/opencre/CWE-798.md`):**
-
-```markdown
-### [HIGH] Hard-Coded Encryption Key in SecretStore
-
-- **ID**: NDC-YYYY-NNN (assigned at report generation)
-- **CVE**: N/A (source-code finding)
-- **CWE**: [CWE-798](https://cwe.mitre.org/data/definitions/798.html)
-- **OpenCRE**: [774-888](https://www.opencre.org/cre/774-888) — Do not store secrets in the code
-- **OWASP Ref**: MASVS-CRYPTO-2, MASWE-0016, MASTG-TEST-0013 (dynamic verification recommended), ASVS V11.2
-- **Location**: `SecretStore.kt:13`
-- **Impact**: Any attacker with access to the APK (trivial to obtain from the Play Store, decompilable in seconds) extracts the AES key as a string literal and decrypts every encrypted blob produced by the app.
-- **Evidence**:
-  ```kotlin
-  // SecretStore.kt:13
-  val KEY: ByteArray = "ThisIsASecret123".toByteArray()
-  ```
-- **Remediation**: Derive the key from the Android Keystore at first run, never embed it in source:
-  ```kotlin
-  val keygen = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore")
-  keygen.init(KeyGenParameterSpec.Builder("app-aes-key",
-      KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
-      .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-      .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-      .build())
-  val key = keygen.generateKey()
-  ```
-- **Confidence**: HIGH
-```
-
-**Example finding B (CWE not in `data/opencre/` — mark `OpenCRE: N/A for mobile scan`):**
-
-```markdown
-### [HIGH] Plaintext API Token in SharedPreferences
-
-- **ID**: NDC-YYYY-NNN (assigned at report generation)
-- **CVE**: N/A (source-code finding)
-- **CWE**: [CWE-312](https://cwe.mitre.org/data/definitions/312.html)
-- **OpenCRE**: N/A for mobile scan — OpenCRE's MASVS coverage is limited
-- **OWASP Ref**: MASVS-STORAGE-1, MASWE-0001, MASTG-TEST-0001 (dynamic verification recommended)
-- **Location**: `SecretStore.kt:8`
-- **Impact**: A local attacker with device-backup access reads the API token in plaintext.
-- **Evidence**: `prefs.edit().putString("api_token", token).apply()`
-- **Remediation**: Use `EncryptedSharedPreferences` with a master key from the Android Keystore.
-- **Confidence**: HIGH
-```
-
-(Verify MASWE IDs at <https://mas.owasp.org/MASWE/> — the IDs above are illustrative; replace with the upstream-listed entry that maps to the MASVS control you cited.)
+The standard template's `ID` field is assigned at report generation time; `CVE` is N/A for source-code weaknesses unless an exploited library is a direct trigger. Verify MASWE IDs at <https://mas.owasp.org/MASWE/> against the MASVS control you cited.
 
 Sort findings by severity (CRITICAL > HIGH > MEDIUM > LOW > INFORMATIONAL). Deduplicate cross-group findings (e.g. a hard-coded key affecting both CRYPTO and STORAGE — keep one finding; cite the most specific MASVS control in `OWASP Ref` and note the secondary group in `Impact`).
 
 ## Output Format
 
-```
-Mobile Security Code Review — <target>
-Scope: <Android / iOS / both / cross-platform shell>, <app type>, <data sensitivity>
-Source-only confirmed: yes / no
-mobsfscan: <version | skipped (not installed)>
-Files reviewed: <count>
-Findings: CRITICAL <n> | HIGH <n> | MEDIUM <n> | LOW <n> | INFO <n>
+```markdown
+## Mobile Code Review: [Target]
 
-<findings, sorted by severity, each in templates/finding.md format —
- CWE (via MASWE) + OpenCRE (or N/A for mobile) + OWASP Ref (with MASVS-X-N, MASWE-NNNN, MASTG-TEST-NNNN embedded)>
+### Scope
+- **Platform**: Android | iOS | both | cross-platform shell (partial coverage)
+- **App type**: [consumer | banking | internal | B2B]
+- **Data sensitivity**: [credentials | PII | financial | health | none]
+- **Source-only confirmed**: yes | no
+- **mobsfscan**: [version] | skipped (not installed)
+- **Files reviewed**: [count]
 
-Positive observations:
-- ...
+### Findings
+[Standard finding template for each issue, sorted by severity. CWE resolved via the MASWE chain; OpenCRE N/A for mobile unless pre-mapped in `data/opencre/`; `OWASP Ref` carries `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN>`.]
 
-RESILIENCE static-only notice:
-<paragraph from RESILIENCE block>
+### Positive Observations
+[Security controls that ARE in place — acknowledge good practices]
 
-PRIVACY static-only caveat:
-<paragraph from PRIVACY block>
+### RESILIENCE Static-Only Notice
+[Paragraph from the RESILIENCE block — confirms static signals only, defers runtime verification to Tier 3 `mobile-dynamic-test`]
 
-Dynamic-test follow-up (recommend Tier 3 `mobile-dynamic-test`):
-- MASTG-TEST-XXXX — <description>
-- ...
+### PRIVACY Static-Only Caveat
+[Paragraph from the PRIVACY block — confirms declared-intent inspection only, defers data-flow tracing to Tier 3]
+
+### Dynamic-Test Follow-Up
+[List of MASTG-TEST IDs recommended for Tier 3 `mobile-dynamic-test`]
+
+### Summary
+| Severity | Count |
+|----------|-------|
+| CRITICAL | N |
+| HIGH | N |
+| MEDIUM | N |
+| LOW | N |
+| INFO | N |
 ```
 
 ## References
