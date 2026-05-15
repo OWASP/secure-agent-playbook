@@ -39,6 +39,7 @@ Usage:
 """
 
 import re
+import sys
 from pathlib import Path
 
 UPSTREAM_KEYS = ("title", "masvs_group", "masvs_control", "summary", "resilience_static_only")
@@ -97,7 +98,7 @@ def compose_frontmatter(parsed: dict[str, str], existing: dict | None) -> dict:
     every other key is preserved verbatim from `existing` (if present), else defaulted.
     """
     fm = _default_frontmatter(parsed)
-    if existing:
+    if existing is not None:
         for key, value in existing.items():
             if key in UPSTREAM_KEYS:
                 continue  # always overwrite from upstream
@@ -129,3 +130,38 @@ def read_existing_frontmatter(path: Path) -> dict | None:
     if not m:
         return None
     return yaml.safe_load(m.group(1))
+
+
+def extract_all(source_dir: Path, dest_dir: Path) -> list[Path]:
+    """Process every controls/MASVS-*.md in source_dir, writing to dest_dir."""
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    written: list[Path] = []
+    for src in sorted(source_dir.glob("MASVS-*.md")):
+        if not src.is_file():
+            continue
+        raw = src.read_text(encoding="utf-8")
+        parsed = parse_upstream_control(raw)
+        out_path = dest_dir / f"{parsed['control_id']}.md"
+        existing = read_existing_frontmatter(out_path)
+        fm = compose_frontmatter(parsed, existing=existing)
+        out_path.write_text(render_output(fm, parsed), encoding="utf-8")
+        written.append(out_path)
+    return written
+
+
+def main() -> None:
+    if len(sys.argv) < 2:
+        print("Usage: extract_masvs_sections.py <upstream-controls-dir> [<output-dir>]", file=sys.stderr)
+        print("  upstream-controls-dir  Path to OWASP/masvs controls/ at the pinned tag", file=sys.stderr)
+        print("  output-dir             Output (default: data/masvs)", file=sys.stderr)
+        sys.exit(1)
+    source = Path(sys.argv[1]).resolve()
+    dest = Path(sys.argv[2]).resolve() if len(sys.argv) > 2 else Path("data/masvs").resolve()
+    written = extract_all(source, dest)
+    for p in written:
+        print(p)
+    print(f"Wrote {len(written)} control file(s) to {dest}", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()

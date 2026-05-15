@@ -286,5 +286,26 @@ class TestRoundTrip(unittest.TestCase):
             path.unlink()
 
 
+class TestExtractAll(unittest.TestCase):
+    def test_processes_multiple_upstream_files(self):
+        import tempfile
+        from extract_masvs_sections import extract_all
+
+        with tempfile.TemporaryDirectory() as src, tempfile.TemporaryDirectory() as dst:
+            src_dir, dst_dir = Path(src), Path(dst)
+            (src_dir / "MASVS-AUTH-1.md").write_text(
+                "# MASVS-AUTH-1\n\n## Control\n\nA.\n\n## Description\n\nB.\n"
+            )
+            (src_dir / "MASVS-STORAGE-1.md").write_text(
+                "# MASVS-STORAGE-1\n\n## Control\n\nC.\n\n## Description\n\nD.\n"
+            )
+            (src_dir / "README.md").write_text("not a control")  # should be ignored
+            written = extract_all(src_dir, dst_dir)
+            self.assertEqual(len(written), 2)
+            self.assertTrue((dst_dir / "MASVS-AUTH-1.md").exists())
+            self.assertTrue((dst_dir / "MASVS-STORAGE-1.md").exists())
+            self.assertFalse((dst_dir / "README.md").exists())
+
+
 if __name__ == "__main__":
     unittest.main()
