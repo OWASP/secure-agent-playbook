@@ -23,7 +23,7 @@ Without a playbook, asking an AI agent to "review my code for security" gives yo
 - **Consistent methodology** — Every assessment follows a documented procedure, not ad-hoc prompting. Results are reproducible across runs and reviewers.
 - **Structured, actionable output** — Findings include severity, CWE, evidence, and remediation steps with code examples. No vague warnings.
 - **Cross-standard traceability** — Findings link to CWE, ASVS, WSTG, and NIST 800-53 via [OpenCRE](https://www.opencre.org) for compliance mapping.
-- **16 security skills** — From dependency CVE scanning to prompt injection testing to multi-agent threat modeling. Install as a Claude Code plugin or use standalone.
+- **17 security skills** — From dependency CVE scanning to prompt injection testing to multi-agent threat modeling. Install as a Claude Code plugin or use standalone.
 - **Works beyond Claude Code** — Skills are Claude Code plugins; plays are standalone procedures any AI agent can follow.
 
 ## What This Is
@@ -90,6 +90,7 @@ Reference plays directly as procedures for any AI agent or manual use:
 | `secrets-scan` | Detect hardcoded credentials and API keys | "Scan for hardcoded secrets" | CWE-798 |
 | `api-security-review` | API review against OWASP API Top 10 (2023) | "Review this API for security" | API Top 10 |
 | `web-security-review` | Web app review against OWASP Top 10 (2021) | "Review this web app for OWASP Top 10" | Top 10 |
+| `mobile-code-review` | Native Android/iOS source review against OWASP MASVS v2.1.0 | "Review this mobile app for security" | MASVS v2.1.0 |
 | `iac-security-review` | IaC security (Terraform, K8s, CloudFormation) | "Review this Terraform for security" | CIS Benchmarks |
 | `securability-engineering` | Generate inherently securable code (FIASSE v1.0.4) | "Generate secure code for..." | FIASSE v1.0.4 |
 | `securability-engineering-review` | Assess code securability (0-10 SSEM scoring) | "Assess the securability of this code" | FIASSE v1.0.4/SSEM |
@@ -116,6 +117,7 @@ Agents are autonomous security specialists that invoke skills and produce struct
 | `code-security-reviewer` | Code vulnerabilities, secrets, web security | code-review-security, secrets-scan, web-security-review |
 | `dependency-auditor` | Supply chain and dependency CVE risks | sca-audit |
 | `api-security-reviewer` | API security against OWASP API Top 10 | api-security-review |
+| `mobile-security-reviewer` | Native Android/iOS source against OWASP MASVS v2.1.0 | mobile-code-review |
 | `ai-security-assessor` | Agent configs, MCP servers, LLM app risks | agent-security-audit, mcp-server-review, llm-risk-assess, prompt-injection-test |
 | `security-team-lead` | Coordinates specialists, consolidates report | securability-engineering-review |
 
@@ -193,6 +195,7 @@ Immediate, practical value for any codebase. Bundled inside the `code-security-s
 | [secrets-scan](plugins/code-security-skills/plays/secrets-scan.md) | Detect hardcoded credentials, API keys, and tokens |
 | [api-security-review](plugins/code-security-skills/plays/api-security-review.md) | Review APIs against OWASP API Security Top 10 |
 | [owasp-top10-web-review](plugins/code-security-skills/plays/owasp-top10-web-review.md) | Web application review against OWASP Top 10 (2021) |
+| [mobile-code-review](plugins/code-security-skills/plays/mobile-code-review.md) | Native Android/iOS source code review against OWASP MASVS v2.1.0 |
 | [iac-security-review](plugins/code-security-skills/plays/iac-security-review.md) | Review Terraform, Kubernetes, CloudFormation against CIS benchmarks and cloud security best practices |
 | [securability-engineering-review](plugins/code-security-skills/plays/securability-engineering-review.md) | Assess code against FIASSE v1.0.4/SSEM securable attributes: Maintainability, Trustworthiness, Reliability, and Transparency |
 
@@ -222,6 +225,7 @@ All plays reference OWASP standards and datasets:
 - [OWASP Top 10 for LLM Applications](https://genai.owasp.org) — AI/LLM risks
 - [OWASP Agentic Security Initiative](https://genai.owasp.org/initiatives/agentic-security-initiative/) — Autonomous-agent risks (Top 10 for Agentic Applications)
 - [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/) — Security verification requirements
+- [OWASP MASVS](https://mas.owasp.org/MASVS/) — Mobile Application Security Verification Standard
 - [OWASP AISVS](https://github.com/OWASP/AISVS) — AI Security Verification Standard
 - [OWASP WSTG](https://owasp.org/www-project-web-security-testing-guide/) — Testing methodology
 - [OWASP SAMM](https://owaspsamm.org) — Security program maturity model
