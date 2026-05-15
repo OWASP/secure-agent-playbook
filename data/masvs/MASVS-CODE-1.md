@@ -6,12 +6,22 @@ summary: The app requires an up-to-date platform version.
 platforms:
 - android
 - ios
-when_to_use: []
-threats: []
-mastg_tests: []
+when_to_use:
+- reviewing build configuration and minimum supported OS version
+- checking whether the app targets EOL platform versions
+threats:
+- shipping on EOL OS versions that no longer receive security patches
+- deprecated APIs with known security weaknesses remaining in use
+mastg_tests:
+- MASTG-TEST-0040
 static_signals:
-  android: []
-  ios: []
+  android:
+  - minSdkVersion below 24 without explicit justification
+  - deprecated targetSdkVersion below current Android requirements
+  - use of removed or deprecated APIs flagged by Lint
+  ios:
+  - IPHONEOS_DEPLOYMENT_TARGET below currently-supported iOS versions
+  - use of @available guards for APIs no longer relevant to supported OS range
 resilience_static_only: false
 static_only: false
 ---

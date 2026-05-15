@@ -6,12 +6,25 @@ summary: The app uses IPC mechanisms securely.
 platforms:
 - android
 - ios
-when_to_use: []
-threats: []
-mastg_tests: []
+when_to_use:
+- reviewing exported activities, services, receivers, or providers
+- auditing deep-link handlers and URL scheme inputs
+- validating Intent extras flowing through the app
+threats:
+- arbitrary intent injection by other installed apps
+- deep-link to authenticated state without verification
+- content-provider exposure to other apps
+mastg_tests:
+- MASTG-TEST-0030
+- MASTG-TEST-0031
 static_signals:
-  android: []
-  ios: []
+  android:
+  - android:exported="true" on activities, receivers, or services without android:permission
+  - Intent.getStringExtra(...) flowing directly to SQL queries, file I/O, or WebView.loadUrl
+  - deep-link path validation absent
+  ios:
+  - URL schemes registered in Info.plist without verifying scheme or host in application(_:open:url:options:)
+  - universal links opening authenticated routes without verifying the route
 resilience_static_only: false
 static_only: false
 ---

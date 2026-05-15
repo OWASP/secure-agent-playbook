@@ -6,12 +6,22 @@ summary: The app implements anti-dynamic analysis techniques.
 platforms:
 - android
 - ios
-when_to_use: []
-threats: []
-mastg_tests: []
+when_to_use:
+- reviewing tamper-detection and dynamic-analysis-prevention logic
+- checking for Frida or hooking detection mechanisms
+threats:
+- dynamic patching of business logic at runtime via Frida or similar
+- debugger attachment to a production build enabling logic bypass
+mastg_tests:
+- MASTG-TEST-0046
 static_signals:
-  android: []
-  ios: []
+  android:
+  - absence of Frida-detection patterns (no /proc/self/maps checks for frida, no dlopen
+    checks)
+  - no SafetyNet or Play Integrity attestation call
+  ios:
+  - absence of DTTJailbreakDetection or IOSSecuritySuite Frida-detection checks
+  - missing checks for MobileSubstrate or Cydia artifacts
 resilience_static_only: true
 static_only: false
 ---

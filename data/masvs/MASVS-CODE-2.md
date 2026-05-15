@@ -6,12 +6,22 @@ summary: The app has a mechanism for enforcing app updates.
 platforms:
 - android
 - ios
-when_to_use: []
-threats: []
-mastg_tests: []
+when_to_use:
+- reviewing in-app update enforcement mechanisms
+- auditing whether the app can block users on vulnerable versions
+threats:
+- users continuing to run vulnerable app versions after a critical patch
+- no mechanism to force update on discovery of a critical CVE
+mastg_tests:
+- MASTG-TEST-0041
 static_signals:
-  android: []
-  ios: []
+  android:
+  - absence of Google Play In-App Update API integration
+  - no version-check against a remote minimum-version endpoint
+  ios:
+  - no forced-update logic comparing CFBundleShortVersionString to a remote minimum
+    version
+  - absence of App Store version check via iTunes lookup API
 resilience_static_only: false
 static_only: false
 ---

@@ -6,12 +6,23 @@ summary: The app implements anti-tampering mechanisms.
 platforms:
 - android
 - ios
-when_to_use: []
-threats: []
-mastg_tests: []
+when_to_use:
+- reviewing self-integrity and re-signing detection logic
+- auditing anti-tamper checks on app code and resources
+threats:
+- repackaged APK or IPA with malicious code inserted
+- runtime code injection bypassing security checks
+mastg_tests:
+- MASTG-TEST-0052
 static_signals:
-  android: []
-  ios: []
+  android:
+  - absence of signing-certificate verification logic
+  - missing DEX integrity checks
+  - no checks against applicationInfo.sourceDir modification
+  ios:
+  - missing entitlement or code-signing checks at runtime
+  - no _dyld_image_count validation
+  - no embedded provisioning-profile checks
 resilience_static_only: true
 static_only: false
 ---

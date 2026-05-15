@@ -138,8 +138,6 @@ def extract_all(source_dir: Path, dest_dir: Path) -> list[Path]:
     dest_dir.mkdir(parents=True, exist_ok=True)
     written: list[Path] = []
     for src in sorted(source_dir.glob("MASVS-*.md")):
-        if not src.is_file():
-            continue
         raw = src.read_text(encoding="utf-8")
         parsed = parse_upstream_control(raw)
         out_path = dest_dir / f"{parsed['control_id']}.md"
@@ -157,6 +155,9 @@ def main() -> None:
         print("  output-dir             Output (default: data/masvs)", file=sys.stderr)
         sys.exit(1)
     source = Path(sys.argv[1]).resolve()
+    if not source.is_dir():
+        print(f"error: source not found: {source}", file=sys.stderr)
+        sys.exit(2)
     dest = Path(sys.argv[2]).resolve() if len(sys.argv) > 2 else Path("data/masvs").resolve()
     written = extract_all(source, dest)
     for p in written:

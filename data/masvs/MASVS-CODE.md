@@ -20,7 +20,7 @@ MASVS-CODE covers code-level hygiene that affects security: dependency currency,
 
 ## Source-code signals
 
-- **Android:** deprecated `minSdkVersion`; outdated `dependencies {}` versions with known CVEs; `Runtime.exec` with concatenated user input; dangerous `ObjectInputStream` deserialization; debug stack traces shipped in release `Log.d`
+- **Android:** deprecated `minSdkVersion`; outdated `dependencies {}` versions with known CVEs; `Runtime.exec` with concatenated user input; dangerous `ObjectInputStream` deserialization; `WebView.evaluateJavascript(...)` with concatenated user input; debug stack traces shipped in release `Log.d`
 - **iOS:** outdated deployment target; abandoned/vulnerable pods in `Podfile.lock`; `String(format:)` with user-controlled format string; `NSKeyedUnarchiver` of untrusted input; `print(error)` in release builds
 
 ## Controls

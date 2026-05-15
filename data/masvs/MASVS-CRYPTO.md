@@ -20,7 +20,7 @@ MASVS-CRYPTO covers correct use of cryptography — algorithm choice, mode, key/
 
 ## Source-code signals
 
-- **Android:** `Cipher.getInstance("AES/ECB/PKCS5Padding")`; `MessageDigest.getInstance("MD5")` or `"SHA-1"` for security purposes; hard-coded `byte[] key = ...` literals; `IvParameterSpec(new byte[16])`; `Random` (not `SecureRandom`) for key material
+- **Android:** `Cipher.getInstance("AES/ECB/PKCS5Padding")`; `Cipher.getInstance("DES/...")` or `Cipher.getInstance("DESede/...")`; `MessageDigest.getInstance("MD5")` or `"SHA-1"` for security purposes; hard-coded `byte[] key = ...` literals; `IvParameterSpec(new byte[16])`; `Random` (not `SecureRandom`) for key material
 - **iOS:** `CC_MD5`/`CC_SHA1`; `CCCrypt` with `kCCOptionECBMode`; hard-coded `let key: [UInt8] = [...]`; deterministic IV/nonce; `arc4random` for key material
 
 ## Controls

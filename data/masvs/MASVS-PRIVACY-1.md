@@ -6,12 +6,25 @@ summary: The app minimizes access to sensitive data and resources.
 platforms:
 - android
 - ios
-when_to_use: []
-threats: []
-mastg_tests: []
+when_to_use:
+- reviewing the union of declared permissions and the code that uses them
+- auditing third-party SDK presence and data collection behavior
+- checking privacy manifest or Data Safety declarations
+threats:
+- over-collection of PII without need or justification
+- undisclosed third-party data sharing
+- permissions requested but not used (latent collection risk)
+mastg_tests:
+- MASTG-TEST-0260
 static_signals:
-  android: []
-  ios: []
+  android:
+  - uses-permission declarations whose code paths are unused
+  - READ_CONTACTS + INTERNET + analytics SDK without justification
+  - firebase-analytics, facebook-sdk, appsflyer, or adjust Gradle dependencies declared
+  ios:
+  - Info.plist *UsageDescription keys with no corresponding code path
+  - presence of App Tracking Transparency framework usage without gating
+  - third-party analytics Pods or Swift Packages (Firebase, Adjust, AppsFlyer) declared
 resilience_static_only: false
 static_only: false
 ---

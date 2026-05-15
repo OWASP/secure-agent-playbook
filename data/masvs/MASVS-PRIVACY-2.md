@@ -6,14 +6,23 @@ summary: The app prevents identification of the user.
 platforms:
 - android
 - ios
-when_to_use: []
-threats: []
-mastg_tests: []
+when_to_use:
+- reviewing data-handling paths for GDPR, CCPA, or HIPAA compliance
+- auditing whether data leaves the device unencrypted or to non-prod endpoints
+threats:
+- unconsented transmission of PII to telemetry endpoints
+- processing health data without HIPAA-required safeguards
+mastg_tests:
+- MASTG-TEST-0261
 static_signals:
-  android: []
-  ios: []
+  android:
+  - static signal coverage is limited — declared SDK presence and sensitive permission
+    combos can be observed statically, but actual data flow requires runtime tracing
+  ios:
+  - static signal coverage is limited — declared SDKs and *UsageDescription keys observable
+    statically; runtime flow requires dynamic analysis
 resilience_static_only: false
-static_only: false
+static_only: true
 ---
 
 # MASVS-PRIVACY-2

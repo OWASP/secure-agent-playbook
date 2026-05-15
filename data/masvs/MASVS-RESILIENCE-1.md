@@ -6,12 +6,23 @@ summary: The app validates the integrity of the platform.
 platforms:
 - android
 - ios
-when_to_use: []
-threats: []
-mastg_tests: []
+when_to_use:
+- reviewing root or jailbreak detection logic and reactions
+- auditing whether security controls rely on platform integrity assumptions
+threats:
+- app running on a rooted or jailbroken device with weakened security guarantees
+- security controls bypassed because platform sandbox is compromised
+mastg_tests:
+- MASTG-TEST-0050
 static_signals:
-  android: []
-  ios: []
+  android:
+  - absence of RootBeer / Play Integrity / SafetyNet API calls
+  - missing su binary check
+  - no reaction logic when root detection succeeds
+  ios:
+  - absence of IOSSecuritySuite or DTTJailbreakDetection usage
+  - missing Cydia or MobileSubstrate URL scheme checks
+  - no reaction logic when jailbreak detection succeeds
 resilience_static_only: true
 static_only: false
 ---

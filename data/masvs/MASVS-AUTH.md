@@ -26,7 +26,7 @@ MASVS-AUTH covers how the mobile app authenticates users to remote endpoints and
 ## Controls
 
 - `MASVS-AUTH-1` — secure authentication protocol use
-- `MASVS-AUTH-2` — local authentication is correctly anchored to a secure secret
+- `MASVS-AUTH-2` — local biometric authentication is bound to a hardware-backed key, not a bypassable boolean check
 - `MASVS-AUTH-3` — sessions are correctly created, refreshed, and invalidated
 
 See individual control files for `when_to_use`, `threats`, `static_signals`, and `mastg_tests`.

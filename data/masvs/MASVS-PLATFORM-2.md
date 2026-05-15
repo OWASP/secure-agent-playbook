@@ -6,12 +6,29 @@ summary: The app uses WebViews securely.
 platforms:
 - android
 - ios
-when_to_use: []
-threats: []
-mastg_tests: []
+when_to_use:
+- reviewing WebView usage in the app
+- auditing JavaScript-to-native bridge configurations
+- checking JS injection paths from user-controlled content
+threats:
+- native API exposure via JS bridge enabling RCE
+- XSS in WebView escalating to native access
+- cross-origin message acceptance by unsecured handlers
+mastg_tests:
+- MASTG-TEST-0033
+- MASTG-TEST-0034
 static_signals:
-  android: []
-  ios: []
+  android:
+  - WebView.addJavascriptInterface(...) exposing methods to untrusted content
+  - WebSettings.setAllowFileAccessFromFileURLs(true)
+  - WebView.evaluateJavascript(...) with concatenated user input
+  - setMixedContentMode(MIXED_CONTENT_ALWAYS_ALLOW)
+  ios:
+  - WKUserContentController.add(scriptMessageHandler:) accepting messages from any
+    origin
+  - WKWebViewConfiguration.javaScriptEnabled = true for trusted-only content without
+    origin restriction
+  - missing origin checks in WKScriptMessageHandler
 resilience_static_only: false
 static_only: false
 ---
