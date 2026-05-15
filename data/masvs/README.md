@@ -37,11 +37,11 @@ The body preserves the upstream `# MASVS-X-N` / `## Control` / `## Description` 
 
 ## Re-extraction Rule
 
-`scripts/extract_masvs_sections.py` regenerates only the upstream-derived keys (`title`, `masvs_group`, `masvs_control`, `summary`) and the body. Every other frontmatter key is preserved verbatim across re-runs, so hand-authored enrichment survives upstream pulls.
+`scripts/extract_masvs_sections.py` regenerates the upstream-derived keys (`title`, `masvs_group`, `masvs_control`, `summary`) and the group-derived key (`resilience_static_only`), plus the body. Every other frontmatter key is preserved verbatim across re-runs, so hand-authored enrichment survives upstream pulls.
 
 ## Usage in Skills
 
-The `mobile-code-review` skill walks the 8 MASVS groups in priority order. For each group, the skill loads the group overview (e.g. `MASVS-STORAGE.md`) and the individual controls (e.g. `MASVS-STORAGE-1.md`), using `static_signals` as grep hints and `mastg_tests` as forward references for runtime follow-up.
+The `mobile-code-review` skill walks the 8 MASVS groups in priority order. For each group, the skill loads the group overview (e.g. `MASVS-STORAGE.md`, added by the Task 6 hand-authoring step) and the individual controls (e.g. `MASVS-STORAGE-1.md`), using `static_signals` as grep hints and `mastg_tests` as forward references for runtime follow-up.
 
 ## Group Index
 
@@ -63,7 +63,7 @@ To refresh from upstream:
 ```bash
 rm -rf /tmp/masvs-upstream
 mkdir -p /tmp/masvs-upstream
-curl -sL https://github.com/OWASP/masvs/archive/refs/tags/<TAG>.tar.gz | tar xz -C /tmp/masvs-upstream --strip-components=1
+curl -sL https://github.com/OWASP/masvs/archive/refs/tags/v2.1.0.tar.gz | tar xz -C /tmp/masvs-upstream --strip-components=1
 python3 scripts/extract_masvs_sections.py /tmp/masvs-upstream/controls data/masvs
 ```
 

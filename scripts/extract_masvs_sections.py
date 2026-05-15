@@ -31,8 +31,9 @@ Output layout per file (data/masvs/MASVS-AUTH-1.md):
     ## Description
     ...
 
-Re-extraction rule: only the four UPSTREAM_KEYS get overwritten from upstream;
-all other frontmatter keys are preserved verbatim.
+Re-extraction rule: only the five UPSTREAM_KEYS get overwritten from upstream (the
+four upstream-derived keys plus the group-derived `resilience_static_only`); every
+other frontmatter key is preserved verbatim.
 
 Usage:
     extract_masvs_sections.py <upstream-controls-dir> [<output-dir>]
