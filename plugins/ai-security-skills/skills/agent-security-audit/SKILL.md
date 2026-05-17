@@ -6,7 +6,7 @@ license: CC-BY-4.0
 
 # Agent Security Audit
 
-Evaluate an AI agent's security posture by following the full procedure in `plays/tier4-ai-security/agent-security-audit.md`.
+Evaluate an AI agent's security posture by following the full procedure in `plays/agent-security-audit.md`.
 
 ## Steps
 

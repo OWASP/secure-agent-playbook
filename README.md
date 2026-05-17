@@ -76,7 +76,7 @@ Claude will automatically activate the relevant skill based on context. See [Ski
 **Without Claude Code:**
 
 Reference plays directly as procedures for any AI agent or manual use:
-- Point your agent at a play: *"Follow the procedure in `plays/tier4-ai-security/agent-security-audit.md`"*
+- Point your agent at a play: *"Follow the procedure in `plugins/ai-security-skills/plays/agent-security-audit.md`"*
 - Or use the plays as checklists for manual security reviews
 
 ## Skills Catalog
@@ -167,34 +167,34 @@ Findings: CRITICAL 1 | HIGH 2 | MEDIUM 1 | LOW 0
 
 ## Plays
 
-### Tier 4: AI/Agent Security
+### AI/Agent Security plays
 
-The differentiator — security procedures purpose-built for the AI agent era.
-
-| Play | What It Does |
-|------|-------------|
-| [agent-security-audit](plays/tier4-ai-security/agent-security-audit.md) | Audit agent permissions, prompt injection surfaces, data exfiltration paths, guardrails |
-| [agentic-ai-risk-assess](plays/tier4-ai-security/agentic-ai-risk-assess.md) | Assess agentic AI applications against OWASP Top 10 for Agentic Applications 2026 |
-| [ai-security-verification](plays/tier4-ai-security/ai-security-verification.md) | Verify AI-driven applications against the OWASP AI Security Verification Standard (AISVS) |
-| [llm-risk-assess](plays/tier4-ai-security/llm-risk-assess.md) | Assess LLM applications against OWASP Top 10 for LLM Applications |
-| [mcp-server-review](plays/tier4-ai-security/mcp-server-review.md) | Review MCP server implementations for overpermissioning, injection, data exposure |
-| [multi-agentic-threat-model](plays/tier4-ai-security/multi-agentic-threat-model.md) | Threat-model multi-agent systems using the CSA MAESTRO 7-layer framework and OWASP Multi-Agentic System Guide v1.0 |
-| [prompt-injection-testing](plays/tier4-ai-security/prompt-injection-testing.md) | Test LLM apps against 18 attack techniques, 20 evasions, 13 intents |
-
-
-### Tier 1: Code & Dependency Analysis
-
-Immediate, practical value for any codebase.
+The differentiator — security procedures purpose-built for the AI agent era. Bundled inside the `ai-security-skills` plugin.
 
 | Play | What It Does |
 |------|-------------|
-| [sca-audit](plays/tier1-code-analysis/sca-audit.md) | Scan dependencies for known CVEs with reachability analysis |
-| [code-review-security](plays/tier1-code-analysis/code-review-security.md) | Systematic security code review mapped to OWASP Top 10 and ASVS |
-| [secrets-scan](plays/tier1-code-analysis/secrets-scan.md) | Detect hardcoded credentials, API keys, and tokens |
-| [api-security-review](plays/tier1-code-analysis/api-security-review.md) | Review APIs against OWASP API Security Top 10 |
-| [owasp-top10-web-review](plays/tier1-code-analysis/owasp-top10-web-review.md) | Web application review against OWASP Top 10 (2021) |
-| [iac-security-review](plays/tier1-code-analysis/iac-security-review.md) | Review Terraform, Kubernetes, CloudFormation against CIS benchmarks and cloud security best practices |
-| [securability-engineering-review](plays/tier1-code-analysis/securability-engineering-review.md) | Assess code against FIASSE v1.0.4/SSEM securable attributes: Maintainability, Trustworthiness, Reliability, and Transparency |
+| [agent-security-audit](plugins/ai-security-skills/plays/agent-security-audit.md) | Audit agent permissions, prompt injection surfaces, data exfiltration paths, guardrails |
+| [agentic-ai-risk-assess](plugins/ai-security-skills/plays/agentic-ai-risk-assess.md) | Assess agentic AI applications against OWASP Top 10 for Agentic Applications 2026 |
+| [ai-security-verification](plugins/ai-security-skills/plays/ai-security-verification.md) | Verify AI-driven applications against the OWASP AI Security Verification Standard (AISVS) |
+| [llm-risk-assess](plugins/ai-security-skills/plays/llm-risk-assess.md) | Assess LLM applications against OWASP Top 10 for LLM Applications |
+| [mcp-server-review](plugins/ai-security-skills/plays/mcp-server-review.md) | Review MCP server implementations for overpermissioning, injection, data exposure |
+| [multi-agentic-threat-model](plugins/ai-security-skills/plays/multi-agentic-threat-model.md) | Threat-model multi-agent systems using the CSA MAESTRO 7-layer framework and OWASP Multi-Agentic System Guide v1.0 |
+| [prompt-injection-testing](plugins/ai-security-skills/plays/prompt-injection-testing.md) | Test LLM apps against 18 attack techniques, 20 evasions, 13 intents |
+
+
+### Code & Dependency Analysis plays
+
+Immediate, practical value for any codebase. Bundled inside the `code-security-skills` plugin.
+
+| Play | What It Does |
+|------|-------------|
+| [sca-audit](plugins/code-security-skills/plays/sca-audit.md) | Scan dependencies for known CVEs with reachability analysis |
+| [code-review-security](plugins/code-security-skills/plays/code-review-security.md) | Systematic security code review mapped to OWASP Top 10 and ASVS |
+| [secrets-scan](plugins/code-security-skills/plays/secrets-scan.md) | Detect hardcoded credentials, API keys, and tokens |
+| [api-security-review](plugins/code-security-skills/plays/api-security-review.md) | Review APIs against OWASP API Security Top 10 |
+| [owasp-top10-web-review](plugins/code-security-skills/plays/owasp-top10-web-review.md) | Web application review against OWASP Top 10 (2021) |
+| [iac-security-review](plugins/code-security-skills/plays/iac-security-review.md) | Review Terraform, Kubernetes, CloudFormation against CIS benchmarks and cloud security best practices |
+| [securability-engineering-review](plugins/code-security-skills/plays/securability-engineering-review.md) | Assess code against FIASSE v1.0.4/SSEM securable attributes: Maintainability, Trustworthiness, Reliability, and Transparency |
 
 ### Planned
 
@@ -204,11 +204,12 @@ Immediate, practical value for any codebase.
 
 ## Architecture
 
-Three-layer design:
+Three-layer design — every layer lives inside the plugin source folder so the marketplace install bundles everything the skills need:
 
 - **`plugins/<name>/agents/`** — Autonomous security specialists with focused system prompts, co-located inside each plugin. Each agent invokes one or more skills, operates in an isolated context, and produces structured reports. Can work solo or as a coordinated team.
-- **`plugins/<name>/skills/`** — Self-contained `SKILL.md` files following the [Agent Skills spec](https://agentskills.io/specification). Distributed through `plugins/code-security-skills/` and `plugins/ai-security-skills/`, registered in the marketplace via `.claude-plugin/marketplace.json`. Each skill summarizes a procedure and references its corresponding play.
-- **`plays/`** — Full reference procedures with detailed checklists, tables, decision criteria, and examples. Skills reference these for comprehensive coverage.
+- **`plugins/<name>/skills/`** — Self-contained `SKILL.md` files following the [Agent Skills spec](https://agentskills.io/specification). Distributed through `plugins/code-security-skills/` and `plugins/ai-security-skills/`, registered in the marketplace via `.claude-plugin/marketplace.json`. Each skill summarizes a procedure and references its corresponding play inside the same plugin.
+- **`plugins/<name>/plays/`** — Full reference procedures with detailed checklists, tables, decision criteria, and examples. Skills reference these for comprehensive coverage.
+- **`plugins/<name>/templates/`** and **`plugins/<name>/data/`** — Output templates (`finding.md`, `report.md`) and OWASP reference datasets (FIASSE v1.0.4, ASVS v5.0, secure-code prompts) that skills load at runtime.
 
 Agents orchestrate, skills execute, plays provide the full procedure. Contributors edit plays. This means the playbook works with any AI agent (just point it at a play), while Claude Code users get plugin-based installation with agents and skills.
 
@@ -231,7 +232,7 @@ All plays reference OWASP standards and datasets:
 
 | Project | Relationship |
 |---------|-------------|
-| [OWASP Agent Skills Project](https://github.com/eoftedal/owasp-agent-skills-project) | Proactive ASVS 5.0 guidance for AI coding agents — helps agents **write** secure code. We use their ASVS reference data in `data/asvs/`. Complementary: they guide code generation, we find vulnerabilities in existing code. |
+| [OWASP Agent Skills Project](https://github.com/eoftedal/owasp-agent-skills-project) | Proactive ASVS 5.0 guidance for AI coding agents — helps agents **write** secure code. We use their ASVS reference data in `plugins/code-security-skills/data/asvs/`. Complementary: they guide code generation, we find vulnerabilities in existing code. |
 | [Securability Engineering](https://github.com/Securability-Engineering) | Securable code generation (OWASP FIASSE) and secure code requirements (ASVS) via spec file analysis and generation constraint (benchmarked and tuned) for various AI code generation tools. |
 | [Arcanum PI Taxonomy](https://github.com/Arcanum-Sec/arc_pi_taxonomy) | Prompt injection attack classification by Jason Haddix. Our `prompt-injection-testing` play is built on this taxonomy. CC BY 4.0. |
 | [OpenCRE](https://www.opencre.org) | Cross-standard requirement mappings (CWE, ASVS, WSTG, NIST 800-53). We use OpenCRE links in findings for multi-framework traceability. |
@@ -244,9 +245,10 @@ New plays should:
 - Solve one well-defined security task
 - Include clear trigger conditions (when should this play run?)
 - Follow a structured procedure with checkpoints
-- Produce findings using `templates/finding.md` format
+- Produce findings using the in-plugin `templates/finding.md` format
 - Reference OWASP standards where applicable
 - Prefer existing tools (semgrep, trivy, osv-scanner, trufflehog) over reimplementing detection
+- Live inside the appropriate plugin's `plays/` folder so they ship with the marketplace install
 
 ## License
 

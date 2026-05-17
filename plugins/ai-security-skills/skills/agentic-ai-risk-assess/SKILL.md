@@ -6,7 +6,7 @@ license: CC-BY-4.0
 
 # Agentic AI Risk Assessment
 
-Evaluate agentic AI applications against all 10 risk categories by following the full procedure in `plays/tier4-ai-security/agentic-ai-risk-assess.md`.
+Evaluate agentic AI applications against all 10 risk categories by following the full procedure in `plays/agentic-ai-risk-assess.md`.
 
 ## Steps
 

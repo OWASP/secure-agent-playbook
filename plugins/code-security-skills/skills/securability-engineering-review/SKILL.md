@@ -6,7 +6,7 @@ license: CC-BY-4.0
 
 # SSEM Evaluation (Scoring and Reporting)
 
-Analyze code for securable engineering qualities and produce a structured SSEM scorecard. This file is **authoritative** for the rubric, weights, severity classification, and report shape. The play at [plays/code-analysis/securability-engineering-review.md](../../plays/code-analysis/securability-engineering-review.md) is the step-by-step runbook; consult it for *when* to do each step, not for *what* the rubric says.
+Analyze code for securable engineering qualities and produce a structured SSEM scorecard. This file is **authoritative** for the rubric, weights, severity classification, and report shape. The play at [plays/securability-engineering-review.md](../../plays/securability-engineering-review.md) is the step-by-step runbook; consult it for *when* to do each step, not for *what* the rubric says.
 
 Aligned with [FIASSE v1.0.4](https://github.com/OWASP/FIASSE/blob/v1.0.4/docs/securable_framework.md). Per-attribute measurement guidance in `data/fiasse/SA.*.md` (Appendix A).
 
@@ -126,7 +126,7 @@ For very large repos, scope the review to a single service / package / module an
 
 ## Procedure
 
-The full step-by-step runbook lives in [plays/code-analysis/securability-engineering-review.md](../../plays/code-analysis/securability-engineering-review.md). The high-level shape:
+The full step-by-step runbook lives in [plays/securability-engineering-review.md](../../plays/securability-engineering-review.md). The high-level shape:
 
 1. **Scope and context** — language, framework, system type, data sensitivity, exposure, lifecycle, team context.
 2. **Inspect the code, not the docs** — open files; trace flows; sample tests. Anchors are about what *is* there, not what is *claimed*.
@@ -275,6 +275,6 @@ When invoked:
 - RFC 4949 — Internet Security Glossary
 - OWASP Code Review Guide
 - OWASP ASVS v5.0 — `data/asvs/`
-- Step-by-step runbook: [plays/code-analysis/securability-engineering-review.md](../../plays/code-analysis/securability-engineering-review.md)
+- Step-by-step runbook: [plays/securability-engineering-review.md](../../plays/securability-engineering-review.md)
 - Finding format: [templates/finding.md](../../templates/finding.md)
 - Report scaffold: [templates/report.md](../../templates/report.md)

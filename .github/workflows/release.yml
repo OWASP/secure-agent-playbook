@@ -153,13 +153,16 @@ jobs:
         if: steps.skip.outputs.skip != 'true'
         run: |
           set -euo pipefail
+          # Each plugin under plugins/ is self-contained: plays, templates, and
+          # required FIASSE/ASVS data live inside the plugin source folder.
+          # Repo-root data/ is shipped for research datasets that aren't yet
+          # bundled into a plugin; template/ contains the contributor SKILL
+          # template.
           zip -r secure-agent-playbook.zip \
             .claude-plugin/ \
             plugins/ \
             CLAUDE.md \
-            plays/ \
             data/ \
-            templates/ \
             template/ \
             -x '*.git*'
 

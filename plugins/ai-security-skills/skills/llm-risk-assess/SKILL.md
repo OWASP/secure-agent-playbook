@@ -6,7 +6,7 @@ allowed-tools: Read, Grep, Glob, Bash, WebFetch, Agent
 
 # LLM Risk Assessment (2025)
 
-Comprehensive evaluation of LLM applications against OWASP Top 10 for LLM Applications 2025. Follow the detailed procedure in `plays/tier4-ai-security/llm-risk-assess.md`.
+Comprehensive evaluation of LLM applications against OWASP Top 10 for LLM Applications 2025. Follow the detailed procedure in `plays/llm-risk-assess.md`.
 
 ## Steps
 

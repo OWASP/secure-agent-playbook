@@ -40,7 +40,7 @@ Run the full PRD-enhance → generate → review → enhance → report workflow
 
 Otherwise stay in Default Mode. Do not invent a PRD for a small one-shot generation request.
 
-When Full Loop Mode is active, follow [plays/code-generation/securable-generation.md](../../plays/code-generation/securable-generation.md). When Default Mode is active, follow this file alone.
+When Full Loop Mode is active, follow [plays/securable-generation.md](../../plays/securable-generation.md). When Default Mode is active, follow this file alone.
 
 ## Foundational Constraints
 
@@ -295,6 +295,6 @@ If you catch yourself emitting one of these, stop and rewrite.
 - `data/fiasse/S4.4.1.1.md` — Request Surface Minimization Principle
 - `data/fiasse/S4.4.1.2.md` — Derived Integrity Principle
 - `data/fiasse/S4.5.md` / `S4.6.md` — Dependency Management and Stewardship
-- Full Loop Mode runbook: [plays/code-generation/securable-generation.md](../../plays/code-generation/securable-generation.md)
+- Full Loop Mode runbook: [plays/securable-generation.md](../../plays/securable-generation.md)
 - ISO/IEC 25010:2011 — Software quality models
 - RFC 4949 — Internet Security Glossary

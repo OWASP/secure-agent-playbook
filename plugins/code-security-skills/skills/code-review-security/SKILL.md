@@ -6,7 +6,7 @@ license: CC-BY-4.0
 
 # Security Code Review
 
-Review code for security vulnerabilities by following the full procedure in `plays/tier1-code-analysis/code-review-security.md`.
+Review code for security vulnerabilities by following the full procedure in `plays/code-review-security.md`.
 
 ## Steps
 

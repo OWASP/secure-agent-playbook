@@ -6,7 +6,7 @@ license: CC-BY-4.0
 
 # Prompt Injection Testing
 
-Systematically test an LLM application's prompt injection defenses by following the full procedure in `plays/tier4-ai-security/prompt-injection-testing.md`.
+Systematically test an LLM application's prompt injection defenses by following the full procedure in `plays/prompt-injection-testing.md`.
 
 > Based on the [Arcanum PI Taxonomy](https://github.com/Arcanum-Sec/arc_pi_taxonomy) by Jason Haddix (Arcanum Information Security). CC BY 4.0.
 

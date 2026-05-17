@@ -6,7 +6,7 @@ license: CC-BY-4.0
 
 # Software Composition Analysis Audit
 
-Scan dependencies for known CVEs by following the full procedure in `plays/tier1-code-analysis/sca-audit.md`.
+Scan dependencies for known CVEs by following the full procedure in `plays/sca-audit.md`.
 
 ## Steps
 
