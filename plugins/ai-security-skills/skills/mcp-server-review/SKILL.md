@@ -6,7 +6,7 @@ license: CC-BY-4.0
 
 # MCP Server Security Review
 
-Audit an MCP server by following the full procedure in `plays/tier4-ai-security/mcp-server-review.md`.
+Audit an MCP server by following the full procedure in `plays/mcp-server-review.md`.
 
 ## Steps
 

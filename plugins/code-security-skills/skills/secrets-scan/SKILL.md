@@ -6,7 +6,7 @@ license: CC-BY-4.0
 
 # Secrets Scan
 
-Detect hardcoded secrets by following the full procedure in `plays/tier1-code-analysis/secrets-scan.md`.
+Detect hardcoded secrets by following the full procedure in `plays/secrets-scan.md`.
 
 ## Steps
 

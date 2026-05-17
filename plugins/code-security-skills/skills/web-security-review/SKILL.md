@@ -6,7 +6,7 @@ license: CC-BY-4.0
 
 # Web Security Review (OWASP Top 10)
 
-Review web applications against all 10 OWASP Top 10 risks by following the full procedure in `plays/tier1-code-analysis/owasp-top10-web-review.md`.
+Review web applications against all 10 OWASP Top 10 risks by following the full procedure in `plays/owasp-top10-web-review.md`.
 
 ## Steps
 

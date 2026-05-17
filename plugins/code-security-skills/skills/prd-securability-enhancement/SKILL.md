@@ -272,7 +272,7 @@ This is the level of specificity the output should hit — concrete, testable, a
 
 ## Reference Material
 
-- Step-by-step runbook: [plays/requirements-analysis/prd-fiasse-asvs-enhancement.md](../../plays/requirements-analysis/prd-fiasse-asvs-enhancement.md)
+- Step-by-step runbook: [plays/prd-fiasse-asvs-enhancement.md](../../plays/prd-fiasse-asvs-enhancement.md)
 - ASVS chapter index: `data/asvs/README.md`
 - ASVS requirements (per chapter): `data/asvs/V*.md`
 - FIASSE v1.0.4 foundational principles: `data/fiasse/S2.1.md`–`S2.6.md` (Transparency S2.5, Least Astonishment S2.6)

@@ -6,7 +6,7 @@ license: CC-BY-4.0
 
 # API Security Review
 
-Perform comprehensive API security assessment following `plays/tier1-code-analysis/api-security-review.md`.
+Perform comprehensive API security assessment following `plays/api-security-review.md`.
 
 ## Steps
 

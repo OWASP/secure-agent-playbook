@@ -6,7 +6,7 @@ license: CC-BY-4.0
 
 # IaC Security Review
 
-Review infrastructure-as-code for security risks by following the full procedure in `plays/tier1-code-analysis/iac-security-review.md`.
+Review infrastructure-as-code for security risks by following the full procedure in `plays/iac-security-review.md`.
 
 ## Steps
 
