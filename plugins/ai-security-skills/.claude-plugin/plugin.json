@@ -1,7 +1,7 @@
 {
   "name": "ai-security-skills",
   "description": "AI and agent security assessment skills — agent security audit, LLM risk assessment, agentic AI risk assessment, MCP server review, prompt injection testing, and multi-agent threat modeling. Grounded in OWASP LLM Top 10 and AISVS.",
-  "version": "0.2.4",
+  "version": "0.2.6",
   "author": {
     "name": "Chris Maenner",
     "email": "chris@palmtreeventuresllc.com"

@@ -1,7 +1,7 @@
 {
   "name": "agent-security-playbook",
   "description": "OWASP-grounded security skills and agents for AI agents — code review, dependency audit, secrets scanning, API security, prompt injection testing, LLM risk assessment, MCP server review, and agent security auditing.",
-  "version": "0.2.4",
+  "version": "0.2.6",
   "author": {
     "name": "Chris Maenner",
     "email": "chris@palmtreeventuresllc.com"
