@@ -1,8 +1,6 @@
-# Mobile Code Review (MASVS v2.1.0)
+# Play: Mobile Code Review
 
-**OWASP Reference**: [MASVS v2.1.0](https://mas.owasp.org/MASVS/) (Mobile Application Security Verification Standard) — forward refs to [MASTG](https://mas.owasp.org/MASTG/) where applicable.
-
-Source-only security review of native Android and iOS mobile application source code against all 8 MASVS v2.1.0 control groups. MASVS-RESILIENCE is limited to static signals; MASVS-PRIVACY is partially static (data-flow controls deferred to a future Tier 3 dynamic-testing skill).
+Source-only security review of native Android and iOS mobile application source code against all 8 [OWASP MASVS v2.1.0](https://mas.owasp.org/MASVS/) control groups, with [MASTG](https://mas.owasp.org/MASTG/) forward references for runtime follow-up. MASVS-RESILIENCE is limited to static signals; MASVS-PRIVACY is partially static (data-flow controls deferred to a future Tier 3 dynamic-testing skill).
 
 ## Trigger Conditions
 
@@ -235,9 +233,19 @@ When invoked on a PR diff:
 
 ### 6. Produce Findings
 
-For each finding, populate `templates/finding.md` exactly — no play-local extension fields. MASVS controls, MASWE entries, and MASTG test IDs all go *inside* the existing `OWASP Ref` line, formatted as `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN> (dynamic verification recommended)` plus any overlapping `ASVS V#.#.#` or `Top 10 A##`. `CWE` is mandatory and resolved via the MASWE chain (see §4); verify MASWE IDs at <https://mas.owasp.org/MASWE/>. `OpenCRE` defaults to `N/A for mobile scan — OpenCRE's MASVS coverage is limited` unless the cited CWE has a pre-mapped entry in `data/opencre/`. `ID` is assigned at report generation; `CVE` is N/A for source-code weaknesses unless an exploited library is a direct trigger.
+Populate `templates/finding.md` exactly — no play-local extension fields. Per-field rules for mobile findings:
 
-Sort findings by severity (CRITICAL > HIGH > MEDIUM > LOW > INFORMATIONAL). Deduplicate cross-group findings (e.g. a hard-coded key affecting both CRYPTO and STORAGE — keep one finding; cite the most specific MASVS control in `OWASP Ref` and note the secondary group in `Impact`).
+- **`CWE`** — mandatory; resolved via the MASWE chain (see §4). Verify MASWE IDs at <https://mas.owasp.org/MASWE/>.
+- **`CVE`** — N/A for source-code weaknesses unless an exploited library is a direct trigger.
+- **`OpenCRE`** — defaults to `N/A for mobile scan — OpenCRE's MASVS coverage is limited`; populate from `data/opencre/CWE-XXX.md` only if a pre-mapped entry exists.
+- **`OWASP Ref`** — `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN> (dynamic verification recommended)` plus any overlapping `ASVS V#.#.#` or `Top 10 A##`.
+- **`ID`** — assigned at report generation; leave as a placeholder during the review.
+- **`Location`, `Impact`, `Evidence`, `Remediation`, `Confidence`** — per the standard template.
+
+Report-level rules:
+
+- **Sort** findings by severity: CRITICAL > HIGH > MEDIUM > LOW > INFORMATIONAL.
+- **Deduplicate** cross-group findings — e.g. a hard-coded key affecting both CRYPTO and STORAGE: keep one finding, cite the most specific MASVS control in `OWASP Ref`, and note the secondary group in `Impact`.
 
 ## Output Format
 
