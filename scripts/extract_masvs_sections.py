@@ -16,13 +16,7 @@ Output layout per file (data/masvs/MASVS-AUTH-1.md):
     masvs_group: "MASVS-AUTH"
     masvs_control: "MASVS-AUTH-1"
     summary: "<statement>"
-    platforms: [android, ios]            # repo enrichment (preserved on re-run)
-    when_to_use: [...]                   # repo enrichment (preserved on re-run)
-    threats: [...]                       # repo enrichment (preserved on re-run)
-    mastg_tests: [...]                   # repo enrichment (preserved on re-run)
-    static_signals: {...}                # repo enrichment (preserved on re-run)
-    resilience_static_only: bool         # repo enrichment (preserved on re-run)
-    static_only: bool                    # repo enrichment (preserved on re-run)
+    mastg_tests: [...]                # derived from data/mastg/ covers_masvs
     ---
 
     # MASVS-AUTH-1
@@ -31,19 +25,21 @@ Output layout per file (data/masvs/MASVS-AUTH-1.md):
     ## Description
     ...
 
-Re-extraction rule: only the five UPSTREAM_KEYS get overwritten from upstream (the
-four upstream-derived keys plus the group-derived `resilience_static_only`); every
-other frontmatter key is preserved verbatim.
+Re-extraction rule: UPSTREAM_KEYS (title, masvs_group, masvs_control, summary)
+plus the body come from upstream verbatim. `mastg_tests:` is derived by scanning
+data/mastg/ for `covers_masvs:` matches. The schema is lean — no enrichment
+fields (no when_to_use, threats, static_signals, coverage, platforms); those
+moved to play rules / MASTG content.
 
 Usage:
-    extract_masvs_sections.py <upstream-controls-dir> [<output-dir>]
+    extract_masvs_sections.py <upstream-controls-dir> [<output-dir>] [<mastg-dir>]
 """
 
 import re
 import sys
 from pathlib import Path
 
-UPSTREAM_KEYS = ("title", "masvs_group", "masvs_control", "summary", "resilience_static_only")
+UPSTREAM_KEYS = ("title", "masvs_group", "masvs_control", "summary")
 CONTROL_ID_RE = re.compile(r"^# (MASVS-[A-Z]+-\d+)\s*$", re.MULTILINE)
 FRONTMATTER_RE = re.compile(r"\A---\n(.+?)\n---\n", re.DOTALL)
 
@@ -77,33 +73,51 @@ def parse_upstream_control(raw: str) -> dict[str, str]:
 
 
 def _default_frontmatter(parsed: dict[str, str]) -> dict:
-    """Return default frontmatter from a parsed control."""
+    """Return default frontmatter from a parsed control. Minimal schema."""
     return {
         "title": f"{parsed['control_id']}: {parsed['summary']}",
         "masvs_group": parsed["group"],
         "masvs_control": parsed["control_id"],
         "summary": parsed["summary"],
-        "platforms": ["android", "ios"],
-        "when_to_use": [],
-        "threats": [],
-        "mastg_tests": [],
-        "static_signals": {"android": [], "ios": []},
-        "resilience_static_only": parsed["group"] == "MASVS-RESILIENCE",
-        "static_only": False,
+        "mastg_tests": [],  # populated by scan of data/mastg/ in extract_all
     }
 
 
-def compose_frontmatter(parsed: dict[str, str], existing: dict | None) -> dict:
+def _scan_mastg_dir(mastg_dir: Path) -> dict[str, list[str]]:
+    """Walk data/mastg/*.md, return {MASVS-X-N: [MASTG-TEST-####, ...]}."""
+    import yaml as _y
+    index: dict[str, list[str]] = {}
+    if not mastg_dir.is_dir():
+        return index
+    for p in sorted(mastg_dir.glob("MASTG-TEST-*.md")):
+        text = p.read_text(encoding="utf-8")
+        m = FRONTMATTER_RE.match(text)
+        if not m:
+            continue
+        fm = _y.safe_load(m.group(1)) or {}
+        test_id = fm.get("id") or p.stem
+        for ctrl in fm.get("covers_masvs") or []:
+            index.setdefault(ctrl, []).append(test_id)
+    for ctrl in index:
+        index[ctrl] = sorted(set(index[ctrl]))
+    return index
+
+
+def compose_frontmatter(parsed: dict[str, str],
+                         existing: dict | None,
+                         mastg_index: dict[str, list[str]] | None = None) -> dict:
     """
-    Build the output frontmatter. Upstream-derived keys come from `parsed`;
-    every other key is preserved verbatim from `existing` (if present), else defaulted.
+    Build the output frontmatter. UPSTREAM_KEYS come from `parsed`;
+    `mastg_tests:` comes from the MASTG reverse index (overrides any existing value);
+    other keys (legacy enrichment) are no longer carried — the schema is now lean.
     """
     fm = _default_frontmatter(parsed)
-    if existing is not None:
-        for key, value in existing.items():
-            if key in UPSTREAM_KEYS:
-                continue  # always overwrite from upstream
-            fm[key] = value
+    # Overwrite mastg_tests from the reverse index if available
+    if mastg_index is not None:
+        fm["mastg_tests"] = mastg_index.get(parsed["control_id"], [])
+    elif existing is not None and "mastg_tests" in existing:
+        # No index provided — preserve existing as a fallback
+        fm["mastg_tests"] = existing["mastg_tests"]
     return fm
 
 
@@ -133,16 +147,18 @@ def read_existing_frontmatter(path: Path) -> dict | None:
     return yaml.safe_load(m.group(1))
 
 
-def extract_all(source_dir: Path, dest_dir: Path) -> list[Path]:
+def extract_all(source_dir: Path, dest_dir: Path,
+                 mastg_dir: Path | None = None) -> list[Path]:
     """Process every controls/MASVS-*.md in source_dir, writing to dest_dir."""
     dest_dir.mkdir(parents=True, exist_ok=True)
+    mastg_index = _scan_mastg_dir(mastg_dir) if mastg_dir else None
     written: list[Path] = []
     for src in sorted(source_dir.glob("MASVS-*.md")):
         raw = src.read_text(encoding="utf-8")
         parsed = parse_upstream_control(raw)
         out_path = dest_dir / f"{parsed['control_id']}.md"
         existing = read_existing_frontmatter(out_path)
-        fm = compose_frontmatter(parsed, existing=existing)
+        fm = compose_frontmatter(parsed, existing=existing, mastg_index=mastg_index)
         out_path.write_text(render_output(fm, parsed), encoding="utf-8")
         written.append(out_path)
     return written
@@ -150,16 +166,16 @@ def extract_all(source_dir: Path, dest_dir: Path) -> list[Path]:
 
 def main() -> None:
     if len(sys.argv) < 2:
-        print("Usage: extract_masvs_sections.py <upstream-controls-dir> [<output-dir>]", file=sys.stderr)
-        print("  upstream-controls-dir  Path to OWASP/masvs controls/ at the pinned tag", file=sys.stderr)
-        print("  output-dir             Output (default: data/masvs)", file=sys.stderr)
+        print("Usage: extract_masvs_sections.py <upstream-controls-dir> [<output-dir>] [<mastg-dir>]",
+              file=sys.stderr)
         sys.exit(1)
     source = Path(sys.argv[1]).resolve()
     if not source.is_dir():
         print(f"error: source not found: {source}", file=sys.stderr)
         sys.exit(2)
     dest = Path(sys.argv[2]).resolve() if len(sys.argv) > 2 else Path("data/masvs").resolve()
-    written = extract_all(source, dest)
+    mastg = Path(sys.argv[3]).resolve() if len(sys.argv) > 3 else Path("data/mastg").resolve()
+    written = extract_all(source, dest, mastg if mastg.is_dir() else None)
     for p in written:
         print(p)
     print(f"Wrote {len(written)} control file(s) to {dest}", file=sys.stderr)
