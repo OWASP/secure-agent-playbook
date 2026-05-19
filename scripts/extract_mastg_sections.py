@@ -24,7 +24,6 @@ Usage:
 import re
 import sys
 from pathlib import Path
-from typing import Iterable
 
 import yaml
 
@@ -247,25 +246,23 @@ def extract_all(mastg_root: Path, dest_dir: Path, upstream_tag: str) -> dict[str
         for ctrl in fm.get("masvs_v2_id") or []:
             masvs_controls.add(ctrl)
 
-    written: dict[str, str] = {}  # test_id -> covers_masvs accumulator
+    written: dict[str, dict] = {}  # test_id -> resolved record dict
     reverse_index: dict[str, list[str]] = {}
 
     for ctrl in sorted(masvs_controls):
         records = resolve_masvs_to_tests(ctrl, v1_tests, v2_tests)
         for rec in records:
+            reverse_index.setdefault(ctrl, []).append(rec["id"])
             if rec["id"] in written:
-                # Test already written for another control -- append covers_masvs
+                # Test already resolved for another control -- skip re-storing the record
                 continue
             written[rec["id"]] = rec
-            reverse_index.setdefault(ctrl, []).append(rec["id"])
 
     # Pass 2: accumulate covers_masvs across all controls before writing
     test_covers: dict[str, set[str]] = {}
     for ctrl in sorted(masvs_controls):
         for rec in resolve_masvs_to_tests(ctrl, v1_tests, v2_tests):
             test_covers.setdefault(rec["id"], set()).add(ctrl)
-        for tid in reverse_index.get(ctrl, []):
-            test_covers.setdefault(tid, set()).add(ctrl)
 
     # PRIVACY directory fallback (V1 has no PRIVACY tests)
     privacy_tests = collect_privacy_v2_tests(mastg_root, v2_tests)
@@ -304,8 +301,8 @@ def main() -> None:
     dest_dir = Path(sys.argv[2]).resolve() if len(sys.argv) > 2 else Path("data/mastg").resolve()
     upstream_tag = sys.argv[3] if len(sys.argv) > 3 else "master"
     reverse_index = extract_all(mastg_root, dest_dir, upstream_tag)
-    n_tests = sum(len(v) for v in reverse_index.values())
-    print(f"Wrote {n_tests} test file(s) to {dest_dir}", file=sys.stderr)
+    n_files = len(list(dest_dir.glob("MASTG-TEST-*.md")))
+    print(f"Wrote {n_files} test file(s) to {dest_dir}", file=sys.stderr)
     print(f"Reverse index covers {len(reverse_index)} MASVS controls/groups", file=sys.stderr)
 
 
