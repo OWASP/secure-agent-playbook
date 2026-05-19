@@ -4,11 +4,11 @@
 
 ## Source & License
 
-These files are derived from `controls/MASVS-*.md` in the upstream `OWASP/masvs` repository at tag `v2.1.0`. OWASP MASVS is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). The hand-authored enrichment in this directory (`when_to_use`, `threats`, `mastg_tests`, `static_signals`, `resilience_static_only`, `static_only`) is contributed under the same license.
+These files are derived from `controls/MASVS-*.md` in the upstream `OWASP/masvs` repository at tag `v2.1.0`. OWASP MASVS is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 
 ## File Format
 
-Each control file has YAML frontmatter:
+Each control file has lean YAML frontmatter:
 
 ```yaml
 ---
@@ -16,32 +16,23 @@ title: "MASVS-STORAGE-1: Sensitive data is stored securely."
 masvs_group: "MASVS-STORAGE"
 masvs_control: "MASVS-STORAGE-1"
 summary: "Sensitive data is stored securely."
-platforms: [android, ios]
-when_to_use:                          # task-matching triggers
-  - reviewing how the app persists user credentials, tokens, or PII
-threats:                              # relevant threat categories
-  - sensitive data extraction from device backups
-mastg_tests:                          # forward refs to OWASP MASTG (IDs only)
-  - MASTG-TEST-0001
-static_signals:                       # per-platform grep hints
-  android:
-    - "SharedPreferences without EncryptedSharedPreferences"
-  ios:
-    - "Keychain access flags"
-resilience_static_only: false         # true for every MASVS-RESILIENCE-* control
-static_only: false                    # true for PRIVACY controls needing runtime data-flow
+mastg_tests:                          # derived from data/mastg/ — not hand-authored
+  - MASTG-TEST-0200
+  - MASTG-TEST-0201
 ---
 ```
 
 The body preserves the upstream `# MASVS-X-N` / `## Control` / `## Description` content verbatim.
 
+No enrichment fields are stored on the MASVS side. Threat context, verification recipes, and per-platform grep hints live in the linked `data/mastg/` test files. Caveats for RESILIENCE (static-only) and PRIVACY-2/3 (runtime data-flow required) live in `plays/tier1-code-analysis/mobile-code-review.md` as play rules, not as frontmatter flags.
+
 ## Re-extraction Rule
 
-`scripts/extract_masvs_sections.py` regenerates the upstream-derived keys (`title`, `masvs_group`, `masvs_control`, `summary`) and the group-derived key (`resilience_static_only`), plus the body. Every other frontmatter key is preserved verbatim across re-runs, so hand-authored enrichment survives upstream pulls.
+`scripts/extract_masvs_sections.py` regenerates the upstream-derived keys (`title`, `masvs_group`, `masvs_control`, `summary`) plus the body verbatim from `OWASP/masvs` at the pinned tag. `mastg_tests:` is regenerated from a scan of `data/mastg/` for each control file's `covers_masvs:` matches — so updating MASTG data automatically refreshes the MASVS reverse index on the next MASVS extraction.
 
 ## Usage in Skills
 
-The `mobile-code-review` skill walks the 8 MASVS groups in priority order. For each group, the skill loads the group overview (e.g. `MASVS-STORAGE.md`, added by the Task 6 hand-authoring step) and the individual controls (e.g. `MASVS-STORAGE-1.md`), using `static_signals` as grep hints and `mastg_tests` as forward references for runtime follow-up.
+The `mobile-code-review` skill walks the 8 MASVS groups in priority order. For each group, the skill loads the group overview (e.g. `MASVS-STORAGE.md`) and the individual controls (e.g. `MASVS-STORAGE-1.md`), then resolves each control's `mastg_tests:` IDs against `data/mastg/` to pick up grep hints, verification recipes, and threat context.
 
 ## Group Index
 
@@ -61,10 +52,10 @@ The `mobile-code-review` skill walks the 8 MASVS groups in priority order. For e
 To refresh from upstream:
 
 ```bash
-rm -rf /tmp/masvs-upstream
-mkdir -p /tmp/masvs-upstream
-curl -sL https://github.com/OWASP/masvs/archive/refs/tags/v2.1.0.tar.gz | tar xz -C /tmp/masvs-upstream --strip-components=1
-python3 scripts/extract_masvs_sections.py /tmp/masvs-upstream/controls data/masvs
+rm -rf /tmp/masvs-upstream && mkdir -p /tmp/masvs-upstream
+curl -sL https://github.com/OWASP/masvs/archive/refs/tags/v2.1.0.tar.gz | \
+    tar xz -C /tmp/masvs-upstream --strip-components=1
+python3 scripts/extract_masvs_sections.py /tmp/masvs-upstream/controls data/masvs data/mastg
 ```
 
-Enrichment is preserved automatically.
+(The third positional arg `data/mastg` is what enables the reverse-index derivation.)
