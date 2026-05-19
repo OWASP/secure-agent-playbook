@@ -63,57 +63,67 @@ class TestComposeFrontmatter(unittest.TestCase):
         self.assertEqual(fm["masvs_group"], "MASVS-STORAGE")
         self.assertEqual(fm["masvs_control"], "MASVS-STORAGE-1")
         self.assertEqual(fm["summary"], "Sensitive data is stored securely.")
-        self.assertEqual(fm["platforms"], ["android", "ios"])
-        self.assertEqual(fm["when_to_use"], [])
-        self.assertEqual(fm["threats"], [])
         self.assertEqual(fm["mastg_tests"], [])
-        self.assertEqual(fm["static_signals"], {"android": [], "ios": []})
-        self.assertEqual(fm["resilience_static_only"], False)
-        self.assertEqual(fm["static_only"], False)
+        # Dropped fields must not appear
+        self.assertNotIn("when_to_use", fm)
+        self.assertNotIn("threats", fm)
+        self.assertNotIn("static_signals", fm)
+        self.assertNotIn("coverage", fm)
+        self.assertNotIn("platforms", fm)
 
-    def test_resilience_group_defaults_static_only_true(self):
-        from extract_masvs_sections import compose_frontmatter
-
-        parsed = {
-            "control_id": "MASVS-RESILIENCE-1",
-            "group": "MASVS-RESILIENCE",
-            "summary": "App detects tampering.",
-            "description": "...",
-        }
-        fm = compose_frontmatter(parsed, existing=None)
-        self.assertTrue(fm["resilience_static_only"])
-
-    def test_preserves_enrichment_from_existing(self):
+    def test_mastg_tests_derived_from_index(self):
+        """mastg_tests comes from the supplied index, not existing or default."""
         from extract_masvs_sections import compose_frontmatter
 
         parsed = {
             "control_id": "MASVS-STORAGE-1",
             "group": "MASVS-STORAGE",
-            "summary": "NEW upstream summary",
+            "summary": "...",
             "description": "...",
         }
-        existing = {
-            "title": "OLD title that should be overwritten",
-            "masvs_group": "MASVS-STORAGE",
-            "masvs_control": "MASVS-STORAGE-1",
-            "summary": "OLD summary",
-            "platforms": ["android", "ios"],
-            "when_to_use": ["reviewing data storage"],
-            "threats": ["data leakage"],
-            "mastg_tests": ["MASTG-TEST-0001"],
-            "static_signals": {"android": ["SharedPreferences"], "ios": ["NSUserDefaults"]},
-            "resilience_static_only": False,
-            "static_only": False,
+        index = {"MASVS-STORAGE-1": ["MASTG-TEST-0200", "MASTG-TEST-0201"]}
+        fm = compose_frontmatter(parsed, existing=None, mastg_index=index)
+        self.assertEqual(fm["mastg_tests"], ["MASTG-TEST-0200", "MASTG-TEST-0201"])
+
+    def test_mastg_tests_empty_when_no_match_in_index(self):
+        from extract_masvs_sections import compose_frontmatter
+
+        parsed = {
+            "control_id": "MASVS-CODE-1",
+            "group": "MASVS-CODE",
+            "summary": "...",
+            "description": "...",
         }
-        fm = compose_frontmatter(parsed, existing=existing)
-        self.assertEqual(fm["title"], "MASVS-STORAGE-1: NEW upstream summary")
-        self.assertEqual(fm["summary"], "NEW upstream summary")
-        self.assertEqual(fm["when_to_use"], ["reviewing data storage"])
-        self.assertEqual(fm["threats"], ["data leakage"])
-        self.assertEqual(fm["mastg_tests"], ["MASTG-TEST-0001"])
-        self.assertEqual(
-            fm["static_signals"], {"android": ["SharedPreferences"], "ios": ["NSUserDefaults"]}
-        )
+        index = {"MASVS-STORAGE-1": ["MASTG-TEST-0200"]}  # CODE-1 not in index
+        fm = compose_frontmatter(parsed, existing=None, mastg_index=index)
+        self.assertEqual(fm["mastg_tests"], [])
+
+    def test_mastg_tests_index_overrides_existing(self):
+        from extract_masvs_sections import compose_frontmatter
+
+        parsed = {
+            "control_id": "MASVS-STORAGE-1",
+            "group": "MASVS-STORAGE",
+            "summary": "...",
+            "description": "...",
+        }
+        existing = {"mastg_tests": ["MASTG-TEST-OLD"]}
+        index = {"MASVS-STORAGE-1": ["MASTG-TEST-NEW"]}
+        fm = compose_frontmatter(parsed, existing=existing, mastg_index=index)
+        self.assertEqual(fm["mastg_tests"], ["MASTG-TEST-NEW"])
+
+    def test_mastg_tests_preserves_existing_when_index_absent(self):
+        from extract_masvs_sections import compose_frontmatter
+
+        parsed = {
+            "control_id": "MASVS-STORAGE-1",
+            "group": "MASVS-STORAGE",
+            "summary": "...",
+            "description": "...",
+        }
+        existing = {"mastg_tests": ["MASTG-TEST-PRESERVED"]}
+        fm = compose_frontmatter(parsed, existing=existing, mastg_index=None)
+        self.assertEqual(fm["mastg_tests"], ["MASTG-TEST-PRESERVED"])
 
 
 class TestRenderOutput(unittest.TestCase):
@@ -132,13 +142,7 @@ class TestRenderOutput(unittest.TestCase):
             "masvs_group": "MASVS-AUTH",
             "masvs_control": "MASVS-AUTH-1",
             "summary": "Secure auth.",
-            "platforms": ["android", "ios"],
-            "when_to_use": [],
-            "threats": [],
             "mastg_tests": [],
-            "static_signals": {"android": [], "ios": []},
-            "resilience_static_only": False,
-            "static_only": False,
         }
         out = render_output(frontmatter, parsed)
         self.assertTrue(out.startswith("---\n"))
@@ -153,50 +157,6 @@ class TestRenderOutput(unittest.TestCase):
         self.assertTrue(out.endswith("\n"))
 
 
-class TestComposeFrontmatterResilientOverwrite(unittest.TestCase):
-    def test_resilience_static_only_overwrites_stale_existing(self):
-        """resilience_static_only is group-derived; stale values in existing must be overwritten."""
-        from extract_masvs_sections import compose_frontmatter
-
-        # MASVS-RESILIENCE control with WRONG existing value False — must be corrected to True
-        parsed = {
-            "control_id": "MASVS-RESILIENCE-1",
-            "group": "MASVS-RESILIENCE",
-            "summary": "App detects tampering.",
-            "description": "...",
-        }
-        existing = {
-            "title": "stale",
-            "masvs_group": "MASVS-RESILIENCE",
-            "masvs_control": "MASVS-RESILIENCE-1",
-            "summary": "stale",
-            "platforms": ["android", "ios"],
-            "when_to_use": ["preserved"],
-            "threats": [],
-            "mastg_tests": [],
-            "static_signals": {"android": [], "ios": []},
-            "resilience_static_only": False,  # WRONG — should be overwritten to True
-            "static_only": False,
-        }
-        fm = compose_frontmatter(parsed, existing=existing)
-        self.assertTrue(fm["resilience_static_only"])
-        self.assertEqual(fm["when_to_use"], ["preserved"])  # enrichment still preserved
-
-        # Non-RESILIENCE control with WRONG existing value True — must be corrected to False
-        parsed_storage = {
-            "control_id": "MASVS-STORAGE-1",
-            "group": "MASVS-STORAGE",
-            "summary": "Secrets in keystore.",
-            "description": "...",
-        }
-        existing_storage = dict(existing)
-        existing_storage["masvs_group"] = "MASVS-STORAGE"
-        existing_storage["masvs_control"] = "MASVS-STORAGE-1"
-        existing_storage["resilience_static_only"] = True  # WRONG — should become False
-        fm2 = compose_frontmatter(parsed_storage, existing=existing_storage)
-        self.assertFalse(fm2["resilience_static_only"])
-
-
 class TestRoundTrip(unittest.TestCase):
     def test_read_existing_frontmatter(self):
         import tempfile
@@ -208,18 +168,8 @@ class TestRoundTrip(unittest.TestCase):
             "masvs_group: MASVS-STORAGE\n"
             "masvs_control: MASVS-STORAGE-1\n"
             "summary: \"OLD summary\"\n"
-            "platforms: [android, ios]\n"
-            "when_to_use:\n"
-            "  - reviewing data storage\n"
-            "threats: []\n"
             "mastg_tests:\n"
             "  - MASTG-TEST-0001\n"
-            "static_signals:\n"
-            "  android:\n"
-            "    - SharedPreferences\n"
-            "  ios: []\n"
-            "resilience_static_only: false\n"
-            "static_only: false\n"
             "---\n\n"
             "# MASVS-STORAGE-1\n"
         )
@@ -228,9 +178,7 @@ class TestRoundTrip(unittest.TestCase):
             path = Path(f.name)
         try:
             existing = read_existing_frontmatter(path)
-            self.assertEqual(existing["when_to_use"], ["reviewing data storage"])
             self.assertEqual(existing["mastg_tests"], ["MASTG-TEST-0001"])
-            self.assertEqual(existing["static_signals"]["android"], ["SharedPreferences"])
         finally:
             path.unlink()
 
@@ -240,7 +188,7 @@ class TestRoundTrip(unittest.TestCase):
         self.assertIsNone(read_existing_frontmatter(Path("/nonexistent/path.md")))
 
     def test_full_round_trip_preserves_enrichment(self):
-        """Write file, then re-render with same upstream — enrichment must survive."""
+        """Write file, then re-render with same upstream — mastg_tests preserved without index."""
         import tempfile
         from extract_masvs_sections import (
             compose_frontmatter,
@@ -262,26 +210,19 @@ class TestRoundTrip(unittest.TestCase):
 
         with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as f:
             path = Path(f.name)
-
         try:
-            # First extraction
             parsed = parse_upstream_control(raw_v1)
             fm = compose_frontmatter(parsed, existing=None)
-            fm["when_to_use"] = ["reviewing data storage"]  # simulate hand-added enrichment
-            fm["threats"] = ["data leakage"]
+            fm["mastg_tests"] = ["MASTG-TEST-0200"]
             path.write_text(render_output(fm, parsed))
 
-            # Re-extraction with v2 upstream
             existing = read_existing_frontmatter(path)
             parsed2 = parse_upstream_control(raw_v2)
-            fm2 = compose_frontmatter(parsed2, existing=existing)
+            fm2 = compose_frontmatter(parsed2, existing=existing, mastg_index=None)
 
-            # Upstream fields updated
             self.assertEqual(fm2["summary"], "Updated summary in v2.")
             self.assertEqual(fm2["title"], "MASVS-STORAGE-1: Updated summary in v2.")
-            # Enrichment preserved
-            self.assertEqual(fm2["when_to_use"], ["reviewing data storage"])
-            self.assertEqual(fm2["threats"], ["data leakage"])
+            self.assertEqual(fm2["mastg_tests"], ["MASTG-TEST-0200"])
         finally:
             path.unlink()
 
