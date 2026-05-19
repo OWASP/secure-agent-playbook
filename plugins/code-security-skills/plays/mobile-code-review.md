@@ -1,6 +1,6 @@
 # Play: Mobile Code Review
 
-Source-only security review of native Android and iOS mobile application source code against all 8 [OWASP MASVS v2.1.0](https://mas.owasp.org/MASVS/) control groups, with [MASTG](https://mas.owasp.org/MASTG/) forward references for runtime follow-up. MASVS-RESILIENCE is limited to static signals; MASVS-PRIVACY is partially static (data-flow controls deferred to a future Tier 3 dynamic-testing skill).
+Source-only security review of native Android and iOS mobile application source code against all 8 [OWASP MASVS v2.1.0](https://mas.owasp.org/MASVS/) control groups, using extracted [MASTG](https://mas.owasp.org/MASTG/) Static Analysis content from `data/mastg/` as the per-control verification recipe. MASVS-RESILIENCE findings carry a static-only notice; MASVS-PRIVACY-2/3 findings carry a runtime-data-flow caveat.
 
 ## Trigger Conditions
 
@@ -42,59 +42,18 @@ Detect platform via fingerprints:
 
 If only a cross-platform shell is detected and no native module exists, declare **partial coverage** in the scope summary and skip platform-specific signal grepping. Do not produce findings unless explicit Dart/JS-side security issues appear.
 
-### 3. Run mobsfscan (Primary Static Detection)
+### 3. Systematic Review by MASVS Group
 
-Run `mobsfscan` first. It is the official MobSF source-only static analyzer, ships MASVS-aligned semgrep rules plus custom Python checks for Android (Java/Kotlin), iOS (Swift/Obj-C), and React Native/Flutter, and covers the bulk of STORAGE, CRYPTO, NETWORK, PLATFORM, and CODE controls out of the box. Treat its output as the primary detection layer; the structured group walk in §4 then verifies its findings and fills the gaps it doesn't reach (data-flow PRIVACY, deeper RESILIENCE, project-specific patterns).
+Walk the 8 groups in priority order. For each group, load the group overview from `data/masvs/MASVS-<GROUP>.md` and the individual controls (`MASVS-<GROUP>-<N>.md`). For each control:
 
-This mirrors how `sca-audit` delegates CVE detection to `osv-scanner` and only uses code analysis to triage what the tool reports.
+1. Read the `mastg_tests:` list in the MASVS file.
+2. For each MASTG test ID, load `data/mastg/MASTG-TEST-####.md`.
+3. Apply the test's Static Analysis content (V1) or Steps/Observation/Evaluation (V2) to the source tree.
+4. Emit findings citing the MASVS control + the MASTG test ID + version (annotate `[V1 — no V2 successor]` when the test's `upstream_version: v1-fallback`).
 
-**Install (one-time):**
+**Play rule — RESILIENCE caveat:** Findings against any `MASVS-RESILIENCE-*` control are static-signal-only by physics. Append the RESILIENCE static-only notice and cap confidence at MEDIUM unless backed by an unambiguous build-flag signal (e.g. a literal `android:debuggable="true"` in a release manifest, which stays HIGH). Append referenced MASTG test IDs to the dynamic-test follow-up list at the end of the report.
 
-```bash
-pip install mobsfscan
-mobsfscan --version
-```
-
-If `mobsfscan` is unavailable in the environment, record `mobsfscan: skipped (not installed)` in the report's scope header and fall back to grep-only detection driven by `static_signals` in §4. Findings produced via grep-only mode must be marked `Confidence: MEDIUM` at most, unless they correspond to an unambiguous code pattern (e.g. a literal `android:debuggable="true"` in a release build's manifest, which stays HIGH).
-
-**Invoke against the target:**
-
-```bash
-mobsfscan --json -o /tmp/mobsfscan-report.json <path-to-mobile-source>
-```
-
-Use `--no-fail-on-info` if you want to treat INFO-level rules as findings to triage rather than as exit-1 errors.
-
-**Parse the JSON output:**
-
-mobsfscan emits a JSON object with one entry per rule that fired. Each entry has:
-
-| Field | Meaning |
-|---|---|
-| `metadata.severity` | `HIGH`, `WARNING`, or `INFO` |
-| `metadata.masvs` | MASVS v2 control(s) the rule maps to (e.g. `storage-1`, `crypto-2`) |
-| `metadata.cwe` | CWE(s) per the MASWE chain |
-| `metadata.owasp-mobile` | Older MASVS v1 reference — ignore in favor of `metadata.masvs` |
-| `metadata.description` | Human-readable description of the rule |
-| `files` | List of `{ file_path, match_lines, match_position, match_string }` |
-
-For each rule entry:
-
-1. **Severity mapping**: `HIGH → HIGH`, `WARNING → MEDIUM`, `INFO → LOW`. Promote to `CRITICAL` only when the affected code path is in a sensitive area AND the issue admits direct compromise (e.g. a literal hard-coded crypto key visible in a release manifest).
-2. **MASVS control**: take the value from `metadata.masvs`, normalize to upper-case (e.g. `storage-1` → `MASVS-STORAGE-1`), and place in the `OWASP Ref` line of the finding.
-3. **CWE**: take from `metadata.cwe`. If you have any doubt about whether mobsfscan's CWE is the right one, verify against the MASWE chain (§4 explains).
-4. **MASTG forward-ref**: look up the corresponding `data/masvs/MASVS-X-N.md` file in this repo and copy one or more `mastg_tests:` IDs into the `OWASP Ref` line.
-5. **Confidence**: mobsfscan-sourced findings start at `HIGH` confidence (the tool's rules are curated). Lower if the match is in test code, generated code, or a code path that's clearly unreachable.
-
-**Important:** mobsfscan does not cover everything. Known gaps that §4 must catch:
-
-- MASVS-PRIVACY data-flow controls (PRIVACY-2, PRIVACY-3) — mobsfscan checks declared permissions and SDK presence but not actual data flow.
-- Project-specific patterns (custom crypto wrappers, in-house auth abstractions) that don't match a generic rule.
-- Deep MASVS-RESILIENCE signals beyond `debuggable=true` and ProGuard presence — most resilience verification is dynamic, but a few static signals (Frida-detection lib presence, root-detection libs) live in §4.
-
-### 4. Systematic Review by MASVS Group
-
-Walk the 8 groups in priority order to (a) verify mobsfscan's findings against the source, (b) catch the gaps listed above, and (c) collect positive observations. For each group, load the group overview from `data/masvs/MASVS-<GROUP>.md` and the individual controls (`MASVS-<GROUP>-<N>.md`). Use `static_signals` as grep hints for the gap-finding portion.
+**Play rule — PRIVACY runtime caveat:** Findings against `MASVS-PRIVACY-2` or `MASVS-PRIVACY-3` (the data-handling-in-practice controls) cannot be fully assessed from source — they require runtime data-flow tracing. Cap confidence at LOW for any such finding that depends on data-flow inference. Append to the dynamic-test follow-up list.
 
 **CWE mapping via MASWE (the canonical chain):**
 
@@ -195,8 +154,10 @@ Cross-reference: defer detailed library CVE analysis to `sca-audit`.
 
 #### G. MASVS-RESILIENCE (static signals only)
 
-MASVS refs: `data/masvs/MASVS-RESILIENCE.md`, `MASVS-RESILIENCE-1..4.md` (all with `resilience_static_only: true`)
-MASTG forward refs: MASTG-TEST-0044 through MASTG-TEST-0055
+MASVS refs: `data/masvs/MASVS-RESILIENCE.md`, `MASVS-RESILIENCE-1..4.md`
+MASTG entry points: `MASTG-TEST-0044` through `MASTG-TEST-0055` (load the test files referenced from each control's `mastg_tests:` list and apply their Static Analysis sections).
+
+Useful starting-point signals while reading the MASTG content:
 
 | Check | Android signal | iOS signal |
 |---|---|---|
@@ -205,12 +166,14 @@ MASTG forward refs: MASTG-TEST-0044 through MASTG-TEST-0055
 | Root/jailbreak detection | `RootBeer` / `SafetyNet` / Play Integrity absent | `IOSSecuritySuite` / `DTTJailbreakDetection` absent |
 | Anti-debug / anti-tamper | `isDebuggerAttached` patterns absent | `ptrace(PT_DENY_ATTACH)` absent |
 
-> **RESILIENCE static-only notice**: This play inspects build-time signals only. True RESILIENCE verification requires runtime/binary testing — root/jailbreak detection bypass, anti-debug efficacy, tamper detection coverage — which is dynamic-testing scope and deferred to a future Tier 3 `mobile-dynamic-test` skill. Findings here are marked **`confidence: LOW`** unless backed by an explicit code signal (e.g. a literal `android:debuggable="true"` in `AndroidManifest.xml` is HIGH confidence).
+The RESILIENCE play rule at the top of §3 governs confidence and the dynamic-test follow-up list for every finding produced here.
 
 #### H. MASVS-PRIVACY (partial — data-flow controls deferred)
 
-MASVS refs: `data/masvs/MASVS-PRIVACY.md`, `MASVS-PRIVACY-1..4.md` (controls requiring runtime data-flow set `static_only: true`)
-MASTG forward refs: MASTG-TEST-0260 through MASTG-TEST-0263
+MASVS refs: `data/masvs/MASVS-PRIVACY.md`, `MASVS-PRIVACY-1..4.md`
+MASTG entry points: `MASTG-TEST-0260` through `MASTG-TEST-0263` (load the test files referenced from each control's `mastg_tests:` list and apply their Static Analysis sections).
+
+Useful starting-point signals while reading the MASTG content:
 
 | Check | Android signal | iOS signal |
 |---|---|---|
@@ -220,9 +183,9 @@ MASTG forward refs: MASTG-TEST-0260 through MASTG-TEST-0263
 | Tracking transparency | n/a | `App Tracking Transparency` framework usage |
 | Data exfil paths | Telemetry to non-prod endpoints | Same |
 
-> **PRIVACY static-only caveat**: Controls flagged with `static_only: true` (typically MASVS-PRIVACY-2 and MASVS-PRIVACY-3, the data-handling-in-practice controls) cannot be fully assessed from source — they require runtime data-flow tracing. This play reports declared intent (manifest/plist + SDK presence) only. Findings on these specific controls are marked **`confidence: LOW`** unless an obvious leak path appears in code. Deferred to Tier 3 `mobile-dynamic-test`.
+The PRIVACY play rule at the top of §3 governs confidence for any finding against `MASVS-PRIVACY-2` or `MASVS-PRIVACY-3` and appends the MASTG test IDs to the dynamic-test follow-up list.
 
-### 5. Diff-Specific Analysis (for PRs)
+### 4. Diff-Specific Analysis (for PRs)
 
 When invoked on a PR diff:
 
@@ -231,11 +194,11 @@ When invoked on a PR diff:
 - Verify that any new exported activity / URL scheme has matching permission / validation
 - Verify that newly-added third-party SDKs do not silently bypass network-security config
 
-### 6. Produce Findings
+### 5. Produce Findings
 
 Populate `templates/finding.md` exactly — no play-local extension fields. Per-field rules for mobile findings:
 
-- **`CWE`** — mandatory; resolved via the MASWE chain (see §4). Verify MASWE IDs at <https://mas.owasp.org/MASWE/>.
+- **`CWE`** — mandatory; resolved via the MASWE chain (see §3). Verify MASWE IDs at <https://mas.owasp.org/MASWE/>.
 - **`CVE`** — N/A for source-code weaknesses unless an exploited library is a direct trigger.
 - **`OpenCRE`** — defaults to `N/A for mobile scan — OpenCRE's MASVS coverage is limited`; populate from `data/opencre/CWE-XXX.md` only if a pre-mapped entry exists.
 - **`OWASP Ref`** — `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN> (dynamic verification recommended)` plus any overlapping `ASVS V#.#.#` or `Top 10 A##`.
@@ -257,7 +220,6 @@ Report-level rules:
 - **App type**: [consumer | banking | internal | B2B]
 - **Data sensitivity**: [credentials | PII | financial | health | none]
 - **Source-only confirmed**: yes | no
-- **mobsfscan**: [version] | skipped (not installed)
 - **Files reviewed**: [count]
 
 ### Findings
