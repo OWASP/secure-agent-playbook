@@ -1,10 +1,12 @@
 ---
-title: "MASVS-CODE: Code Quality"
-masvs_group: "MASVS-CODE"
+title: 'MASVS-CODE: Code Quality'
+masvs_group: MASVS-CODE
 group_overview: true
-controls: [MASVS-CODE-1, MASVS-CODE-2, MASVS-CODE-3, MASVS-CODE-4]
-platforms: [android, ios]
-static_coverage: "full"
+controls:
+- MASVS-CODE-1
+- MASVS-CODE-2
+- MASVS-CODE-3
+- MASVS-CODE-4
 ---
 
 # MASVS-CODE — Code Quality
@@ -17,11 +19,6 @@ MASVS-CODE covers code-level hygiene that affects security: the platform version
 - App-update enforcement (in-app update prompts, force-update gates against a server-side minimum)
 - Dependency CVE hygiene (cross-refs `sca-audit`)
 - Input validation at trust boundaries; safe handling of dangerous APIs
-
-## Source-code signals
-
-- **Android:** deprecated `minSdkVersion`; missing `AppUpdateManager` / Play In-App Updates; outdated `dependencies {}` versions with known CVEs; `Runtime.exec` with concatenated user input; `WebView.evaluateJavascript(...)` with user-controlled strings; dangerous `ObjectInputStream` deserialization
-- **iOS:** outdated deployment target; no force-update gate at app launch; abandoned / vulnerable pods in `Podfile.lock`; `String(format:)` with user-controlled format string; `NSKeyedUnarchiver` of untrusted input
 
 ## Controls
 

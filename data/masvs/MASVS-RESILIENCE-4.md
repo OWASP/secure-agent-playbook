@@ -3,27 +3,14 @@ title: 'MASVS-RESILIENCE-4: The app implements anti-dynamic analysis techniques.
 masvs_group: MASVS-RESILIENCE
 masvs_control: MASVS-RESILIENCE-4
 summary: The app implements anti-dynamic analysis techniques.
-platforms:
-- android
-- ios
-when_to_use:
-- reviewing tamper-detection and dynamic-analysis-prevention logic
-- checking for Frida or hooking detection mechanisms
-threats:
-- dynamic patching of business logic at runtime via Frida or similar
-- debugger attachment to a production build enabling logic bypass
 mastg_tests:
 - MASTG-TEST-0046
-static_signals:
-  android:
-  - absence of Frida-detection patterns (no /proc/self/maps checks for frida, no dlopen
-    checks)
-  - no SafetyNet or Play Integrity attestation call
-  ios:
-  - absence of DTTJailbreakDetection or IOSSecuritySuite Frida-detection checks
-  - missing checks for MobileSubstrate or Cydia artifacts
-resilience_static_only: true
-static_only: false
+- MASTG-TEST-0048
+- MASTG-TEST-0089
+- MASTG-TEST-0091
+- MASTG-TEST-0226
+- MASTG-TEST-0227
+- MASTG-TEST-0261
 ---
 
 # MASVS-RESILIENCE-4

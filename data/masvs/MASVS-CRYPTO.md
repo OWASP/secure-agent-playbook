@@ -1,10 +1,10 @@
 ---
-title: "MASVS-CRYPTO: Cryptography"
-masvs_group: "MASVS-CRYPTO"
+title: 'MASVS-CRYPTO: Cryptography'
+masvs_group: MASVS-CRYPTO
 group_overview: true
-controls: [MASVS-CRYPTO-1, MASVS-CRYPTO-2]
-platforms: [android, ios]
-static_coverage: "full"
+controls:
+- MASVS-CRYPTO-1
+- MASVS-CRYPTO-2
 ---
 
 # MASVS-CRYPTO — Cryptography
@@ -17,11 +17,6 @@ MASVS-CRYPTO covers correct use of cryptography — algorithm choice, mode, key/
 - Mode/padding choice
 - Key generation, storage, and rotation
 - IV/nonce randomness
-
-## Source-code signals
-
-- **Android:** `Cipher.getInstance("AES/ECB/PKCS5Padding")`; `Cipher.getInstance("DES/...")` or `Cipher.getInstance("DESede/...")`; `MessageDigest.getInstance("MD5")` or `"SHA-1"` for security purposes; hard-coded `byte[] key = ...` literals; `IvParameterSpec(new byte[16])`; `Random` (not `SecureRandom`) for key material
-- **iOS:** `CC_MD5`/`CC_SHA1`; `CCCrypt` with `kCCOptionECBMode`; hard-coded `let key: [UInt8] = [...]`; deterministic IV/nonce; `arc4random` for key material
 
 ## Controls
 

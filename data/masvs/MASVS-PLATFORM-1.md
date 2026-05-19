@@ -3,30 +3,23 @@ title: 'MASVS-PLATFORM-1: The app uses IPC mechanisms securely.'
 masvs_group: MASVS-PLATFORM
 masvs_control: MASVS-PLATFORM-1
 summary: The app uses IPC mechanisms securely.
-platforms:
-- android
-- ios
-when_to_use:
-- reviewing exported activities, services, receivers, or providers
-- auditing deep-link handlers and URL scheme inputs
-- validating Intent extras flowing through the app
-threats:
-- arbitrary intent injection by other installed apps
-- deep-link to authenticated state without verification
-- content-provider exposure to other apps
 mastg_tests:
+- MASTG-TEST-0007
+- MASTG-TEST-0028
+- MASTG-TEST-0029
 - MASTG-TEST-0030
-- MASTG-TEST-0031
-static_signals:
-  android:
-  - android:exported="true" on activities, receivers, or services without android:permission
-  - Intent.getStringExtra(...) flowing directly to SQL queries, file I/O, or WebView.loadUrl
-  - deep-link path validation absent
-  ios:
-  - URL schemes registered in Info.plist without verifying scheme or host in application(_:open:url:options:)
-  - universal links opening authenticated routes without verifying the route
-resilience_static_only: false
-static_only: false
+- MASTG-TEST-0056
+- MASTG-TEST-0069
+- MASTG-TEST-0070
+- MASTG-TEST-0071
+- MASTG-TEST-0072
+- MASTG-TEST-0075
+- MASTG-TEST-0254
+- MASTG-TEST-0276
+- MASTG-TEST-0277
+- MASTG-TEST-0278
+- MASTG-TEST-0279
+- MASTG-TEST-0280
 ---
 
 # MASVS-PLATFORM-1

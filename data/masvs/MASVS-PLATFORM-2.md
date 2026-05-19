@@ -3,34 +3,20 @@ title: 'MASVS-PLATFORM-2: The app uses WebViews securely.'
 masvs_group: MASVS-PLATFORM
 masvs_control: MASVS-PLATFORM-2
 summary: The app uses WebViews securely.
-platforms:
-- android
-- ios
-when_to_use:
-- reviewing WebView usage in the app
-- auditing JavaScript-to-native bridge configurations
-- checking JS injection paths from user-controlled content
-threats:
-- native API exposure via JS bridge enabling RCE
-- XSS in WebView escalating to native access
-- cross-origin message acceptance by unsecured handlers
 mastg_tests:
-- MASTG-TEST-0033
-- MASTG-TEST-0034
-static_signals:
-  android:
-  - WebView.addJavascriptInterface(...) exposing methods to untrusted content
-  - WebSettings.setAllowFileAccessFromFileURLs(true)
-  - WebView.evaluateJavascript(...) with concatenated user input
-  - setMixedContentMode(MIXED_CONTENT_ALWAYS_ALLOW)
-  ios:
-  - WKUserContentController.add(scriptMessageHandler:) accepting messages from any
-    origin
-  - WKWebViewConfiguration.javaScriptEnabled = true for trusted-only content without
-    origin restriction
-  - missing origin checks in WKScriptMessageHandler
-resilience_static_only: false
-static_only: false
+- MASTG-TEST-0031
+- MASTG-TEST-0078
+- MASTG-TEST-0250
+- MASTG-TEST-0251
+- MASTG-TEST-0252
+- MASTG-TEST-0253
+- MASTG-TEST-0320
+- MASTG-TEST-0331
+- MASTG-TEST-0332
+- MASTG-TEST-0333
+- MASTG-TEST-0334
+- MASTG-TEST-0335
+- MASTG-TEST-0336
 ---
 
 # MASVS-PLATFORM-2

@@ -5,35 +5,18 @@ masvs_group: MASVS-CRYPTO
 masvs_control: MASVS-CRYPTO-1
 summary: The app employs current strong cryptography and uses it according to industry
   best practices.
-platforms:
-- android
-- ios
-when_to_use:
-- reviewing encryption, hashing, or MAC code
-- validating cipher mode and padding choices
-- auditing custom crypto helpers or wrappers
-threats:
-- ciphertext disclosure via ECB pattern leakage
-- collision attacks exploiting MD5 or SHA-1
-- reversible encryption via DES or 3DES
 mastg_tests:
-- MASTG-TEST-0011
-- MASTG-TEST-0014
-static_signals:
-  android:
-  - Cipher.getInstance("AES/ECB/PKCS5Padding")
-  - Cipher.getInstance("DES/...")  or  Cipher.getInstance("DESede/...")
-  - MessageDigest.getInstance("MD5")
-  - MessageDigest.getInstance("SHA-1") for security purposes
-  - Mac.getInstance("HmacMD5")
-  ios:
-  - CC_MD5(...)
-  - CC_SHA1(...)
-  - CCCrypt with kCCOptionECBMode
-  - kCCAlgorithmDES / kCCAlgorithm3DES
-  - kCCHmacAlgMD5
-resilience_static_only: false
-static_only: false
+- MASTG-TEST-0204
+- MASTG-TEST-0205
+- MASTG-TEST-0209
+- MASTG-TEST-0210
+- MASTG-TEST-0211
+- MASTG-TEST-0212
+- MASTG-TEST-0221
+- MASTG-TEST-0309
+- MASTG-TEST-0310
+- MASTG-TEST-0311
+- MASTG-TEST-0312
 ---
 
 # MASVS-CRYPTO-1

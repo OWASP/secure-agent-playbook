@@ -1,10 +1,10 @@
 ---
-title: "MASVS-STORAGE: Sensitive Data Storage"
-masvs_group: "MASVS-STORAGE"
+title: 'MASVS-STORAGE: Sensitive Data Storage'
+masvs_group: MASVS-STORAGE
 group_overview: true
-controls: [MASVS-STORAGE-1, MASVS-STORAGE-2]
-platforms: [android, ios]
-static_coverage: "full"
+controls:
+- MASVS-STORAGE-1
+- MASVS-STORAGE-2
 ---
 
 # MASVS-STORAGE — Sensitive Data Storage
@@ -17,11 +17,6 @@ MASVS-STORAGE addresses how mobile applications persist sensitive data on the de
 - Whether storage is encrypted and key material is protected
 - Whether backup, cloud-sync, or external-storage paths leak data
 - What other apps can read via shared content providers, app groups, or world-readable paths
-
-## Source-code signals
-
-- **Android:** `SharedPreferences` without `EncryptedSharedPreferences`; explicit `MODE_WORLD_READABLE`; `android:allowBackup="true"` without backup rules; keystore alias misuse
-- **iOS:** secrets in `NSUserDefaults` or property lists; missing or weak `kSecAttrAccessible*` class; data in `Documents/` directory that is included in iCloud backup
 
 ## Controls
 

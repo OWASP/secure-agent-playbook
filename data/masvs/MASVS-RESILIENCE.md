@@ -1,10 +1,12 @@
 ---
-title: "MASVS-RESILIENCE: Resilience Against Reverse-Engineering"
-masvs_group: "MASVS-RESILIENCE"
+title: 'MASVS-RESILIENCE: Resilience Against Reverse-Engineering'
+masvs_group: MASVS-RESILIENCE
 group_overview: true
-controls: [MASVS-RESILIENCE-1, MASVS-RESILIENCE-2, MASVS-RESILIENCE-3, MASVS-RESILIENCE-4]
-platforms: [android, ios]
-static_coverage: "signals only"
+controls:
+- MASVS-RESILIENCE-1
+- MASVS-RESILIENCE-2
+- MASVS-RESILIENCE-3
+- MASVS-RESILIENCE-4
 ---
 
 # MASVS-RESILIENCE — Resilience Against Reverse-Engineering
@@ -17,11 +19,6 @@ MASVS-RESILIENCE covers defenses against reverse-engineering, tampering, and run
 - Root/jailbreak detection presence
 - Anti-debug code paths
 - Anti-tamper / integrity checks
-
-## Source-code signals
-
-- **Android:** `android:debuggable="true"` shipped in release; missing/empty `proguard-rules.pro`; R8 disabled; absence of `RootBeer` / `SafetyNet` / Play Integrity calls; `isDebuggerAttached` patterns absent
-- **iOS:** `DEBUG` configuration shipped; symbols not stripped; absence of `IOSSecuritySuite` / `DTTJailbreakDetection`; missing `ptrace(PT_DENY_ATTACH)`; `objc_setForwardHandler` bypass-prone patterns
 
 ## Controls
 

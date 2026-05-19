@@ -1,10 +1,12 @@
 ---
-title: "MASVS-PRIVACY: User Privacy"
-masvs_group: "MASVS-PRIVACY"
+title: 'MASVS-PRIVACY: User Privacy'
+masvs_group: MASVS-PRIVACY
 group_overview: true
-controls: [MASVS-PRIVACY-1, MASVS-PRIVACY-2, MASVS-PRIVACY-3, MASVS-PRIVACY-4]
-platforms: [android, ios]
-static_coverage: "partial"
+controls:
+- MASVS-PRIVACY-1
+- MASVS-PRIVACY-2
+- MASVS-PRIVACY-3
+- MASVS-PRIVACY-4
 ---
 
 # MASVS-PRIVACY — User Privacy
@@ -17,11 +19,6 @@ MASVS-PRIVACY covers data minimization, consent, and transparent handling of per
 - Third-party SDK disclosure (analytics, ads, attribution)
 - User consent and tracking-transparency declarations
 - Runtime data-handling discipline (the deferred part)
-
-## Source-code signals
-
-- **Android:** `<uses-permission>` declarations whose code paths are unused; sensitive combos like `READ_CONTACTS` + `INTERNET` without justification; declared `firebase-analytics`, `facebook-sdk`, `appsflyer`, `adjust` SDKs; broadcast receivers leaking PII
-- **iOS:** `Info.plist` `Usage Description` keys with no corresponding code path; `NSContactsUsageDescription` paired with analytics SDKs; `App Tracking Transparency` framework usage; the same set of third-party SDK Pods/Packages
 
 ## Controls
 

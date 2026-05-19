@@ -1,10 +1,11 @@
 ---
-title: "MASVS-PLATFORM: Platform Interaction"
-masvs_group: "MASVS-PLATFORM"
+title: 'MASVS-PLATFORM: Platform Interaction'
+masvs_group: MASVS-PLATFORM
 group_overview: true
-controls: [MASVS-PLATFORM-1, MASVS-PLATFORM-2, MASVS-PLATFORM-3]
-platforms: [android, ios]
-static_coverage: "full"
+controls:
+- MASVS-PLATFORM-1
+- MASVS-PLATFORM-2
+- MASVS-PLATFORM-3
 ---
 
 # MASVS-PLATFORM — Platform Interaction
@@ -17,11 +18,6 @@ MASVS-PLATFORM covers how the app interacts with the underlying OS — IPC (inte
 - Deep-link / URL scheme validation
 - WebView native-bridge security
 - UI side-channels (screen capture, pasteboard)
-
-## Source-code signals
-
-- **Android:** `android:exported="true"` on components without permission; `Intent.getStringExtra` flowing to SQL/file/web operations; `WebView.addJavascriptInterface` exposing native methods; missing `FLAG_SECURE` on sensitive activities; clipboard manager used for sensitive data
-- **iOS:** URL schemes registered without origin validation in `application(_:open:)`; `WKUserContentController` accepting cross-origin messages; missing background-blur on app switch; `UIPasteboard.general` for sensitive data; insecure `LSApplicationQueriesSchemes`
 
 ## Controls
 

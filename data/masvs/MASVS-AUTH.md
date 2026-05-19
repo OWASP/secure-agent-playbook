@@ -1,10 +1,11 @@
 ---
-title: "MASVS-AUTH: Authentication and Authorization"
-masvs_group: "MASVS-AUTH"
+title: 'MASVS-AUTH: Authentication and Authorization'
+masvs_group: MASVS-AUTH
 group_overview: true
-controls: [MASVS-AUTH-1, MASVS-AUTH-2, MASVS-AUTH-3]
-platforms: [android, ios]
-static_coverage: "full"
+controls:
+- MASVS-AUTH-1
+- MASVS-AUTH-2
+- MASVS-AUTH-3
 ---
 
 # MASVS-AUTH — Authentication and Authorization
@@ -17,11 +18,6 @@ MASVS-AUTH covers how the mobile app authenticates users to remote endpoints and
 - Local authentication (biometric/device credential)
 - Session lifecycle (creation, refresh, invalidation, token storage)
 - Authorization enforcement on both client and server
-
-## Source-code signals
-
-- **Android:** JWTs decoded without signature verification; OAuth public-client flows missing PKCE; `BiometricPrompt.PromptInfo.Builder().setAllowedAuthenticators(BIOMETRIC_WEAK)`; tokens persisted plaintext in `SharedPreferences`
-- **iOS:** JWTs decoded without signature check; `LAContext().evaluatePolicy(.deviceOwnerAuthentication)` without strong-policy hardening; tokens in `NSUserDefaults`; missing PKCE on OAuth public clients
 
 ## Controls
 
