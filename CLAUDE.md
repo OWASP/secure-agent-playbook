@@ -151,7 +151,7 @@ Datasets that ship inside a plugin (bundled with the marketplace install) live u
 | Dataset | Source Repo | Format | Used By | Lives at |
 |---------|-----------|--------|---------|----------|
 | ASVS v5.0 | `eoftedal/owasp-agent-skills-project` — `references/ASVS/` | Markdown + YAML frontmatter | securability-engineering, prd-securability-enhancement | `plugins/code-security-skills/data/asvs/` |
-| MASVS v2.1.0 | `OWASP/masvs` (tag `v2.1.0`, `controls/MASVS-*.md`) | MD → MD with frontmatter and enrichment preservation | mobile-code-review (24 control files + 8 group overviews) | `plugins/code-security-skills/data/masvs/` |
+| MASVS v2.1.0 | `OWASP/masvs` (tag `v2.1.0`, `controls/MASVS-*.md`) | Markdown + lean YAML frontmatter (no enrichment; `mastg_tests:` derived from sibling `data/mastg/`) | mobile-code-review (24 control files + 8 group overviews) | `plugins/code-security-skills/data/masvs/` |
 | MASTG | `OWASP/mastg` — `tests-beta/` (V2) with `tests/` (V1) fallback | Markdown + YAML frontmatter | mobile-code-review (per-test recipes) | `plugins/code-security-skills/data/mastg/` |
 | FIASSE v1.0.4 | `OWASP/FIASSE` — `docs/securable_framework.md` (tag `v1.0.4`) | Markdown + YAML frontmatter | securability-engineering, securability-engineering-review, prd-securability-enhancement (61 section files) | `plugins/code-security-skills/data/fiasse/` |
 | Secure-code prompts | (this repo) | Markdown | iac-security-review (terraform, kubernetes, cloudformation) | `plugins/code-security-skills/data/secure-code-prompts/` |

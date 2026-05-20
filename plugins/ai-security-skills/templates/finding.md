@@ -9,7 +9,7 @@ Use this structure for all security findings produced by skills.
 - **CWE**: CWE-XXX (if applicable)
 - **CVE**: CVE-YYYY-NNNNN (if applicable)
 - **OpenCRE**: [CRE-ID](https://www.opencre.org/cre/CRE-ID) — requirement name (see data/opencre/)
-- **OWASP Ref**: Top 10 A01, ASVS 4.1.1, MASVS-STORAGE-1, MASWE-0001, MASTG-TEST-0001, LLM01, etc.
+- **OWASP Ref**: Top 10 A01, ASVS V4.1.1, MASVS-STORAGE-1, MASWE-0001, MASTG-TEST-0200, LLM01, etc.
 - **Location**: file_path:line_number or component name
 - **Impact**: What an attacker can achieve (1-2 sentences)
 - **Evidence**: Code snippet, command output, or proof-of-concept
