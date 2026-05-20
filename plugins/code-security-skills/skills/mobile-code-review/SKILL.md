@@ -21,7 +21,7 @@ Review native Android and iOS source code for security vulnerabilities by follow
 
 ## Output
 
-Scope summary (platform, languages), findings sorted by severity using `templates/finding.md`, positive observations, severity count table, RESILIENCE static-only notice block, PRIVACY runtime-required caveat for findings against PRIVACY-2/PRIVACY-3, dynamic-test follow-up list (collected from `data/mastg/` entries with `type: [dynamic]` that informed findings).
+Scope summary (platform, languages), upstream-pointer note for MASTG IDs (`https://github.com/OWASP/mastg`, `https://mas.owasp.org/MASTG/`), findings sorted by severity using `templates/finding.md` (each finding carries an optional `MASTG references:` bullet listing any non-TEST `@MASTG-<KIND>-####` cross-refs cited in the informing tests, grouped by KIND alphabetically, IDs sorted numerically, omitted when empty), positive observations, severity count table, RESILIENCE static-only notice block, PRIVACY runtime-required caveat for findings against PRIVACY-2/PRIVACY-3, dynamic-test follow-up list (collected from `data/mastg/` entries with `type: [dynamic]` that informed findings).
 
 ## OWASP References
 

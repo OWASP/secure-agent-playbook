@@ -55,6 +55,19 @@ Walk the 8 groups in priority order. For each group, load the group overview fro
 
 **Play rule — PRIVACY runtime caveat:** Findings against `MASVS-PRIVACY-2` or `MASVS-PRIVACY-3` (the data-handling-in-practice controls) cannot be fully assessed from source — they require runtime data-flow tracing. Cap confidence at LOW for any such finding that depends on data-flow inference. Append to the dynamic-test follow-up list.
 
+**Play rule — MASTG cross-references in findings:** Each MASTG test you load may cite other MASTG entities via `@MASTG-<KIND>-####` strings in its body (e.g. `@MASTG-TECH-0056`, `@MASTG-TOOL-0073`). `data/mastg/` extracts only `MASTG-TEST-*` — the other entities (TECH, TOOL, APP, KNOW, BEST, DEMO, …) live upstream only. Surface them per-finding so the reader can follow them at the OWASP MASTG source:
+
+1. While walking the MASTG tests that inform a finding, extract every `@MASTG-([A-Z]+)-(\d+)` from each test body.
+2. Discard any match where `KIND == TEST` — already cited in `OWASP Ref`.
+3. Group the remaining IDs by `KIND` alphabetically and emit a `MASTG references:` bullet on the finding. Within each KIND, sort IDs numerically. Omit the bullet entirely when the informing tests carry no non-TEST refs.
+4. Do not interpret what each KIND means and do not fabricate per-page URLs. Point readers to the upstream roots once at the top of the report (see Output Format).
+
+Per-finding rendering shape:
+
+    - **MASTG references**:
+      - TECH: MASTG-TECH-0056, MASTG-TECH-0095
+      - TOOL: MASTG-TOOL-0073
+
 **CWE mapping via MASWE (the canonical chain):**
 
 OWASP MASWE (Mobile Application Security Weakness Enumeration) is the bridge between MASVS controls and the universal CWE catalog. Every MASWE entry maps to one or more MASVS controls AND to one or more CWE IDs — e.g. `MASWE-0041 → MASVS-AUTH-2 → CWE-603, CWE-307, CWE-287`. Enterprises standardize on CWE for risk management, so MASWE gives MASVS compatibility with the wider market.
@@ -196,7 +209,7 @@ When invoked on a PR diff:
 
 ### 5. Produce Findings
 
-Populate `templates/finding.md` exactly — no play-local extension fields. Per-field rules for mobile findings:
+Populate `templates/finding.md` exactly. The one mobile-specific extension is the `MASTG references:` bullet emitted per the cross-references play rule in §3. Per-field rules for mobile findings:
 
 - **`CWE`** — mandatory; resolved via the MASWE chain (see §3). Verify MASWE IDs at <https://mas.owasp.org/MASWE/>.
 - **`CVE`** — N/A for source-code weaknesses unless an exploited library is a direct trigger.
@@ -204,6 +217,7 @@ Populate `templates/finding.md` exactly — no play-local extension fields. Per-
 - **`OWASP Ref`** — `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN> (dynamic verification recommended)` plus any overlapping `ASVS V#.#.#` or `Top 10 A##`.
 - **`ID`** — assigned at report generation; leave as a placeholder during the review.
 - **`Location`, `Impact`, `Evidence`, `Remediation`, `Confidence`** — per the standard template.
+- **`MASTG references`** — mobile-only extension. Emit per the cross-references play rule in §3. Omit when the informing tests carry no non-TEST `@MASTG-<KIND>-####` refs.
 
 Report-level rules:
 
@@ -222,8 +236,11 @@ Report-level rules:
 - **Source-only confirmed**: yes | no
 - **Files reviewed**: [count]
 
+> All `MASTG-*` IDs below cross-reference OWASP MASTG.
+> Canonical content: <https://github.com/OWASP/mastg> · <https://mas.owasp.org/MASTG/>
+
 ### Findings
-[Standard finding template for each issue, sorted by severity. CWE resolved via the MASWE chain; OpenCRE N/A for mobile unless pre-mapped in `data/opencre/`; `OWASP Ref` carries `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN>`.]
+[Standard finding template for each issue, sorted by severity. CWE resolved via the MASWE chain; OpenCRE N/A for mobile unless pre-mapped in `data/opencre/`; `OWASP Ref` carries `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN>`; each finding carries a `MASTG references:` bullet listing any non-TEST `@MASTG-<KIND>-####` cross-refs cited in the informing tests (omit when empty).]
 
 ### Positive Observations
 [Security controls that ARE in place — acknowledge good practices]
