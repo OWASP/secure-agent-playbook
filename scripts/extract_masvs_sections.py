@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Extract OWASP MASVS v2.1.0 controls from upstream (OWASP/masvs, controls/MASVS-*.md)
-into per-control markdown files with YAML frontmatter under data/masvs/.
+into per-control markdown files with YAML frontmatter under
+plugins/code-security-skills/data/masvs/.
 
 Upstream layout per file:
     # MASVS-AUTH-1
@@ -10,7 +11,7 @@ Upstream layout per file:
     ## Description
     <body>
 
-Output layout per file (data/masvs/MASVS-AUTH-1.md):
+Output layout per file (plugins/code-security-skills/data/masvs/MASVS-AUTH-1.md):
     ---
     title: "MASVS-AUTH-1: <statement>"
     masvs_group: "MASVS-AUTH"
@@ -173,8 +174,8 @@ def main() -> None:
     if not source.is_dir():
         print(f"error: source not found: {source}", file=sys.stderr)
         sys.exit(2)
-    dest = Path(sys.argv[2]).resolve() if len(sys.argv) > 2 else Path("data/masvs").resolve()
-    mastg = Path(sys.argv[3]).resolve() if len(sys.argv) > 3 else Path("data/mastg").resolve()
+    dest = Path(sys.argv[2]).resolve() if len(sys.argv) > 2 else Path("plugins/code-security-skills/data/masvs").resolve()
+    mastg = Path(sys.argv[3]).resolve() if len(sys.argv) > 3 else Path("plugins/code-security-skills/data/mastg").resolve()
     written = extract_all(source, dest, mastg if mastg.is_dir() else None)
     for p in written:
         print(p)

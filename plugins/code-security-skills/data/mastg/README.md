@@ -30,7 +30,7 @@ platform: android
 type: [dynamic]                                               # v2 only
 weakness: MASWE-0007                                          # v2 only
 profiles: [L1, L2]                                            # v2 only
-covers_masvs: [MASVS-STORAGE-1]                               # join key into data/masvs/
+covers_masvs: [MASVS-STORAGE-1]                               # join key into the sibling masvs/ dir
 # For v1-fallback files only:
 # status_note: "V1 test; no V2 successor authored upstream yet — content may be outdated"
 # masvs_v1_id: [MSTG-STORAGE-1]
@@ -54,19 +54,19 @@ rm -rf /tmp/mastg-upstream && mkdir -p /tmp/mastg-upstream
 curl -sL https://github.com/OWASP/mastg/archive/refs/heads/master.tar.gz | \
     tar xz -C /tmp/mastg-upstream --strip-components=1
 TAG=$(gh api repos/OWASP/mastg/commits/master --jq .sha | head -c 7)
-python3 scripts/extract_mastg_sections.py /tmp/mastg-upstream data/mastg "$TAG"
+python3 scripts/extract_mastg_sections.py /tmp/mastg-upstream plugins/code-security-skills/data/mastg "$TAG"
 ```
 
 After re-running the MASTG extractor, also re-run the MASVS extractor so its `mastg_tests:` reverse indices stay in sync:
 
 ```bash
-python3 scripts/extract_masvs_sections.py /tmp/masvs-upstream/controls data/masvs data/mastg
+python3 scripts/extract_masvs_sections.py /tmp/masvs-upstream/controls plugins/code-security-skills/data/masvs plugins/code-security-skills/data/mastg
 ```
 
 ## Pinned Upstream
 
 Current pin: see any file's `upstream_tag:` field. Update by re-running the extraction commands above against a new commit; commit the regenerated files.
 
-## How `data/masvs/` references this
+## How the sibling `masvs/` dir references this
 
-Each `data/masvs/MASVS-X-N.md` has a `mastg_tests:` list with the IDs of MASTG tests that cover that control. The list is derived (the MASVS extractor scans this directory for `covers_masvs:` matches), so it stays consistent with `data/mastg/` automatically.
+Each `MASVS-X-N.md` in the sibling `masvs/` directory has a `mastg_tests:` list with the IDs of MASTG tests that cover that control. The list is derived (the MASVS extractor scans this directory for `covers_masvs:` matches), so it stays consistent automatically.

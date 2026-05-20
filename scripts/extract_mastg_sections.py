@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Extract OWASP MASTG tests (V2 preferred via V1 deprecation chain, V1 fallback
-with notice otherwise) into per-test markdown files under data/mastg/.
+with notice otherwise) into per-test markdown files under
+plugins/code-security-skills/data/mastg/.
 
 V1 translation rule:
   For each MASVS control X:
@@ -298,7 +299,7 @@ def main() -> None:
               file=sys.stderr)
         sys.exit(1)
     mastg_root = Path(sys.argv[1]).resolve()
-    dest_dir = Path(sys.argv[2]).resolve() if len(sys.argv) > 2 else Path("data/mastg").resolve()
+    dest_dir = Path(sys.argv[2]).resolve() if len(sys.argv) > 2 else Path("plugins/code-security-skills/data/mastg").resolve()
     upstream_tag = sys.argv[3] if len(sys.argv) > 3 else "master"
     reverse_index = extract_all(mastg_root, dest_dir, upstream_tag)
     n_files = len(list(dest_dir.glob("MASTG-TEST-*.md")))

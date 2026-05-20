@@ -16,7 +16,7 @@ title: "MASVS-STORAGE-1: Sensitive data is stored securely."
 masvs_group: "MASVS-STORAGE"
 masvs_control: "MASVS-STORAGE-1"
 summary: "Sensitive data is stored securely."
-mastg_tests:                          # derived from data/mastg/ — not hand-authored
+mastg_tests:                          # derived from the sibling mastg/ dir — not hand-authored
   - MASTG-TEST-0200
   - MASTG-TEST-0201
 ---
@@ -24,15 +24,15 @@ mastg_tests:                          # derived from data/mastg/ — not hand-au
 
 The body preserves the upstream `# MASVS-X-N` / `## Control` / `## Description` content verbatim.
 
-No enrichment fields are stored on the MASVS side. Threat context, verification recipes, and per-platform grep hints live in the linked `data/mastg/` test files. Caveats for RESILIENCE (static-only) and PRIVACY-2/3 (runtime data-flow required) live in `plays/tier1-code-analysis/mobile-code-review.md` as play rules, not as frontmatter flags.
+No enrichment fields are stored on the MASVS side. Threat context, verification recipes, and per-platform grep hints live in the linked MASTG test files (sibling `mastg/` directory). Caveats for RESILIENCE (static-only) and PRIVACY-2/3 (runtime data-flow required) live in `plays/mobile-code-review.md` as play rules, not as frontmatter flags.
 
 ## Re-extraction Rule
 
-`scripts/extract_masvs_sections.py` regenerates the upstream-derived keys (`title`, `masvs_group`, `masvs_control`, `summary`) plus the body verbatim from `OWASP/masvs` at the pinned tag. `mastg_tests:` is regenerated from a scan of `data/mastg/` for each control file's `covers_masvs:` matches — so updating MASTG data automatically refreshes the MASVS reverse index on the next MASVS extraction.
+`scripts/extract_masvs_sections.py` regenerates the upstream-derived keys (`title`, `masvs_group`, `masvs_control`, `summary`) plus the body verbatim from `OWASP/masvs` at the pinned tag. `mastg_tests:` is regenerated from a scan of the sibling `mastg/` directory for each control file's `covers_masvs:` matches — so updating MASTG data automatically refreshes the MASVS reverse index on the next MASVS extraction.
 
 ## Usage in Skills
 
-The `mobile-code-review` skill walks the 8 MASVS groups in priority order. For each group, the skill loads the group overview (e.g. `MASVS-STORAGE.md`) and the individual controls (e.g. `MASVS-STORAGE-1.md`), then resolves each control's `mastg_tests:` IDs against `data/mastg/` to pick up grep hints, verification recipes, and threat context.
+The `mobile-code-review` skill walks the 8 MASVS groups in priority order. For each group, the skill loads the group overview (e.g. `MASVS-STORAGE.md`) and the individual controls (e.g. `MASVS-STORAGE-1.md`), then resolves each control's `mastg_tests:` IDs against the sibling `mastg/` directory to pick up grep hints, verification recipes, and threat context.
 
 ## Group Index
 
@@ -55,7 +55,7 @@ To refresh from upstream:
 rm -rf /tmp/masvs-upstream && mkdir -p /tmp/masvs-upstream
 curl -sL https://github.com/OWASP/masvs/archive/refs/tags/v2.1.0.tar.gz | \
     tar xz -C /tmp/masvs-upstream --strip-components=1
-python3 scripts/extract_masvs_sections.py /tmp/masvs-upstream/controls data/masvs data/mastg
+python3 scripts/extract_masvs_sections.py /tmp/masvs-upstream/controls plugins/code-security-skills/data/masvs plugins/code-security-skills/data/mastg
 ```
 
-(The third positional arg `data/mastg` is what enables the reverse-index derivation.)
+(The third positional arg points at the MASTG directory and is what enables the reverse-index derivation.)
