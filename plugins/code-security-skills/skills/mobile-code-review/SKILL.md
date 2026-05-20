@@ -6,7 +6,7 @@ license: CC-BY-4.0
  
 # Mobile Security Code Review
 
-Review native Android and iOS source code for security vulnerabilities by following the full procedure in `plays/tier1-code-analysis/mobile-code-review.md`.
+Review native Android and iOS source code for security vulnerabilities by following the full procedure in `plays/mobile-code-review.md`.
 
 ## Steps
 
