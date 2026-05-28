@@ -49,7 +49,7 @@ The `mobile-code-review` skill walks the 8 MASVS groups in priority order. For e
 
 ## Updating
 
-To refresh from upstream:
+To refresh from upstream (requires PyYAML — install once via `pip install -r scripts/requirements.txt`):
 
 ```bash
 rm -rf /tmp/masvs-upstream && mkdir -p /tmp/masvs-upstream

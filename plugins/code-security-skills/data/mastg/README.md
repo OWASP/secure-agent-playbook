@@ -49,6 +49,8 @@ covers_masvs: [MASVS-STORAGE-1]                               # join key into th
 
 ## Re-extraction
 
+Requires PyYAML — install once via `pip install -r scripts/requirements.txt`.
+
 ```bash
 rm -rf /tmp/mastg-upstream && mkdir -p /tmp/mastg-upstream
 curl -sL https://github.com/OWASP/mastg/archive/refs/heads/master.tar.gz | \
