@@ -1,6 +1,4 @@
-"""Tests for extract_mastg_sections.py — run via:
-   /tmp/xlsx-venv/bin/python scripts/test_extract_mastg_sections.py -v
-"""
+"""Tests for extract_mastg_sections.py — run via: python3 scripts/test_extract_mastg_sections.py -v"""
 import sys
 import textwrap
 import unittest
