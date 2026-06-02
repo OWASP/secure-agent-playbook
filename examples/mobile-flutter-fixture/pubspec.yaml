@@ -1,0 +1,8 @@
+name: vuln_flutter
+description: A small Flutter app with no native layer.
+version: 0.0.1
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+dependencies:
+  flutter: { sdk: flutter }
+  http: ^1.0.0

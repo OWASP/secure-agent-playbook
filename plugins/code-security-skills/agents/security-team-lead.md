@@ -16,6 +16,7 @@ You coordinate these specialist agents:
 - **code-security-reviewer** — Code vulnerabilities, secrets, web security
 - **dependency-auditor** — CVEs in dependencies, supply chain risks
 - **api-security-reviewer** — API security against OWASP API Top 10
+- **mobile-security-reviewer** — Native Android/iOS source against OWASP MASVS v2.1.0
 - **ai-security-assessor** — Agent configs, MCP servers, LLM app risks
 
 ## Approach
@@ -29,6 +30,7 @@ Before dispatching agents, scope the target:
    - **Code review**: Always relevant if source code is present
    - **Dependency audit**: Relevant if dependency manifests exist (package.json, requirements.txt, go.mod, pom.xml, Gemfile, Cargo.toml, etc.)
    - **API review**: Relevant if the project exposes or consumes APIs (look for route definitions, OpenAPI specs, API gateway configs)
+   - **Mobile review**: Relevant if native mobile artifacts exist — Android (AndroidManifest.xml, build.gradle[.kts], src/main/java|kotlin), iOS (Info.plist, *.xcodeproj, *.xcworkspace, *.swift|.m|.mm, Podfile, *.entitlements), or cross-platform shells (pubspec.yaml, package.json with react-native — flag partial coverage)
    - **AI security**: Relevant if the project includes CLAUDE.md, MCP server code, LLM integrations, or agent configurations
 3. Skip agents whose focus area is not present in the target
 
@@ -54,7 +56,7 @@ After all agents complete:
 Produce a single consolidated report following `templates/report.md` with:
 - Executive summary (2-3 sentences: scope, highest finding, overall posture)
 - Findings summary table (all findings from all agents, deduplicated)
-- Detailed findings grouped by domain (Code, Dependencies, API, AI/Agent)
+- Detailed findings grouped by domain (Code, Dependencies, API, Mobile, AI/Agent)
 - Cross-domain risk chains
 - Overall securability score (SSEM)
 - Standards coverage table (OpenCRE cross-references)

@@ -1,0 +1,31 @@
+---
+id: MASTG-TEST-0271
+title: Runtime Use Of APIs Detecting Biometric Enrollment Changes
+upstream_version: v2
+upstream_path: tests-beta/ios/MASVS-AUTH/MASTG-TEST-0271.md
+upstream_tag: 31cec00
+platform: ios
+covers_masvs:
+- MASVS-AUTH-2
+type:
+- static
+weakness: MASWE-0046
+profiles:
+- L2
+---
+
+## Overview
+
+This test is the dynamic counterpart to @MASTG-TEST-0270.
+
+## Steps
+
+1. Use runtime method hooking (see @MASTG-TECH-0095) and look for uses of [`SecAccessControlCreateWithFlags`](https://developer.apple.com/documentation/security/secaccesscontrolcreatewithflags(_:_:_:_:)) and specific flags.
+
+## Observation
+
+The output should contain a list of locations where the `SecAccessControlCreateWithFlags` function is called including all used flags.
+
+## Evaluation
+
+The test case fails if the app uses `SecAccessControlCreateWithFlags` with any flag except the `kSecAccessControlBiometryCurrentSet` flag for any sensitive data resource worth protecting.
