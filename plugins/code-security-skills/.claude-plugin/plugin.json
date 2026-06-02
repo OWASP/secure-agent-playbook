@@ -1,7 +1,7 @@
 {
   "name": "code-security-skills",
   "description": "Code and infrastructure security analysis skills — security engineering, code review, SCA audit, secrets scanning, API security review, web application security review, mobile (Android/iOS) MASVS review, and IaC security review. Grounded in OWASP ASVS, MASVS, Top 10, and CWE.",
-  "version": "0.3.0",
+  "version": "0.2.7",
   "author": {
     "name": "Chris Maenner",
     "email": "chris@palmtreeventuresllc.com"
