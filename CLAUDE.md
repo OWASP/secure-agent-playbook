@@ -91,7 +91,7 @@ agent-security-playbook/
 │   │   │   ├── api-security-reviewer.md
 │   │   │   ├── mobile-security-reviewer.md
 │   │   │   └── security-team-lead.md
-│   │   ├── skills/               # 11 code security skills
+│   │   ├── skills/               # 12 code security skills
 │   │   │   ├── securability-engineering/
 │   │   │   ├── securability-engineering-review/
 │   │   │   ├── prd-securability-enhancement/
@@ -102,10 +102,11 @@ agent-security-playbook/
 │   │   │   ├── web-security-review/
 │   │   │   ├── mobile-code-review/
 │   │   │   ├── iac-security-review/
+│   │   │   ├── security-architecture/
 │   │   │   └── security-guidance/
 │   │   ├── plays/                # Step-by-step runbooks for the skills above
-│   │   ├── templates/            # finding.md, report.md (used by skills' output)
-│   │   └── data/                 # FIASSE, ASVS, MASVS, MASTG, and secure-code prompt reference data
+│   │   ├── templates/            # finding.md, report.md, SECURITY_ARCHITECTURE.md (used by skills' output)
+│   │   └── data/                 # FIASSE, ASVS, AISVS, MASVS, MASTG, and secure-code prompt reference data
 │   └── ai-security-skills/       # AI/agent security skills plugin (self-contained)
 │       ├── .claude-plugin/
 │       │   └── plugin.json
@@ -140,7 +141,7 @@ agent-security-playbook/
 |------|-------|--------|
 | **Tier 4** | AI/Agent Security — prompt injection, excessive agency, MCP risks | Built |
 | **Tier 1** | Code Analysis — securability review, SCA, code review, secrets, API security | Built |
-| **Tier 2** | Design Review — threat modeling, ASVS verification, infra hardening | Planned |
+| **Tier 2** | Design Review — security architecture description, threat modeling, ASVS verification, infra hardening | In progress (security-architecture built) |
 | **Tier 3** | Testing — WSTG checklist, DAST scanning, attack surface mapping | Planned |
 | **Tier 5** | Governance — SAMM maturity, compliance mapping, reporting | Planned |
 
@@ -156,6 +157,6 @@ Datasets that ship inside a plugin (bundled with the marketplace install) live u
 | FIASSE v1.0.4 | `OWASP/FIASSE` — `docs/securable_framework.md` (tag `v1.0.4`) | Markdown + YAML frontmatter | securability-engineering, securability-engineering-review, prd-securability-enhancement (61 section files) | `plugins/code-security-skills/data/fiasse/` |
 | Secure-code prompts | (this repo) | Markdown | iac-security-review (terraform, kubernetes, cloudformation) | `plugins/code-security-skills/data/secure-code-prompts/` |
 | LLM Top 10 v2.0 | `OWASP/www-project-top-10-for-large-language-model-applications` | Markdown | (research; not yet bundled) | `data/llm-top10/` |
-| AISVS | `OWASP/aisvs` | Markdown | (research; not yet bundled) | `data/aisvs/` |
+| AISVS | `OWASP/aisvs` | Markdown | security-architecture (AI/agent section cross-reference, C1–C13) | `plugins/code-security-skills/data/aisvs/` (root copy at `data/aisvs/` kept for research) |
 | OpenCRE | [opencre.org](https://www.opencre.org) — REST API | JSON | All skills (cross-standard linking, queried at runtime) | `data/opencre/` |
 | CWE | [cwe.mitre.org](https://cwe.mitre.org) v4.19 | XML, JSON | All skills (weakness classification, queried at runtime) | external |

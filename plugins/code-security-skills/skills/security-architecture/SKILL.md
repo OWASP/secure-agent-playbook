@@ -70,7 +70,8 @@ Walk these in order, populating the matching section of `templates/SECURITY_ARCH
 13. **External integrations** — third parties, direction, data shared, auth, trust assumption.
 14. **Tenancy & isolation** — isolation model and where the tenant id originates/enforces.
 15. **AI / agent-specific** — only if LLMs/agents/MCP present: models, prompt boundaries,
-    callable tools and privileges, untrusted-content paths, MCP scopes (describe only).
+    callable tools and privileges, untrusted-content paths, MCP scopes (describe only). Use
+    the OWASP **AISVS** categories (`data/aisvs/`, C1–C13) as the checklist of what to describe.
 
 ## Steps
 
@@ -91,7 +92,8 @@ No findings, severities, or recommendations — those are out of scope.
 
 ## OWASP References
 
-- **OWASP ASVS v5.0** — chapter structure used for the cross-reference appendix (`data/asvs/`)
+- **OWASP ASVS v5.0** — chapter structure used for the application/infra cross-reference appendix (`data/asvs/`)
+- **OWASP AISVS** — category structure (C1–C13) used to describe the AI/agent section (`data/aisvs/README.md` index, `data/aisvs/C*.md` requirements)
 - **OWASP Threat Modeling** — this document is the descriptive input a threat model consumes
 - **OWASP Cheat Sheets** — Authentication, Authorization, Session Management, Transport Layer
   Protection, Secrets Management — definitions for the described mechanisms

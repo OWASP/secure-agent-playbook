@@ -219,6 +219,24 @@ can call and their privileges; how untrusted content reaches the model; human-in
 points; output handling of model responses; MCP servers and their scopes. See the
 `ai-security-skills` plugin for assessment of these — this section only *describes* them.]
 
+When populating this section, use the OWASP **AISVS** category structure (`data/aisvs/`,
+C1–C13) as the checklist of what to describe:
+
+| AI mechanism to describe | AISVS category |
+|--------------------------|----------------|
+| Training / fine-tuning data sources & governance | C1 Training Data Governance |
+| Prompt-injection boundaries; untrusted-content handling | C2 User Input Validation |
+| Model provenance, versioning, integrity | C3 / C6 Model Lifecycle & Supply Chain |
+| Runtime/sandbox isolation for model & tools | C4 Infrastructure |
+| Agent/tool identity & access control | C5 Access Control |
+| Output format enforcement & downstream handling | C7 Model Behavior Output |
+| Memory / embeddings / RAG index access | C8 Memory, Embeddings & RAG |
+| Autonomy limits, loop/budget control, tool privileges | C9 Orchestration & Agentic Action |
+| Safety / alignment guardrails | C10 Adversarial Robustness |
+| Privacy / data minimization in prompts & logs | C11 Privacy |
+| Model request/response logging | C12 Monitoring & Logging |
+| Human oversight / kill-switch / override | C13 Human Oversight |
+
 ---
 
 ## 12. Security Controls Summary
@@ -249,10 +267,11 @@ no effectiveness rating.)
 
 ---
 
-## Appendix: ASVS Chapter Cross-Reference
+## Appendix: Standards Cross-Reference
 
-Optional. Maps described mechanisms to the OWASP ASVS v5.0 chapter that governs them, to
-hand off to a later verification pass. See `data/asvs/`.
+Optional. Maps described mechanisms to the OWASP chapter that governs them, to hand off to a
+later verification pass. Use **ASVS v5.0** (`data/asvs/`) for the application/infrastructure
+topics, and **AISVS** (`data/aisvs/`) for the AI/agent topics in §11.
 
 | Topic in this doc | ASVS chapter |
 |-------------------|--------------|
@@ -264,3 +283,14 @@ hand off to a later verification pass. See `data/asvs/`.
 | Logging (§6) | V16 Logging |
 | Data protection (§4) | V14 Data Protection |
 | Infrastructure (§7) | V12 / V13 Config & API |
+
+| AI / agent topic (§11) | AISVS category |
+|------------------------|----------------|
+| Untrusted content / prompt-injection boundaries | C2 User Input Validation |
+| Model provenance & supply chain | C3 / C6 Model Lifecycle & Supply Chain |
+| Agent identity & access control | C5 Access Control |
+| Output handling | C7 Model Behavior Output |
+| Memory / RAG access | C8 Memory, Embeddings & RAG |
+| Autonomy & tool privileges | C9 Orchestration & Agentic Action |
+| Privacy in prompts/logs | C11 Privacy |
+| Human oversight / kill-switch | C13 Human Oversight |
