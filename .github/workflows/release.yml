@@ -166,6 +166,10 @@ jobs:
             template/ \
             -x '*.git*'
 
+      - name: Build per-skill zips
+        if: steps.skip.outputs.skip != 'true'
+        run: scripts/package_skills.sh
+
       - name: Create GitHub release with plugin zip
         if: steps.skip.outputs.skip != 'true'
         env:
@@ -178,4 +182,5 @@ jobs:
             --title "${NEW_TAG}" \
             --generate-notes \
             --notes-start-tag "${PREV_TAG}" \
-            secure-agent-playbook.zip
+            secure-agent-playbook.zip \
+            dist/skills/*.zip
