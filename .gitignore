@@ -14,6 +14,9 @@ Thumbs.db
 .env.local
 .env.*.local
 
+# Build output (scripts/package_skills.sh)
+dist/
+
 # Node (if tooling added later)
 node_modules/
 npm-debug.log*
