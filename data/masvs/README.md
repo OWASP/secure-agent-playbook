@@ -55,7 +55,7 @@ To refresh from upstream (requires PyYAML — install once via `pip install -r s
 rm -rf /tmp/masvs-upstream && mkdir -p /tmp/masvs-upstream
 curl -sL https://github.com/OWASP/masvs/archive/refs/tags/v2.1.0.tar.gz | \
     tar xz -C /tmp/masvs-upstream --strip-components=1
-python3 scripts/extract_masvs_sections.py /tmp/masvs-upstream/controls plugins/code-security-skills/data/masvs plugins/code-security-skills/data/mastg
+python3 scripts/extract_masvs_sections.py /tmp/masvs-upstream/controls data/masvs data/mastg
 ```
 
 (The third positional arg points at the MASTG directory and is what enables the reverse-index derivation.)

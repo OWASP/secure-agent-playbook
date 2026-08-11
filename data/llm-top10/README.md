@@ -152,7 +152,7 @@ Legend: **●** primary defense · **○** supporting defense (from the official
 | C11 | Adversarial Robustness | LLM01, LLM02, LLM05, LLM06, LLM07, LLM08, LLM09 |
 | C12 | Monitoring, Logging & Anomaly Detection | all ten (cross-cutting) |
 
-The AISVS requirement files themselves live at [`data/aisvs/`](../aisvs/) (research copy) and `plugins/code-security-skills/data/aisvs/` (bundled with the plugin).
+The AISVS requirement files themselves live at [`data/aisvs/`](../aisvs/); the plugin reaches them through a symlink at `plugins/code-security-skills/data/aisvs`.
 
 ## Updating
 

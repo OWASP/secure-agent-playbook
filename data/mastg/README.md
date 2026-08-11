@@ -56,13 +56,13 @@ rm -rf /tmp/mastg-upstream && mkdir -p /tmp/mastg-upstream
 curl -sL https://github.com/OWASP/mastg/archive/refs/heads/master.tar.gz | \
     tar xz -C /tmp/mastg-upstream --strip-components=1
 TAG=$(gh api repos/OWASP/mastg/commits/master --jq .sha | head -c 7)
-python3 scripts/extract_mastg_sections.py /tmp/mastg-upstream plugins/code-security-skills/data/mastg "$TAG"
+python3 scripts/extract_mastg_sections.py /tmp/mastg-upstream data/mastg "$TAG"
 ```
 
 After re-running the MASTG extractor, also re-run the MASVS extractor so its `mastg_tests:` reverse indices stay in sync:
 
 ```bash
-python3 scripts/extract_masvs_sections.py /tmp/masvs-upstream/controls plugins/code-security-skills/data/masvs plugins/code-security-skills/data/mastg
+python3 scripts/extract_masvs_sections.py /tmp/masvs-upstream/controls data/masvs data/mastg
 ```
 
 ## Pinned Upstream

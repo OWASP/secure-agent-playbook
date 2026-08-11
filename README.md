@@ -237,7 +237,7 @@ All plays reference OWASP standards and datasets:
 
 | Project | Relationship |
 |---------|-------------|
-| [OWASP Agent Skills Project](https://github.com/eoftedal/owasp-agent-skills-project) | Proactive ASVS 5.0 guidance for AI coding agents — helps agents **write** secure code. We use their ASVS reference data in `plugins/code-security-skills/data/asvs/`. Complementary: they guide code generation, we find vulnerabilities in existing code. |
+| [OWASP Agent Skills Project](https://github.com/eoftedal/owasp-agent-skills-project) | Proactive ASVS 5.0 guidance for AI coding agents — helps agents **write** secure code. We use their ASVS reference data in `data/asvs/`. Complementary: they guide code generation, we find vulnerabilities in existing code. |
 | [Securability Engineering](https://github.com/Securability-Engineering) | Securable code generation (OWASP FIASSE) and secure code requirements (ASVS) via spec file analysis and generation constraint (benchmarked and tuned) for various AI code generation tools. |
 | [Arcanum PI Taxonomy](https://github.com/Arcanum-Sec/arc_pi_taxonomy) | Prompt injection attack classification by Jason Haddix. Our `prompt-injection-testing` play is built on this taxonomy. CC BY 4.0. |
 | [OpenCRE](https://www.opencre.org) | Cross-standard requirement mappings (CWE, ASVS, WSTG, NIST 800-53). We use OpenCRE links in findings for multi-framework traceability. |
