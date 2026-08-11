@@ -82,11 +82,11 @@ SKILL.md references resolve at runtime.
 sees the same relative paths (`data/asvs/V1.1.md`) with a single copy on disk and no drift
 between duplicates.
 
-> ⚠️ **Packaging caveat.** `/plugin marketplace add OWASP/secure-agent-playbook` bundles only
-> files inside the plugin's source directory. These symlinks point *outside* it, so whether
-> installed users receive the data depends on how the packer follows symlinks. Verify against
-> a real marketplace install before releasing; if the data does not survive, either dereference
-> the links at package time (`cp -rL`) or revert to physical copies with a CI drift check.
+This works with the marketplace install: `/plugin marketplace add OWASP/secure-agent-playbook`
+git-clones the **whole repository** into `~/.claude/plugins/marketplaces/agent-security-playbook/`,
+so the root `data/` is present and the relative symlink targets resolve exactly as they do in a
+local checkout. Git stores symlinks as mode `120000` and restores them on checkout, so the links
+survive the clone rather than being flattened or dropped.
 
 Edit datasets at `data/<name>/` — never through the plugin symlink path.
 
@@ -153,7 +153,7 @@ agent-security-playbook/
 
 - **`plugins/*/agents/`** — Autonomous security specialists with focused system prompts, co-located inside each plugin (`plugins/code-security-skills/agents/` and `plugins/ai-security-skills/agents/`). Each agent invokes one or more skills, operates in an isolated context, and produces structured reports. Can work solo or as a coordinated team via `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`.
 - **`plugins/*/skills/`** — Self-contained `SKILL.md` files following the [Agent Skills spec](https://agentskills.io/specification). Co-located inside each plugin directory, installable via `/plugin marketplace add OWASP/secure-agent-playbook` then `/plugin install <name>@agent-security-playbook`. Each skill summarizes a procedure and references its corresponding play.
-- **`plugins/*/plays/`** — Full reference procedures with detailed checklists, tables, and examples. Skills reference these for comprehensive coverage. **Live inside each plugin's source folder** so they are bundled with the marketplace install. Contributors edit plays; skills are the invocation layer; agents are the orchestration layer.
+- **`plugins/*/plays/`** — Full reference procedures with detailed checklists, tables, and examples. Skills reference these for comprehensive coverage. **Live inside each plugin's source folder** so the relative paths in SKILL.md (`../../plays/<name>.md`) resolve. Contributors edit plays; skills are the invocation layer; agents are the orchestration layer.
 
 ## Play Tiers (Priority Order)
 
