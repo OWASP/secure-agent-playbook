@@ -122,8 +122,8 @@ Check the client-side MCP configuration:
 
 ## OWASP References
 
-- **LLM01**: Prompt Injection (via tool descriptions and outputs)
-- **LLM02**: Insecure Output Handling (tool output rendering)
-- **LLM06**: Excessive Agency (overpermissioned tools)
-- **LLM07**: System Prompt Leakage (sensitive data in tool descriptions)
+- **LLM01:2026**: Prompt Injection (via tool descriptions and outputs)
+- **LLM03:2026**: Excessive Agency (overpermissioned tools)
+- **LLM08:2026**: Hidden Context Exposure (sensitive data in tool descriptions)
+- **LLM10:2026**: Improper Output Handling (tool output rendering)
 - OWASP Top 10: A01 Broken Access Control, A03 Injection

@@ -102,10 +102,10 @@ Reference plays directly as procedures for any AI agent or manual use:
 | Skill | What It Does | Say This | OWASP Ref |
 |-------|-------------|----------|-----------|
 | `agent-security-audit` | Audit agent permissions, injection surfaces, data exfil paths | "Audit this agent's security" | LLM Top 10 |
-| `llm-risk-assess` | LLM app assessment against LLM Top 10 2025 | "Assess LLM risks for this app" | LLM Top 10 |
+| `llm-risk-assess` | LLM app assessment against GenAI LLM Top 10 2026 | "Assess LLM risks for this app" | LLM Top 10 |
 | `agentic-ai-risk-assess` | Agentic app assessment against Top 10 Agentic 2026 | "Assess agentic AI risks" | Agentic Top 10 |
 | `mcp-server-review` | MCP server security review | "Review this MCP server" | LLM Top 10 |
-| `prompt-injection-test` | Prompt injection testing (Arcanum PI Taxonomy) | "Test for prompt injection" | LLM01 |
+| `prompt-injection-test` | Prompt injection testing (Arcanum PI Taxonomy) | "Test for prompt injection" | LLM01:2026 |
 | `multi-agentic-threat-model` | CSA MAESTRO 7-layer threat modeling | "Model threats for this multi-agent system" | CSA MAESTRO |
 
 ## Agents
@@ -226,7 +226,8 @@ All plays reference OWASP standards and datasets:
 - [OWASP Agentic Security Initiative](https://genai.owasp.org/initiatives/agentic-security-initiative/) — Autonomous-agent risks (Top 10 for Agentic Applications)
 - [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/) — Security verification requirements
 - [OWASP MASVS](https://mas.owasp.org/MASVS/) — Mobile Application Security Verification Standard
-- [OWASP AISVS](https://github.com/OWASP/AISVS) — AI Security Verification Standard
+- [OWASP AISVS v1.0](https://github.com/OWASP/AISVS) — AI Security Verification Standard
+- [OWASP GenAI LLM Top 10 2026](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/) — LLM application risks
 - [OWASP WSTG](https://owasp.org/www-project-web-security-testing-guide/) — Testing methodology
 - [OWASP SAMM](https://owaspsamm.org) — Security program maturity model
 - [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org) — Developer security guidance
@@ -236,7 +237,7 @@ All plays reference OWASP standards and datasets:
 
 | Project | Relationship |
 |---------|-------------|
-| [OWASP Agent Skills Project](https://github.com/eoftedal/owasp-agent-skills-project) | Proactive ASVS 5.0 guidance for AI coding agents — helps agents **write** secure code. We use their ASVS reference data in `plugins/code-security-skills/data/asvs/`. Complementary: they guide code generation, we find vulnerabilities in existing code. |
+| [OWASP Agent Skills Project](https://github.com/eoftedal/owasp-agent-skills-project) | Proactive ASVS 5.0 guidance for AI coding agents — helps agents **write** secure code. We use their ASVS reference data in `data/asvs/`. Complementary: they guide code generation, we find vulnerabilities in existing code. |
 | [Securability Engineering](https://github.com/Securability-Engineering) | Securable code generation (OWASP FIASSE) and secure code requirements (ASVS) via spec file analysis and generation constraint (benchmarked and tuned) for various AI code generation tools. |
 | [Arcanum PI Taxonomy](https://github.com/Arcanum-Sec/arc_pi_taxonomy) | Prompt injection attack classification by Jason Haddix. Our `prompt-injection-testing` play is built on this taxonomy. CC BY 4.0. |
 | [OpenCRE](https://www.opencre.org) | Cross-standard requirement mappings (CWE, ASVS, WSTG, NIST 800-53). We use OpenCRE links in findings for multi-framework traceability. |

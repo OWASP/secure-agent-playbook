@@ -30,8 +30,8 @@ Server overview, tool risk matrix, findings using `templates/finding.md`, and sp
 
 ## OWASP References
 
-- LLM01: Prompt Injection (via tool descriptions and outputs)
-- LLM02: Insecure Output Handling
-- LLM06: Excessive Agency (overpermissioned tools)
+- LLM01:2026: Prompt Injection (via tool descriptions and outputs)
+- LLM03:2026: Excessive Agency (overpermissioned tools)
+- LLM10:2026: Improper Output Handling
 - A01: Broken Access Control
 - A03: Injection

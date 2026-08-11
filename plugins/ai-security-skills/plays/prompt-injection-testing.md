@@ -10,7 +10,7 @@ Systematically test LLM-integrated applications against known prompt injection t
 Use this play when:
 - Red-teaming or pen-testing an LLM-integrated application's prompt injection defenses
 - Validating that guardrails, input filters, or output controls resist known attack patterns
-- Deepening the LLM01 (Prompt Injection) assessment during an `/llm-risk-assess` or `/agent-security-audit` engagement
+- Deepening the LLM01:2026 (Prompt Injection) assessment during an `/llm-risk-assess` or `/agent-security-audit` engagement
 - A user asks "test my app for prompt injection" or "can you try to jailbreak this?"
 
 ## Inputs
@@ -336,10 +336,10 @@ When testing programmatically, consider:
 
 ## OWASP References
 
-- **LLM01**: Prompt Injection — this play's primary focus
-- **LLM02**: Insecure Output Handling — test whether injected prompts produce dangerous outputs
-- **LLM06**: Excessive Agency — test whether injection can trigger unauthorized tool calls
-- **LLM07**: System Prompt Leakage — INT-01 and INT-05 directly test this
+- **LLM01:2026**: Prompt Injection — this play's primary focus
+- **LLM03:2026**: Excessive Agency — test whether injection can trigger unauthorized tool calls
+- **LLM08:2026**: Hidden Context Exposure — INT-01 and INT-05 directly test this
+- **LLM10:2026**: Improper Output Handling — test whether injected prompts produce dangerous outputs
 - OWASP AI Exchange: Prompt Injection Controls
 - OWASP Cheat Sheet: AI Agent Security
 

@@ -14,7 +14,7 @@ Evaluate an AI agent's security posture by following the full procedure in `play
 
 2. **Prompt Injection Surface Analysis** — For each input path (user messages, tool outputs, MCP resources, RAG documents), assess whether crafted input could cause the agent to invoke unintended tools, override instructions, or exfiltrate data.
 
-3. **Excessive Agency Assessment (OWASP LLM06)** — Check whether destructive/irreversible actions require confirmation, whether access exceeds need, whether the agent can escalate its own privileges, and whether individually-safe tool calls can chain into harmful outcomes.
+3. **Excessive Agency Assessment (OWASP LLM03:2026)** — Check whether destructive/irreversible actions require confirmation, whether access exceeds need, whether the agent can escalate its own privileges, and whether individually-safe tool calls can chain into harmful outcomes.
 
 4. **Data Exfiltration Path Analysis** — Map how sensitive data could leave the agent boundary: secrets passed to external tools, file contents in web requests, cross-MCP-server data forwarding, sensitive data in logs.
 
@@ -28,8 +28,8 @@ Use the finding format from `templates/finding.md`. Produce a Permission Summary
 
 ## OWASP References
 
-- LLM01: Prompt Injection
-- LLM02: Insecure Output Handling
-- LLM06: Excessive Agency
-- LLM07: System Prompt Leakage
-- LLM08: Vector and Embedding Weaknesses
+- LLM01:2026: Prompt Injection
+- LLM03:2026: Excessive Agency
+- LLM08:2026: Hidden Context Exposure
+- LLM09:2026: Vector and Embedding Weaknesses
+- LLM10:2026: Improper Output Handling

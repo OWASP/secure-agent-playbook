@@ -60,7 +60,7 @@ When reporting security findings, use this structure:
 - **CWE**: CWE-XXX (if applicable)
 - **CVE**: CVE-YYYY-NNNNN (if applicable)
 - **OpenCRE**: [CRE-ID](https://www.opencre.org/cre/CRE-ID) — requirement name
-- **OWASP Ref**: Top 10 A01, ASVS V#.#.#, LLM01, etc.
+- **OWASP Ref**: Top 10 A01, ASVS V#.#.#, AISVS C9.2.1, LLM01:2026, etc.
 - **Location**: file_path:line_number
 - **Impact**: What an attacker can achieve
 - **Evidence**: Code snippet, command output, or proof-of-concept
@@ -73,7 +73,22 @@ Severity levels: CRITICAL, HIGH, MEDIUM, LOW, INFORMATIONAL
 
 ## Repository Structure
 
-Each plugin source folder under `plugins/` is **fully self-contained** — when users install via `/plugin marketplace add OWASP/secure-agent-playbook`, only files inside the plugin's source directory are bundled. Plays, templates, and the FIASSE/ASVS reference data each plugin needs are co-located inside the plugin so SKILL.md references resolve at runtime.
+Plays and templates are co-located inside each plugin source folder under `plugins/` so
+SKILL.md references resolve at runtime.
+
+**Reference data is centralized.** All datasets live once at the repo root under `data/`.
+`plugins/code-security-skills/data/` contains **symlinks** (`aisvs`, `asvs`, `fiasse`,
+`mastg`, `masvs`, `secure-code-prompts`) pointing at `../../../data/<name>`, so the plugin
+sees the same relative paths (`data/asvs/V1.1.md`) with a single copy on disk and no drift
+between duplicates.
+
+This works with the marketplace install: `/plugin marketplace add OWASP/secure-agent-playbook`
+git-clones the **whole repository** into `~/.claude/plugins/marketplaces/agent-security-playbook/`,
+so the root `data/` is present and the relative symlink targets resolve exactly as they do in a
+local checkout. Git stores symlinks as mode `120000` and restores them on checkout, so the links
+survive the clone rather than being flattened or dropped.
+
+Edit datasets at `data/<name>/` — never through the plugin symlink path.
 
 ```
 agent-security-playbook/
@@ -82,7 +97,7 @@ agent-security-playbook/
 │   ├── marketplace.json          # Marketplace listing both plugins (for /plugin marketplace add)
 │   └── plugin.json               # Legacy single-plugin stub (backward compat)
 ├── plugins/                      # Claude Code plugin installation entry points
-│   ├── code-security-skills/     # Code & infra security skills plugin (self-contained)
+│   ├── code-security-skills/     # Code & infra security skills plugin
 │   │   ├── .claude-plugin/
 │   │   │   └── plugin.json
 │   │   ├── agents/               # 5 code-security agents
@@ -91,7 +106,7 @@ agent-security-playbook/
 │   │   │   ├── api-security-reviewer.md
 │   │   │   ├── mobile-security-reviewer.md
 │   │   │   └── security-team-lead.md
-│   │   ├── skills/               # 11 code security skills
+│   │   ├── skills/               # 12 code security skills
 │   │   │   ├── securability-engineering/
 │   │   │   ├── securability-engineering-review/
 │   │   │   ├── prd-securability-enhancement/
@@ -102,11 +117,12 @@ agent-security-playbook/
 │   │   │   ├── web-security-review/
 │   │   │   ├── mobile-code-review/
 │   │   │   ├── iac-security-review/
+│   │   │   ├── security-architecture/
 │   │   │   └── security-guidance/
 │   │   ├── plays/                # Step-by-step runbooks for the skills above
-│   │   ├── templates/            # finding.md, report.md (used by skills' output)
-│   │   └── data/                 # FIASSE, ASVS, MASVS, MASTG, and secure-code prompt reference data
-│   └── ai-security-skills/       # AI/agent security skills plugin (self-contained)
+│   │   ├── templates/            # finding.md, report.md, SECURITY_ARCHITECTURE.md (used by skills' output)
+│   │   └── data/                 # SYMLINKS ONLY -> ../../../data/{aisvs,asvs,fiasse,mastg,masvs,secure-code-prompts}
+│   └── ai-security-skills/       # AI/agent security skills plugin (no data/; needs none)
 │       ├── .claude-plugin/
 │       │   └── plugin.json
 │       ├── agents/               # 1 AI-security agent
@@ -120,10 +136,15 @@ agent-security-playbook/
 │       │   └── multi-agentic-threat-model/
 │       ├── plays/                # Step-by-step runbooks for the skills above
 │       └── templates/            # finding.md, report.md (used by skills' output)
-├── data/                         # Research / future-skill reference data (not bundled into plugins)
-│   ├── aisvs/                    # AISVS sections
-│   ├── llm-top10/                # Parsed LLM Top 10 data
-│   └── opencre/                  # OpenCRE cross-standard mappings (CWE <-> ASVS <-> WSTG <-> NIST)
+├── data/                         # ALL reference data — single source of truth; edit here
+│   ├── aisvs/                    # AISVS v1.0 sections (C1–C12, 44 files)
+│   ├── asvs/                     # ASVS v5.0 chapters
+│   ├── fiasse/                   # FIASSE v1.0.4 sections
+│   ├── llm-top10/                # GenAI LLM Top 10 2026 risk data (+ AISVS v1.0 mappings)
+│   ├── mastg/                    # MASTG per-test recipes
+│   ├── masvs/                    # MASVS v2.1.0 controls
+│   ├── opencre/                  # OpenCRE cross-standard mappings (CWE <-> ASVS <-> WSTG <-> NIST)
+│   └── secure-code-prompts/      # terraform, kubernetes, cloudformation prompts
 └── template/
     └── SKILL.md                  # Skill template for contributors
 ```
@@ -132,7 +153,7 @@ agent-security-playbook/
 
 - **`plugins/*/agents/`** — Autonomous security specialists with focused system prompts, co-located inside each plugin (`plugins/code-security-skills/agents/` and `plugins/ai-security-skills/agents/`). Each agent invokes one or more skills, operates in an isolated context, and produces structured reports. Can work solo or as a coordinated team via `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`.
 - **`plugins/*/skills/`** — Self-contained `SKILL.md` files following the [Agent Skills spec](https://agentskills.io/specification). Co-located inside each plugin directory, installable via `/plugin marketplace add OWASP/secure-agent-playbook` then `/plugin install <name>@agent-security-playbook`. Each skill summarizes a procedure and references its corresponding play.
-- **`plugins/*/plays/`** — Full reference procedures with detailed checklists, tables, and examples. Skills reference these for comprehensive coverage. **Live inside each plugin's source folder** so they are bundled with the marketplace install. Contributors edit plays; skills are the invocation layer; agents are the orchestration layer.
+- **`plugins/*/plays/`** — Full reference procedures with detailed checklists, tables, and examples. Skills reference these for comprehensive coverage. **Live inside each plugin's source folder** so the relative paths in SKILL.md (`../../plays/<name>.md`) resolve. Contributors edit plays; skills are the invocation layer; agents are the orchestration layer.
 
 ## Play Tiers (Priority Order)
 
@@ -140,22 +161,25 @@ agent-security-playbook/
 |------|-------|--------|
 | **Tier 4** | AI/Agent Security — prompt injection, excessive agency, MCP risks | Built |
 | **Tier 1** | Code Analysis — securability review, SCA, code review, secrets, API security | Built |
-| **Tier 2** | Design Review — threat modeling, ASVS verification, infra hardening | Planned |
+| **Tier 2** | Design Review — security architecture description, threat modeling, ASVS verification, infra hardening | In progress (security-architecture built) |
 | **Tier 3** | Testing — WSTG checklist, DAST scanning, attack surface mapping | Planned |
 | **Tier 5** | Governance — SAMM maturity, compliance mapping, reporting | Planned |
 
 ## OWASP Data Sources
 
-Datasets that ship inside a plugin (bundled with the marketplace install) live under `plugins/<plugin>/data/`. Datasets used only for research, future skills, or out-of-band lookups live at the repo root under `data/`.
+All datasets live at the repo root under `data/` — one physical copy, the single source of
+truth. `plugins/code-security-skills/data/` reaches them through symlinks, so a skill's
+`data/<name>/…` path resolves identically whether run from the repo or the plugin. **Edit at
+`data/<name>/`.**
 
 | Dataset | Source Repo | Format | Used By | Lives at |
 |---------|-----------|--------|---------|----------|
-| ASVS v5.0 | `eoftedal/owasp-agent-skills-project` — `references/ASVS/` | Markdown + YAML frontmatter | securability-engineering, prd-securability-enhancement | `plugins/code-security-skills/data/asvs/` |
-| MASVS v2.1.0 | `OWASP/masvs` (tag `v2.1.0`, `controls/MASVS-*.md`) | Markdown + lean YAML frontmatter (no enrichment; `mastg_tests:` derived from sibling `data/mastg/`) | mobile-code-review (24 control files + 8 group overviews) | `plugins/code-security-skills/data/masvs/` |
-| MASTG | `OWASP/mastg` — `tests-beta/` (V2) with `tests/` (V1) fallback | Markdown + YAML frontmatter | mobile-code-review (per-test recipes) | `plugins/code-security-skills/data/mastg/` |
-| FIASSE v1.0.4 | `OWASP/FIASSE` — `docs/securable_framework.md` (tag `v1.0.4`) | Markdown + YAML frontmatter | securability-engineering, securability-engineering-review, prd-securability-enhancement (61 section files) | `plugins/code-security-skills/data/fiasse/` |
-| Secure-code prompts | (this repo) | Markdown | iac-security-review (terraform, kubernetes, cloudformation) | `plugins/code-security-skills/data/secure-code-prompts/` |
-| LLM Top 10 v2.0 | `OWASP/www-project-top-10-for-large-language-model-applications` | Markdown | (research; not yet bundled) | `data/llm-top10/` |
-| AISVS | `OWASP/aisvs` | Markdown | (research; not yet bundled) | `data/aisvs/` |
+| ASVS v5.0 | `eoftedal/owasp-agent-skills-project` — `references/ASVS/` | Markdown + YAML frontmatter | securability-engineering, prd-securability-enhancement | `data/asvs/` |
+| MASVS v2.1.0 | `OWASP/masvs` (tag `v2.1.0`, `controls/MASVS-*.md`) | Markdown + lean YAML frontmatter (no enrichment; `mastg_tests:` derived from sibling `data/mastg/`) | mobile-code-review (24 control files + 8 group overviews) | `data/masvs/` |
+| MASTG | `OWASP/mastg` — `tests-beta/` (V2) with `tests/` (V1) fallback | Markdown + YAML frontmatter | mobile-code-review (per-test recipes) | `data/mastg/` |
+| FIASSE v1.0.4 | `OWASP/FIASSE` — `docs/securable_framework.md` (tag `v1.0.4`) | Markdown + YAML frontmatter | securability-engineering, securability-engineering-review, prd-securability-enhancement (61 section files) | `data/fiasse/` |
+| Secure-code prompts | (this repo) | Markdown | iac-security-review (terraform, kubernetes, cloudformation) | `data/secure-code-prompts/` |
+| GenAI LLM Top 10 2026 | `GenAI-Security-Project/GenAI-LLM-Top10` — `2026/final/` (Aug 2026) | Markdown + YAML frontmatter | llm-risk-assess, agent-security-audit, prompt-injection-test, mcp-server-review (research; not yet bundled) | `data/llm-top10/` |
+| AISVS v1.0 | `OWASP/aisvs` — `1.0/en/0x10-C*.md` (June 2026) | Markdown + YAML frontmatter | security-architecture (AI/agent section cross-reference, C1–C12), ai-security-verification | `data/aisvs/` |
 | OpenCRE | [opencre.org](https://www.opencre.org) — REST API | JSON | All skills (cross-standard linking, queried at runtime) | `data/opencre/` |
 | CWE | [cwe.mitre.org](https://cwe.mitre.org) v4.19 | XML, JSON | All skills (weakness classification, queried at runtime) | external |
