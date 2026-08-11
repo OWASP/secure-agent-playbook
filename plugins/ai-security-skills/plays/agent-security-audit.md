@@ -49,7 +49,7 @@ For each HIGH risk path, check:
 - Can the input override system prompt instructions?
 - Can the input exfiltrate data through tool calls (e.g., encoding secrets in URLs)?
 
-### 3. Excessive Agency Assessment (OWASP LLM06)
+### 3. Excessive Agency Assessment (OWASP LLM03:2026)
 
 Check whether the agent can:
 - **Execute without confirmation**: Are destructive or irreversible actions gated behind user approval?
@@ -110,11 +110,11 @@ Check for presence and effectiveness of:
 
 ## OWASP References
 
-- **LLM01**: Prompt Injection
-- **LLM02**: Insecure Output Handling
-- **LLM06**: Excessive Agency
-- **LLM07**: System Prompt Leakage
-- **LLM08**: Vector and Embedding Weaknesses (for RAG agents)
-- **LLM09**: Misinformation
+- **LLM01:2026**: Prompt Injection
+- **LLM03:2026**: Excessive Agency
+- **LLM07:2026**: Misinformation
+- **LLM08:2026**: Hidden Context Exposure
+- **LLM09:2026**: Vector and Embedding Weaknesses (for RAG agents)
+- **LLM10:2026**: Improper Output Handling
 - OWASP AI Exchange: Agent Security Controls
 - OWASP Cheat Sheet: AI Agent Security

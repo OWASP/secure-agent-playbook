@@ -1,6 +1,6 @@
 ---
 name: prompt-injection-test
-description: Test LLM-integrated applications against known prompt injection techniques, evasion methods, and attack intents using the Arcanum PI Taxonomy. Use when red-teaming AI apps, validating guardrails, or deepening LLM01 (Prompt Injection) assessments.
+description: Test LLM-integrated applications against known prompt injection techniques, evasion methods, and attack intents using the Arcanum PI Taxonomy. Use when red-teaming AI apps, validating guardrails, or deepening LLM01:2026 (Prompt Injection) assessments.
 license: CC-BY-4.0
 ---
 
@@ -46,7 +46,7 @@ Test results summary table (intent / technique / evasion / surface / result / se
 
 ## OWASP References
 
-- LLM01: Prompt Injection
-- LLM02: Insecure Output Handling
-- LLM06: Excessive Agency
-- LLM07: System Prompt Leakage
+- LLM01:2026: Prompt Injection
+- LLM03:2026: Excessive Agency
+- LLM08:2026: Hidden Context Exposure
+- LLM10:2026: Improper Output Handling

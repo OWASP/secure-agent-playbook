@@ -219,23 +219,22 @@ can call and their privileges; how untrusted content reaches the model; human-in
 points; output handling of model responses; MCP servers and their scopes. See the
 `ai-security-skills` plugin for assessment of these — this section only *describes* them.]
 
-When populating this section, use the OWASP **AISVS** category structure (`data/aisvs/`,
-C1–C13) as the checklist of what to describe:
+When populating this section, use the OWASP **AISVS v1.0** category structure
+(`data/aisvs/`, C1–C12) as the checklist of what to describe:
 
 | AI mechanism to describe | AISVS category |
 |--------------------------|----------------|
-| Training / fine-tuning data sources & governance | C1 Training Data Governance |
-| Prompt-injection boundaries; untrusted-content handling | C2 User Input Validation |
+| Training / fine-tuning data sources, lineage & integrity | C1 Training Data Integrity & Traceability |
+| Prompt-injection boundaries; untrusted-content handling | C2 Input Validation |
 | Model provenance, versioning, integrity | C3 / C6 Model Lifecycle & Supply Chain |
 | Runtime/sandbox isolation for model & tools | C4 Infrastructure |
-| Agent/tool identity & access control | C5 Access Control |
-| Output format enforcement & downstream handling | C7 Model Behavior Output |
-| Memory / embeddings / RAG index access | C8 Memory, Embeddings & RAG |
-| Autonomy limits, loop/budget control, tool privileges | C9 Orchestration & Agentic Action |
-| Safety / alignment guardrails | C10 Adversarial Robustness |
-| Privacy / data minimization in prompts & logs | C11 Privacy |
-| Model request/response logging | C12 Monitoring & Logging |
-| Human oversight / kill-switch / override | C13 Human Oversight |
+| Agent/tool identity, authorization & tenant isolation | C5 Access Control & Identity |
+| Output format enforcement & downstream handling | C7 Model Behavior & Output Control |
+| Memory / embeddings / RAG index access | C8 Memory, Embeddings & Vector DB |
+| Autonomy limits, budgets, tool privileges, approval gates, kill-switch | C9 Orchestration & Agentic Security |
+| MCP servers, their scopes, transport & tool validation | C10 MCP Security |
+| Safety / alignment guardrails, extraction & inference defenses | C11 Adversarial Robustness |
+| Model request/response logging & AI-specific detection | C12 Monitoring & Logging |
 
 ---
 
@@ -286,11 +285,12 @@ topics, and **AISVS** (`data/aisvs/`) for the AI/agent topics in §11.
 
 | AI / agent topic (§11) | AISVS category |
 |------------------------|----------------|
-| Untrusted content / prompt-injection boundaries | C2 User Input Validation |
+| Untrusted content / prompt-injection boundaries | C2 Input Validation |
 | Model provenance & supply chain | C3 / C6 Model Lifecycle & Supply Chain |
-| Agent identity & access control | C5 Access Control |
-| Output handling | C7 Model Behavior Output |
-| Memory / RAG access | C8 Memory, Embeddings & RAG |
-| Autonomy & tool privileges | C9 Orchestration & Agentic Action |
-| Privacy in prompts/logs | C11 Privacy |
-| Human oversight / kill-switch | C13 Human Oversight |
+| Agent identity, authorization & data-scoped retrieval | C5 Access Control & Identity |
+| Output handling | C7 Model Behavior & Output Control |
+| Memory / RAG access | C8 Memory, Embeddings & Vector DB |
+| Autonomy, tool privileges, human oversight & kill-switch | C9 Orchestration & Agentic Security |
+| MCP server security | C10 MCP Security |
+| Adversarial robustness & inference-attack defenses | C11 Adversarial Robustness |
+| Model request/response logging | C12 Monitoring & Logging |

@@ -23,16 +23,16 @@ Comprehensive evaluation of LLM applications against OWASP Top 10 for LLM Applic
    - Validate vector database security
 
 3. **Assess All 10 OWASP LLM 2025 Risks** with attack scenarios:
-   - **LLM01 Prompt Injection** — Direct/indirect injection, jailbreaks, goal hijacking, delimiter bypasses
-   - **LLM02 Sensitive Information Disclosure** — Training data leakage, PII exposure, system info extraction, memorized secrets
-   - **LLM03 Supply Chain** — Model poisoning, malicious dependencies, insecure plugins, provenance issues
-   - **LLM04 Data and Model Poisoning** — Training data poisoning, RAG poisoning, embedding manipulation
-   - **LLM05 Improper Output Handling** — XSS, command injection, SQLi, path traversal via LLM outputs
-   - **LLM06 Excessive Agency** — Unauthorized tool calls, permission escalation, dangerous action chains
-   - **LLM07 System Prompt Leakage** — Prompt extraction attacks, secret disclosure, instruction reverse engineering
-   - **LLM08 Vector and Embedding Weaknesses** — Adversarial embeddings, retrieval poisoning, similarity attacks
-   - **LLM09 Misinformation** — Hallucinations, authoritative presentation, grounding failures, harmful domains
-   - **LLM10 Unbounded Consumption** — Token exhaustion, cost attacks, resource exhaustion, DoS
+   - **LLM01 Prompt Injection** — Direct/indirect injection, jailbreaks, multimodal and invisible-character payloads, memory and RAG poisoning
+   - **LLM02 Sensitive Information Disclosure** — Training data leakage, PII exposure, reasoning-trace and tool-argument leakage, embedding inversion, side channels
+   - **LLM03 Excessive Agency** — Excessive functionality, permissions, and autonomy; unauthorized tool calls, dangerous action chains
+   - **LLM04 Supply Chain** — Tampered models, weak provenance, malicious adapters, conversion/quantization and build-pipeline compromise
+   - **LLM05 Data and Model Poisoning** — Training, fine-tuning, and embedding poisoning; sleeper agents; non-weight artifact tampering
+   - **LLM06 Unbounded Consumption** — Token exhaustion, denial of wallet, reasoning-loop exhaustion, model extraction
+   - **LLM07 Misinformation** — Hallucinations, fabricated dependencies, incorrect state inference driving agent action
+   - **LLM08 Hidden Context Exposure** — System prompt, tool schema, and control-logic extraction; guardrail reverse engineering
+   - **LLM09 Vector and Embedding Weaknesses** — Retrieval poisoning, embedding inversion, cross-tenant leakage, cache poisoning
+   - **LLM10 Improper Output Handling** — XSS, SQLi, RCE, ANSI injection, renderer-triggered exfiltration
 
 4. **Red Team Testing**
    - Attempt real-world attack scenarios

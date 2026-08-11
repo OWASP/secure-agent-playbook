@@ -73,7 +73,7 @@ All findings must use the structure defined in `templates/finding.md`:
 - **CWE**: CWE-XXX
 - **CVE**: CVE-YYYY-NNNNN (if applicable)
 - **OpenCRE**: [CRE-ID](https://www.opencre.org/cre/CRE-ID) — requirement name
-- **OWASP Ref**: Top 10 A01, ASVS V#.#.#, LLM01, etc.
+- **OWASP Ref**: Top 10 A01, ASVS V#.#.#, AISVS C9.2.1, LLM01:2026, etc.
 - **Location**: file_path:line_number
 - **Impact**: What an attacker can achieve
 - **Evidence**: Code snippet, command output, or proof-of-concept

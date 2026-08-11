@@ -115,13 +115,13 @@ Work topic by topic, populating the corresponding section of `templates/SECURITY
     and is enforced.
 23. **AI / agent-specific** (§11) — only if LLMs/agents/MCP are present: models/providers,
     prompt boundaries, callable tools and their privileges, untrusted-content paths,
-    human-in-the-loop points, MCP server scopes. Use the OWASP **AISVS** category structure
-    (`data/aisvs/`, C1–C13) as the checklist of what to describe — training-data governance
-    (C1), prompt-injection boundaries (C2), model provenance (C3/C6), runtime isolation (C4),
-    agent identity & access (C5), output handling (C7), memory/RAG access (C8), autonomy &
-    tool privileges (C9), safety guardrails (C10), privacy (C11), logging (C12), human
-    oversight/kill-switch (C13). Describe only; assessment lives in the `ai-security-skills`
-    plugin.
+    human-in-the-loop points, MCP server scopes. Use the OWASP **AISVS v1.0** category
+    structure (`data/aisvs/`, C1–C12) as the checklist of what to describe — training-data
+    integrity (C1), prompt-injection boundaries (C2), model provenance (C3/C6), runtime
+    isolation (C4), agent identity & access (C5), output handling (C7), memory/RAG access
+    (C8), autonomy, tool privileges, approval gates & kill-switch (C9), MCP server security
+    (C10), adversarial robustness & safety guardrails (C11), logging (C12). Describe only;
+    assessment lives in the `ai-security-skills` plugin.
 
 ### Phase 9: Synthesize (§12–§13, Appendix)
 
@@ -140,7 +140,7 @@ recommendations — those are out of scope for this play.
 ## OWASP References
 
 - **OWASP ASVS v5.0** — chapter structure used for the application/infra cross-reference appendix (`data/asvs/`)
-- **OWASP AISVS** — category structure (C1–C13) used to describe the AI/agent section §11 (`data/aisvs/README.md` index, `data/aisvs/C*.md` requirements)
+- **OWASP AISVS v1.0** — category structure (C1–C12) used to describe the AI/agent section §11 (`data/aisvs/README.md` index, `data/aisvs/C*.md` requirements)
 - **OWASP Threat Modeling** — this document is the descriptive input a threat model consumes
 - **OWASP Cheat Sheets** — Authentication, Authorization, Session Management, Transport Layer
   Protection, Secrets Management (reference definitions for the mechanisms described)

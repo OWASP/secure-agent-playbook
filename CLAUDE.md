@@ -60,7 +60,7 @@ When reporting security findings, use this structure:
 - **CWE**: CWE-XXX (if applicable)
 - **CVE**: CVE-YYYY-NNNNN (if applicable)
 - **OpenCRE**: [CRE-ID](https://www.opencre.org/cre/CRE-ID) — requirement name
-- **OWASP Ref**: Top 10 A01, ASVS V#.#.#, LLM01, etc.
+- **OWASP Ref**: Top 10 A01, ASVS V#.#.#, AISVS C9.2.1, LLM01:2026, etc.
 - **Location**: file_path:line_number
 - **Impact**: What an attacker can achieve
 - **Evidence**: Code snippet, command output, or proof-of-concept
@@ -123,7 +123,7 @@ agent-security-playbook/
 │       └── templates/            # finding.md, report.md (used by skills' output)
 ├── data/                         # Research / future-skill reference data (not bundled into plugins)
 │   ├── aisvs/                    # AISVS sections
-│   ├── llm-top10/                # Parsed LLM Top 10 data
+│   ├── llm-top10/                # GenAI LLM Top 10 2026 risk data (+ AISVS v1.0 mappings)
 │   └── opencre/                  # OpenCRE cross-standard mappings (CWE <-> ASVS <-> WSTG <-> NIST)
 └── template/
     └── SKILL.md                  # Skill template for contributors
@@ -156,7 +156,7 @@ Datasets that ship inside a plugin (bundled with the marketplace install) live u
 | MASTG | `OWASP/mastg` — `tests-beta/` (V2) with `tests/` (V1) fallback | Markdown + YAML frontmatter | mobile-code-review (per-test recipes) | `plugins/code-security-skills/data/mastg/` |
 | FIASSE v1.0.4 | `OWASP/FIASSE` — `docs/securable_framework.md` (tag `v1.0.4`) | Markdown + YAML frontmatter | securability-engineering, securability-engineering-review, prd-securability-enhancement (61 section files) | `plugins/code-security-skills/data/fiasse/` |
 | Secure-code prompts | (this repo) | Markdown | iac-security-review (terraform, kubernetes, cloudformation) | `plugins/code-security-skills/data/secure-code-prompts/` |
-| LLM Top 10 v2.0 | `OWASP/www-project-top-10-for-large-language-model-applications` | Markdown | (research; not yet bundled) | `data/llm-top10/` |
-| AISVS | `OWASP/aisvs` | Markdown | security-architecture (AI/agent section cross-reference, C1–C13) | `plugins/code-security-skills/data/aisvs/` (root copy at `data/aisvs/` kept for research) |
+| GenAI LLM Top 10 2026 | `GenAI-Security-Project/GenAI-LLM-Top10` — `2026/final/` (Aug 2026) | Markdown + YAML frontmatter | llm-risk-assess, agent-security-audit, prompt-injection-test, mcp-server-review (research; not yet bundled) | `data/llm-top10/` |
+| AISVS v1.0 | `OWASP/aisvs` — `1.0/en/0x10-C*.md` (June 2026) | Markdown + YAML frontmatter | security-architecture (AI/agent section cross-reference, C1–C12), ai-security-verification | `plugins/code-security-skills/data/aisvs/` (root copy at `data/aisvs/` kept for research) |
 | OpenCRE | [opencre.org](https://www.opencre.org) — REST API | JSON | All skills (cross-standard linking, queried at runtime) | `data/opencre/` |
 | CWE | [cwe.mitre.org](https://cwe.mitre.org) v4.19 | XML, JSON | All skills (weakness classification, queried at runtime) | external |
