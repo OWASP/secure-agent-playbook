@@ -111,7 +111,8 @@ Check for presence and effectiveness of:
 ## OWASP References
 
 - **LLM01**: Prompt Injection
-- **LLM02**: Insecure Output Handling
+- **LLM02**: Sensitive Information Disclosure
+- **LLM05**: Improper Output Handling
 - **LLM06**: Excessive Agency
 - **LLM07**: System Prompt Leakage
 - **LLM08**: Vector and Embedding Weaknesses (for RAG agents)

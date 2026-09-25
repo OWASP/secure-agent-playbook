@@ -337,7 +337,7 @@ When testing programmatically, consider:
 ## OWASP References
 
 - **LLM01**: Prompt Injection — this play's primary focus
-- **LLM02**: Insecure Output Handling — test whether injected prompts produce dangerous outputs
+- **LLM05**: Improper Output Handling — test whether injected prompts produce dangerous outputs
 - **LLM06**: Excessive Agency — test whether injection can trigger unauthorized tool calls
 - **LLM07**: System Prompt Leakage — INT-01 and INT-05 directly test this
 - OWASP AI Exchange: Prompt Injection Controls
