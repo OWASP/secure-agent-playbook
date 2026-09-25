@@ -13,7 +13,7 @@
     },
     {
       "name": "ai-security-skills",
-      "description": "AI and agent security assessment skills — agent security audit, LLM risk assessment, agentic AI risk assessment, MCP server review, prompt injection testing, and multi-agent threat modeling.",
+      "description": "AI and agent security assessment skills — agent security audit, LLM risk assessment, agentic AI risk assessment, MCP server review, prompt injection testing, multi-agent threat modeling, and AISVS verification.",
       "source": "./plugins/ai-security-skills/"
     }
   ]

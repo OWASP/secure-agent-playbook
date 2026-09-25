@@ -23,7 +23,7 @@ Without a playbook, asking an AI agent to "review my code for security" gives yo
 - **Consistent methodology** — Every assessment follows a documented procedure, not ad-hoc prompting. Results are reproducible across runs and reviewers.
 - **Structured, actionable output** — Findings include severity, CWE, evidence, and remediation steps with code examples. No vague warnings.
 - **Cross-standard traceability** — Findings link to CWE, ASVS, WSTG, and NIST 800-53 via [OpenCRE](https://www.opencre.org) for compliance mapping.
-- **17 security skills** — From dependency CVE scanning to prompt injection testing to multi-agent threat modeling. Install as a Claude Code plugin or use standalone.
+- **18 security skills** — From dependency CVE scanning to prompt injection testing to multi-agent threat modeling. Install as a Claude Code plugin or use standalone.
 - **Works beyond Claude Code** — Skills are Claude Code plugins; plays are standalone procedures any AI agent can follow.
 
 ## What This Is
@@ -107,6 +107,7 @@ Reference plays directly as procedures for any AI agent or manual use:
 | `mcp-server-review` | MCP server security review | "Review this MCP server" | LLM Top 10 |
 | `prompt-injection-test` | Prompt injection testing (Arcanum PI Taxonomy) | "Test for prompt injection" | LLM01 |
 | `multi-agentic-threat-model` | CSA MAESTRO 7-layer threat modeling | "Model threats for this multi-agent system" | CSA MAESTRO |
+| `ai-security-verification` | AI application verification against OWASP AISVS (13 categories) | "Verify this AI app against AISVS" | AISVS |
 
 ## Agents
 
