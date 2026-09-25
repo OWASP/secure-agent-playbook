@@ -111,8 +111,9 @@ agent-security-playbook/
 │       │   └── plugin.json
 │       ├── agents/               # 1 AI-security agent
 │       │   └── ai-security-assessor.md
-│       ├── skills/               # 6 AI/agent security skills
+│       ├── skills/               # 7 AI/agent security skills
 │       │   ├── agent-security-audit/
+│       │   ├── ai-security-verification/
 │       │   ├── agentic-ai-risk-assess/
 │       │   ├── llm-risk-assess/
 │       │   ├── mcp-server-review/

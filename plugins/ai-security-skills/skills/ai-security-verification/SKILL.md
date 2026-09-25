@@ -1,12 +1,12 @@
 ---
 name: ai-security-verification
-description: Comprehensive AI security verification using OWASP AI Security Verification Standard (AISVS) framework. Provides structured checklist to verify security and ethical considerations across 13 categories of AI-driven applications, from training data governance to human oversight.
-allowed-tools: Read, Grep, Glob, Bash, WebFetch, Agent
+description: Comprehensive AI security verification using OWASP AI Security Verification Standard (AISVS) framework. Use when verifying an AI-driven application, ML pipeline, or LLM-integrated system against AISVS, preparing for an AI security audit, or checking security and ethical controls across 13 categories from training data governance to human oversight.
+license: CC-BY-4.0
 ---
 
 # AI Security Verification Standard (AISVS)
 
-Conduct comprehensive security verification of AI-driven applications using the OWASP AI Security Verification Standard (AISVS) framework's 13-category structured checklist.
+Conduct comprehensive security verification of AI-driven applications using the OWASP AI Security Verification Standard (AISVS) framework's 13-category structured checklist. Follow the full procedure in `plays/ai-security-verification.md`.
 
 ## Steps
 
@@ -53,3 +53,4 @@ Use the finding format from `templates/finding.md`. Produce:
 - OWASP AI Security and Privacy Guide
 - OWASP Application Security Verification Standard (ASVS)
 - OWASP AI Testing Guide
+- Full procedure: `plays/ai-security-verification.md`
