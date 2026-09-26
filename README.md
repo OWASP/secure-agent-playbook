@@ -66,6 +66,14 @@ Claude will automatically activate the relevant skill based on context. See [Ski
 
 > **Note:** Do not use GitHub's "Download ZIP" button — it nests files in a subdirectory that the plugin validator rejects. Always use the release asset zip.
 
+**Organization skills** — For Claude organization admins uploading individual skills at [Organization settings > Skills](https://claude.ai/admin-settings/skills):
+
+1. Go to the [latest release](https://github.com/OWASP/secure-agent-playbook/releases/latest)
+2. Download the zip for each skill you want (e.g. `web-security-review.zip`)
+3. Upload it at **Organization settings > Skills > Upload a skill**
+
+> **Note:** The skills upload rejects zips with more than 200 files, so the full `secure-agent-playbook.zip` cannot be uploaded there — use the per-skill zips. To build them from a clone, run `scripts/package_skills.sh` and upload from `dist/skills/`.
+
 **Local development** — To test from a local clone instead of GitHub:
 ```
 /plugin marketplace add /path/to/agent-security-playbook
