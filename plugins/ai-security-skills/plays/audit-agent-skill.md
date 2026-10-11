@@ -62,7 +62,7 @@ Inspect every bundled executable or configuration that can influence execution. 
 - Encoding, compression, string assembly, reflection, or other obfuscation that prevents understanding behavior
 - Whether content read from the workspace, tool output, or user data can flow to a network or another privileged tool
 
-For each suspicious flow, document source, transformation, sink, guards, and whether the path is reachable from the skill's documented entry point. Search matches alone are leads, not findings. Prefer existing repository or SCA tools where available; record tool name/version, command, exit code, and coverage. If a tool cannot run, state that analysis was not performed.
+For each suspicious flow, document source, transformation, sink, guards, and whether the path is reachable from the skill's documented entry point. Search matches alone are leads, not findings. Prefer existing repository or SCA tools where available; for applicable skill scans, consider [AgentSkillsScanner](https://github.com/sumleo/AgentSkillsScanner) (MIT). Record tool name/version, command, exit code, and coverage. If a tool cannot run, state that analysis was not performed.
 
 Use only defanged examples in reports. Use placeholders such as `REDACTED_TOKEN` and the reserved host `example.com`. Do not reproduce a working exfiltration URL, credential, or destructive command.
 
