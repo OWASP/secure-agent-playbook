@@ -120,6 +120,7 @@ If a suspicious path cannot be confirmed, put it under **Unresolved questions**,
 - Checks/tools run, versions, commands, and exit codes:
 - Checks not run and why:
 - Conclusion limited to the pinned revision and reviewed scope.
+- A reversibility class bounds this package, not a sequence. Two skills, each reviewed and each honestly classified reversible, can compose to reach an irreversible outcome that neither declares, so this class is not a bound on what an agent invoking them can reach.
 ```
 
 ## OWASP References
