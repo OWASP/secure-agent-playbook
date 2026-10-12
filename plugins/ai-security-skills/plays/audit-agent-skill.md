@@ -128,3 +128,7 @@ If a suspicious path cannot be confirmed, put it under **Unresolved questions**,
 - OWASP Top 10 for LLM Applications: LLM06 Excessive Agency and LLM02 Sensitive Information Disclosure, where applicable.
 - CWE references must be selected from the demonstrated weakness, not from the skill's topic alone.
 - OWASP Agentic Skills Top 10 (AST09) Execution Receipts: optional post-deployment evidence reference only. Receipts do not replace pre-installation review and this play does not assume a stable cross-execution chain schema.
+
+## Additional Tooling References
+
+- [AgentSkillsScanner](https://github.com/sumleo/AgentSkillsScanner) (MIT): an optional scanner to consider during skill reviews. Record the version, command, exit code, and coverage; scanner output is evidence about checks performed, not a safety verdict.
