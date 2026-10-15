@@ -1,0 +1,16 @@
+name: Package skills
+
+# Fails a PR that pushes a skill past the 200-file upload limit, instead of
+# failing at release time.
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: scripts/package_skills.sh
