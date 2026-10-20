@@ -23,7 +23,7 @@ Without a playbook, asking an AI agent to "review my code for security" gives yo
 - **Consistent methodology** — Every assessment follows a documented procedure, not ad-hoc prompting. Results are reproducible across runs and reviewers.
 - **Structured, actionable output** — Findings include severity, CWE, evidence, and remediation steps with code examples. No vague warnings.
 - **Cross-standard traceability** — Findings link to CWE, ASVS, WSTG, and NIST 800-53 via [OpenCRE](https://www.opencre.org) for compliance mapping.
-- **18 security skills** — From dependency CVE scanning to prompt injection testing to multi-agent threat modeling. Install as a Claude Code plugin or use standalone.
+- **19 security skills** — From dependency CVE scanning to prompt injection testing to multi-agent threat modeling. Install as a Claude Code plugin or use standalone.
 - **Works beyond Claude Code** — Skills are Claude Code plugins; plays are standalone procedures any AI agent can follow.
 
 ## What This Is
@@ -116,6 +116,7 @@ Reference plays directly as procedures for any AI agent or manual use:
 | `prompt-injection-test` | Prompt injection testing (Arcanum PI Taxonomy) | "Test for prompt injection" | LLM01 |
 | `multi-agentic-threat-model` | CSA MAESTRO 7-layer threat modeling | "Model threats for this multi-agent system" | CSA MAESTRO |
 | `ai-security-verification` | AI application verification against OWASP AISVS (13 categories) | "Verify this AI app against AISVS" | AISVS |
+| `audit-agent-skill` | Review skill metadata, effective permissions, bundled behavior, and sensitive data flows before installation | "Audit this agent skill before installing it" | AISVS C9.2, LLM02, LLM06 |
 
 ## Agents
 
@@ -187,6 +188,7 @@ The differentiator — security procedures purpose-built for the AI agent era. B
 | [agent-security-audit](plugins/ai-security-skills/plays/agent-security-audit.md) | Audit agent permissions, prompt injection surfaces, data exfiltration paths, guardrails |
 | [agentic-ai-risk-assess](plugins/ai-security-skills/plays/agentic-ai-risk-assess.md) | Assess agentic AI applications against OWASP Top 10 for Agentic Applications 2026 |
 | [ai-security-verification](plugins/ai-security-skills/plays/ai-security-verification.md) | Verify AI-driven applications against the OWASP AI Security Verification Standard (AISVS) |
+| [audit-agent-skill](plugins/ai-security-skills/plays/audit-agent-skill.md) | Review an agent skill package before installation, including metadata, effective permissions, bundled behavior, sensitive data flows, and review limits |
 | [llm-risk-assess](plugins/ai-security-skills/plays/llm-risk-assess.md) | Assess LLM applications against OWASP Top 10 for LLM Applications |
 | [mcp-server-review](plugins/ai-security-skills/plays/mcp-server-review.md) | Review MCP server implementations for overpermissioning, injection, data exposure |
 | [multi-agentic-threat-model](plugins/ai-security-skills/plays/multi-agentic-threat-model.md) | Threat-model multi-agent systems using the CSA MAESTRO 7-layer framework and OWASP Multi-Agentic System Guide v1.0 |
