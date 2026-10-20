@@ -180,11 +180,11 @@ The differentiator — security procedures purpose-built for the AI agent era. B
 | [agent-security-audit](plugins/ai-security-skills/plays/agent-security-audit.md) | Audit agent permissions, prompt injection surfaces, data exfiltration paths, guardrails |
 | [agentic-ai-risk-assess](plugins/ai-security-skills/plays/agentic-ai-risk-assess.md) | Assess agentic AI applications against OWASP Top 10 for Agentic Applications 2026 |
 | [ai-security-verification](plugins/ai-security-skills/plays/ai-security-verification.md) | Verify AI-driven applications against the OWASP AI Security Verification Standard (AISVS) |
+| [audit-agent-skill](plugins/ai-security-skills/plays/audit-agent-skill.md) | Review an agent skill package before installation, including metadata, effective permissions, bundled behavior, sensitive data flows, and review limits |
 | [llm-risk-assess](plugins/ai-security-skills/plays/llm-risk-assess.md) | Assess LLM applications against OWASP Top 10 for LLM Applications |
 | [mcp-server-review](plugins/ai-security-skills/plays/mcp-server-review.md) | Review MCP server implementations for overpermissioning, injection, data exposure |
 | [multi-agentic-threat-model](plugins/ai-security-skills/plays/multi-agentic-threat-model.md) | Threat-model multi-agent systems using the CSA MAESTRO 7-layer framework and OWASP Multi-Agentic System Guide v1.0 |
 | [prompt-injection-testing](plugins/ai-security-skills/plays/prompt-injection-testing.md) | Test LLM apps against 18 attack techniques, 20 evasions, 13 intents |
-| [audit-agent-skill](plugins/ai-security-skills/plays/audit-agent-skill.md) | Review an agent skill package before installation, including metadata, effective permissions, bundled behavior, sensitive data flows, and review limits |
 
 
 ### Code & Dependency Analysis plays
