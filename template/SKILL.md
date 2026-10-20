@@ -1,11 +1,12 @@
 ---
 name: your-skill-name
-description: Replace with a clear description of what this skill does and when Claude should use it.
+description: Replace with a clear description of what this skill does. Use when <the situations that should trigger it>.
+license: CC-BY-4.0
 ---
 
 # Skill Title
 
-Brief description referencing the full procedure: `plays/tierN-category/your-play.md`.
+Brief description referencing the full procedure: `plays/your-play.md`.
 
 ## Steps
 

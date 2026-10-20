@@ -124,6 +124,27 @@ jobs:
             mv "$tmp" "$manifest"
           done
 
+      - name: Build plugin zip
+        if: steps.skip.outputs.skip != 'true'
+        run: |
+          set -euo pipefail
+          # Each plugin under plugins/ is self-contained: plays, templates, and
+          # required FIASSE/ASVS data live inside the plugin source folder.
+          # Repo-root data/ is shipped for research datasets that aren't yet
+          # bundled into a plugin; template/ contains the contributor SKILL
+          # template.
+          zip -r secure-agent-playbook.zip \
+            .claude-plugin/ \
+            plugins/ \
+            CLAUDE.md \
+            data/ \
+            template/ \
+            -x '*.git*'
+
+      - name: Build per-skill zips
+        if: steps.skip.outputs.skip != 'true'
+        run: scripts/package_skills.sh
+
       - name: Commit and push version bump
         if: steps.skip.outputs.skip != 'true'
         env:
@@ -149,23 +170,6 @@ jobs:
           git tag -a "${NEW_TAG}" -m "${NEW_TAG}"
           git push origin "${NEW_TAG}"
 
-      - name: Build plugin zip
-        if: steps.skip.outputs.skip != 'true'
-        run: |
-          set -euo pipefail
-          # Each plugin under plugins/ is self-contained: plays, templates, and
-          # required FIASSE/ASVS data live inside the plugin source folder.
-          # Repo-root data/ is shipped for research datasets that aren't yet
-          # bundled into a plugin; template/ contains the contributor SKILL
-          # template.
-          zip -r secure-agent-playbook.zip \
-            .claude-plugin/ \
-            plugins/ \
-            CLAUDE.md \
-            data/ \
-            template/ \
-            -x '*.git*'
-
       - name: Create GitHub release with plugin zip
         if: steps.skip.outputs.skip != 'true'
         env:
@@ -178,4 +182,5 @@ jobs:
             --title "${NEW_TAG}" \
             --generate-notes \
             --notes-start-tag "${PREV_TAG}" \
-            secure-agent-playbook.zip
+            secure-agent-playbook.zip \
+            dist/skills/*.zip

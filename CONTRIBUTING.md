@@ -7,28 +7,27 @@ Thanks for your interest in contributing to the OWASP Secure Agent Playbook. Thi
 - **New plays** — Add security procedures for uncovered vulnerability classes or standards
 - **New skills** — Create the invocation layer for existing or new plays
 - **New agents** — Add autonomous specialists that orchestrate skills for focused assessments
-- **Reference data** — Add or update OWASP datasets in `data/`
+- **Reference data** — Add or update OWASP datasets in `plugins/<group>/data/` (bundled with a plugin) or `data/` (research datasets no skill uses yet)
 - **Improvements** — Enhance existing plays with better checklists, examples, or tool coverage
 - **Bug reports** — File issues for inaccurate findings, broken references, or missing coverage
 
 ## Adding a New Play
 
-Plays live in `plays/` organized by tier:
+Plays live in the `plays/` folder of the plugin whose skills use them, so they ship with the marketplace install:
 
-| Tier | Focus |
-|------|-------|
-| `tier1-code-analysis/` | Code review, dependency audit, secrets, API security |
-| `tier2-design-review/` | Threat modeling, ASVS verification, infrastructure hardening |
-| `tier3-testing/` | WSTG checklist, DAST, attack surface mapping |
-| `tier4-ai-security/` | Agent security, LLM risks, prompt injection, MCP review |
-| `tier5-governance/` | SAMM maturity, compliance mapping, reporting |
+| Plugin | Plays folder | Focus |
+|--------|--------------|-------|
+| `code-security-skills` | `plugins/code-security-skills/plays/` | Code review, dependency audit, secrets, API, web, mobile, IaC, securability |
+| `ai-security-skills` | `plugins/ai-security-skills/plays/` | Agent security, LLM risks, prompt injection, MCP review, AISVS verification, threat modeling |
+
+Name the play after its task (e.g. `mcp-server-review.md`). Every template or data file a play or skill cites must live inside the same plugin folder, because files outside it are not installed.
 
 A good play should:
 
 1. **Solve one well-defined security task** — "Scan dependencies for CVEs" not "do a full security audit"
 2. **Include trigger conditions** — When should this play run? What inputs does it need?
 3. **Follow a structured procedure** — Numbered steps with clear decision criteria
-4. **Produce findings using the standard format** — See `templates/finding.md`
+4. **Produce findings using the standard format** — See `plugins/<group>/templates/finding.md`
 5. **Reference OWASP standards** — Map findings to CWE, ASVS, WSTG, or relevant Top 10
 6. **Prefer existing tools** — Use semgrep, trivy, osv-scanner, trufflehog, etc. over reimplementing detection logic
 
@@ -38,8 +37,9 @@ Skills are the invocation layer that wraps plays for Claude Code plugin installa
 
 1. Decide which plugin group your skill belongs to (see groups below)
 2. Create a new directory under `plugins/<group>/skills/` with your skill name
-3. Add a `SKILL.md` file following the template in `template/SKILL.md`
-4. Reference the corresponding play in your skill
+3. Add a `SKILL.md` file following the template in `template/SKILL.md`. Its frontmatter needs a `name`, a `description` that says when to use the skill, and `license: CC-BY-4.0`
+4. Reference the corresponding play in your skill (`plays/<play>.md`)
+5. Don't add an `allowed-tools` line that pre-approves `Bash`, `WebFetch`, or `Agent`. These skills read untrusted code and content, and pre-approval removes the permission prompt that would catch an injected command
 
 Skills are auto-discovered from `plugins/<group>/skills/` — no manifest registration step needed.
 
@@ -65,7 +65,7 @@ See existing agents in `plugins/code-security-skills/agents/` and `plugins/ai-se
 
 ## Finding Format
 
-All findings must use the structure defined in `templates/finding.md`:
+All findings must use the structure defined in `plugins/<group>/templates/finding.md`:
 
 ```markdown
 ### [SEVERITY] Title
@@ -89,7 +89,7 @@ Common mappings are pre-populated in `data/opencre/README.md`.
 
 - One play or skill per PR (unless tightly coupled)
 - Include a clear description of what the play/skill covers and why it's needed
-- If adding a skill, ensure it lives under the correct `plugins/<group>/skills/` directory
+- If adding a skill, ensure it lives under the correct `plugins/<group>/skills/` directory, and update the README skills table and skill count
 - Test your play against a real or deliberately-vulnerable target where possible
 
 ## License
