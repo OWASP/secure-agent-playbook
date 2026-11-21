@@ -1,6 +1,6 @@
 ---
 name: mcp-server-review
-description: Security review of MCP (Model Context Protocol) server implementations and configurations. Use when auditing MCP server source code, evaluating third-party MCP servers before installation, or reviewing Claude Code MCP integrations for overpermissioning, injection risks, and data exposure.
+description: Security review of MCP (Model Context Protocol) server implementations and configurations. Use when auditing MCP server source code, evaluating third-party MCP servers before installation, or reviewing Claude Code MCP integrations for overpermissioning, injection risks, data exposure, and tool definitions that change after approval (rug pulls).
 license: CC-BY-4.0
 ---
 
@@ -24,9 +24,11 @@ Audit an MCP server by following the full procedure in `plays/mcp-server-review.
 
 7. **Client Configuration** — Review MCP client config for absolute/specific server paths, minimized env var passthrough, and command injection safety in args.
 
+8. **Tool Definition Integrity (Rug Pull)** — Check that the client pins what the user approved (each tool's complete definition including annotations, the server instructions, and the server entry), re-checks it every time it fetches `tools/list` (startup, new session, cache expiry, `notifications/tools/list_changed`), and on any change blocks the tool, shows the user the old and new values, and requires human re-approval (no change is accepted automatically). A changed `serverInfo.version` is not a pin. Confirm with a test server built on the official MCP SDK and before/after `tools/list` snapshots from the MCP Inspector CLI.
+
 ## Output
 
-Server overview, tool risk matrix, findings using `templates/finding.md`, and specific configuration recommendations.
+Server overview, tool risk matrix, tool definition integrity summary, findings using `templates/finding.md`, and specific configuration recommendations.
 
 ## OWASP References
 
@@ -34,5 +36,8 @@ Server overview, tool risk matrix, findings using `templates/finding.md`, and sp
 - LLM02: Sensitive Information Disclosure
 - LLM05: Improper Output Handling
 - LLM06: Excessive Agency (overpermissioned tools)
+- LLM07: System Prompt Leakage
 - A01: Broken Access Control
 - A03: Injection
+- MCP03:2025: Tool Poisoning (includes rug pulls)
+- OWASP Cheat Sheet: MCP Security
