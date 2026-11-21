@@ -19,3 +19,4 @@ Skill inputs — small, intentionally vulnerable source trees used to verify age
 | [mobile-android-fixture/](mobile-android-fixture/) | `mobile-code-review` | Android | `AndroidManifest.xml`, `SecretStore.kt` |
 | [mobile-ios-fixture/](mobile-ios-fixture/) | `mobile-code-review` | iOS | `Info.plist`, `NetworkClient.swift` |
 | [mobile-flutter-fixture/](mobile-flutter-fixture/) | `mobile-code-review` | Cross-platform shell | `pubspec.yaml`, `lib/` |
+| [mcp-rugpull-fixture/](mcp-rugpull-fixture/) | `mcp-server-review` (§8) | MCP server (Node, official SDK) | `server.mjs`: approved tool definition changes after approval |

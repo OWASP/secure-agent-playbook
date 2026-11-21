@@ -112,7 +112,7 @@ Reference plays directly as procedures for any AI agent or manual use:
 | `agent-security-audit` | Audit agent permissions, injection surfaces, data exfil paths | "Audit this agent's security" | LLM Top 10 |
 | `llm-risk-assess` | LLM app assessment against LLM Top 10 2025 | "Assess LLM risks for this app" | LLM Top 10 |
 | `agentic-ai-risk-assess` | Agentic app assessment against Top 10 Agentic 2026 | "Assess agentic AI risks" | Agentic Top 10 |
-| `mcp-server-review` | MCP server security review | "Review this MCP server" | LLM Top 10 |
+| `mcp-server-review` | MCP server security review | "Review this MCP server" | LLM Top 10, MCP Top 10 |
 | `prompt-injection-test` | Prompt injection testing (Arcanum PI Taxonomy) | "Test for prompt injection" | LLM01 |
 | `multi-agentic-threat-model` | CSA MAESTRO 7-layer threat modeling | "Model threats for this multi-agent system" | CSA MAESTRO |
 | `ai-security-verification` | AI application verification against OWASP AISVS (13 categories) | "Verify this AI app against AISVS" | AISVS |
